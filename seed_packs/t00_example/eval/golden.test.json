@@ -1,0 +1,209 @@
+{
+  "eval_set_id": "t00_example_golden_eval_set",
+  "name": "Table 0 Reference Seed Pack Golden Evaluations",
+  "description": "5 golden evaluation cases covering BigQuery menu lookup, store sales analytics, and MCP mock action bean reorders.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_espresso_menu",
+      "conversation": [
+        {
+          "invocation_id": "t00-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Please check the espresso category on the coffee menu and tell me the prices of the espresso drinks."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "In the espresso category, we offer the Flat White for £3.80 (130 mg caffeine, oat milk available) and the Decaf Colombian Cortado for £3.60 (8 mg caffeine, oat milk available)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "lookup_coffee_menu",
+                "args": {
+                  "category": "espresso"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_soho_sales",
+      "conversation": [
+        {
+          "invocation_id": "t00-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What are the roastery sales stats and total revenue for our London Soho store location?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "For London Soho across the 2 analyzed days (2026-10-25 and 2026-10-26), total revenue is £4,450.40 with 1,080 cups sold and 19.5 kg of bean stock remaining."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_roastery_sales_stats",
+                "args": {
+                  "store_location": "London Soho"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_bean_reorder",
+      "conversation": [
+        {
+          "invocation_id": "t00-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Please submit a bean reorder for 25 kg bags of Ethiopian Yirgacheffe with express urgency."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Your express bean reorder for 25 kg of Ethiopian Yirgacheffe has been confirmed (Order ID ROAST-1001, estimated total £362.50)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "submit_bean_reorder",
+                "args": {
+                  "bean_origin": "Ethiopian Yirgacheffe",
+                  "bags_kg": 25,
+                  "urgency": "express"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_tea_menu",
+      "conversation": [
+        {
+          "invocation_id": "t00-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Look up the tea category on the coffee menu and tell me what tea drink is available and its price."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "In the tea category, we have the Ceremonial Matcha Oat Latte for £4.50 (70 mg caffeine, oat milk available)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "lookup_coffee_menu",
+                "args": {
+                  "category": "tea"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_shoreditch_sales",
+      "conversation": [
+        {
+          "invocation_id": "t00-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Get the roastery sales stats for the Shoreditch store location."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "For Shoreditch across 2 days, total revenue is £3,265.25 with 775 total cups sold, and the top item is the Ceremonial Matcha Oat Latte."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_roastery_sales_stats",
+                "args": {
+                  "store_location": "Shoreditch"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

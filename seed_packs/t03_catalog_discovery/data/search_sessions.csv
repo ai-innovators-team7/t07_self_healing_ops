@@ -1,0 +1,101 @@
+session_id,buyer_persona,search_query,matched_category,clicked_listing_id,converted,dropoff_reason
+SES-0001,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0001,False,UNCLEAR_WARRANTY
+SES-0002,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0002,False,PRICE_TOO_HIGH
+SES-0003,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0003,False,CONDITION_DOUBT
+SES-0004,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0004,True,CONVERTED_CHECKOUT
+SES-0005,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0005,False,NO_LOCAL_PICKUP
+SES-0006,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0006,False,UNCLEAR_WARRANTY
+SES-0007,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0007,False,PRICE_TOO_HIGH
+SES-0008,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0008,False,CONDITION_DOUBT
+SES-0009,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0009,True,CONVERTED_CHECKOUT
+SES-0010,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0010,False,NO_LOCAL_PICKUP
+SES-0011,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0011,False,UNCLEAR_WARRANTY
+SES-0012,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0012,False,PRICE_TOO_HIGH
+SES-0013,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0013,False,CONDITION_DOUBT
+SES-0014,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0014,True,CONVERTED_CHECKOUT
+SES-0015,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0015,False,NO_LOCAL_PICKUP
+SES-0016,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0016,False,UNCLEAR_WARRANTY
+SES-0017,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0017,False,PRICE_TOO_HIGH
+SES-0018,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0018,False,CONDITION_DOUBT
+SES-0019,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0019,True,CONVERTED_CHECKOUT
+SES-0020,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0020,False,NO_LOCAL_PICKUP
+SES-0021,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0021,False,UNCLEAR_WARRANTY
+SES-0022,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0022,False,PRICE_TOO_HIGH
+SES-0023,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0023,False,CONDITION_DOUBT
+SES-0024,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0024,True,CONVERTED_CHECKOUT
+SES-0025,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0025,False,NO_LOCAL_PICKUP
+SES-0026,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0026,False,UNCLEAR_WARRANTY
+SES-0027,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0027,False,PRICE_TOO_HIGH
+SES-0028,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0028,False,CONDITION_DOUBT
+SES-0029,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0029,True,CONVERTED_CHECKOUT
+SES-0030,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0030,False,NO_LOCAL_PICKUP
+SES-0031,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0031,False,UNCLEAR_WARRANTY
+SES-0032,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0032,False,PRICE_TOO_HIGH
+SES-0033,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0033,False,CONDITION_DOUBT
+SES-0034,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0034,True,CONVERTED_CHECKOUT
+SES-0035,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0035,False,NO_LOCAL_PICKUP
+SES-0036,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0036,False,UNCLEAR_WARRANTY
+SES-0037,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0037,False,PRICE_TOO_HIGH
+SES-0038,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0038,False,CONDITION_DOUBT
+SES-0039,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0039,True,CONVERTED_CHECKOUT
+SES-0040,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0040,False,NO_LOCAL_PICKUP
+SES-0041,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0041,False,UNCLEAR_WARRANTY
+SES-0042,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0042,False,PRICE_TOO_HIGH
+SES-0043,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0043,False,CONDITION_DOUBT
+SES-0044,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0044,True,CONVERTED_CHECKOUT
+SES-0045,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0045,False,NO_LOCAL_PICKUP
+SES-0046,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0046,False,UNCLEAR_WARRANTY
+SES-0047,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0047,False,PRICE_TOO_HIGH
+SES-0048,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0048,False,CONDITION_DOUBT
+SES-0049,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0049,True,CONVERTED_CHECKOUT
+SES-0050,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0050,False,NO_LOCAL_PICKUP
+SES-0051,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0051,False,UNCLEAR_WARRANTY
+SES-0052,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0052,False,PRICE_TOO_HIGH
+SES-0053,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0053,False,CONDITION_DOUBT
+SES-0054,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0054,True,CONVERTED_CHECKOUT
+SES-0055,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0055,False,NO_LOCAL_PICKUP
+SES-0056,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0056,False,UNCLEAR_WARRANTY
+SES-0057,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0057,False,PRICE_TOO_HIGH
+SES-0058,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0058,False,CONDITION_DOUBT
+SES-0059,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0059,True,CONVERTED_CHECKOUT
+SES-0060,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0060,False,NO_LOCAL_PICKUP
+SES-0061,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0061,False,UNCLEAR_WARRANTY
+SES-0062,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0062,False,PRICE_TOO_HIGH
+SES-0063,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0063,False,CONDITION_DOUBT
+SES-0064,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0064,True,CONVERTED_CHECKOUT
+SES-0065,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0065,False,NO_LOCAL_PICKUP
+SES-0066,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0066,False,UNCLEAR_WARRANTY
+SES-0067,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0067,False,PRICE_TOO_HIGH
+SES-0068,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0068,False,CONDITION_DOUBT
+SES-0069,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0069,True,CONVERTED_CHECKOUT
+SES-0070,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0070,False,NO_LOCAL_PICKUP
+SES-0071,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0071,False,UNCLEAR_WARRANTY
+SES-0072,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0072,False,PRICE_TOO_HIGH
+SES-0073,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0073,False,CONDITION_DOUBT
+SES-0074,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0074,True,CONVERTED_CHECKOUT
+SES-0075,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0075,False,NO_LOCAL_PICKUP
+SES-0076,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0076,False,UNCLEAR_WARRANTY
+SES-0077,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0077,False,PRICE_TOO_HIGH
+SES-0078,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0078,False,CONDITION_DOUBT
+SES-0079,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0079,True,CONVERTED_CHECKOUT
+SES-0080,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0080,False,NO_LOCAL_PICKUP
+SES-0081,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0081,False,UNCLEAR_WARRANTY
+SES-0082,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0082,False,PRICE_TOO_HIGH
+SES-0083,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0083,False,CONDITION_DOUBT
+SES-0084,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0084,True,CONVERTED_CHECKOUT
+SES-0085,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0085,False,NO_LOCAL_PICKUP
+SES-0086,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0086,False,UNCLEAR_WARRANTY
+SES-0087,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0087,False,PRICE_TOO_HIGH
+SES-0088,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0088,False,CONDITION_DOUBT
+SES-0089,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0089,True,CONVERTED_CHECKOUT
+SES-0090,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0090,False,NO_LOCAL_PICKUP
+SES-0091,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0091,False,UNCLEAR_WARRANTY
+SES-0092,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0092,False,PRICE_TOO_HIGH
+SES-0093,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0093,False,CONDITION_DOUBT
+SES-0094,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0094,True,CONVERTED_CHECKOUT
+SES-0095,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0095,False,NO_LOCAL_PICKUP
+SES-0096,Urban_Commuter,best refurbished ebikes with warranty under 1200 eur,Refurbished_EBikes,LST-0096,False,UNCLEAR_WARRANTY
+SES-0097,Creator_Studio,best mirrorless cameras with warranty under 1200 eur,Mirrorless_Cameras,LST-0097,False,PRICE_TOO_HIGH
+SES-0098,First_Time_Buyer,best vintage synthesizers with warranty under 1200 eur,Vintage_Synthesizers,LST-0098,False,CONDITION_DOUBT
+SES-0099,Pet_Parent,best pet wellness tech with warranty under 1200 eur,Pet_Wellness_Tech,LST-0099,True,CONVERTED_CHECKOUT
+SES-0100,Home_Barista,best smart espresso machines with warranty under 1200 eur,Smart_Espresso_Machines,LST-0100,False,NO_LOCAL_PICKUP

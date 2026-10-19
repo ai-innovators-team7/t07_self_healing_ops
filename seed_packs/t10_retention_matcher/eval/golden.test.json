@@ -1,0 +1,214 @@
+{
+  "eval_set_id": "t10_retention_matcher_golden_eval_set",
+  "name": "Table 10 (t10_retention_matcher) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 10 (t10_retention_matcher) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_pro_design_churn",
+      "conversation": [
+        {
+          "invocation_id": "t10-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query at-risk subscribers in the PRO_DESIGN_TEAM segment with churn probability of at least 0.65."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the at-risk PRO_DESIGN_TEAM subscribers with churn probability >= 0.65 sorted by LTV EUR."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_at_risk_subscribers",
+                "args": {
+                  "plan_segment": "PRO_DESIGN_TEAM",
+                  "min_churn_prob": 0.65
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_price_sensitivity_offers",
+      "conversation": [
+        {
+          "invocation_id": "t10-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find matching retention offers for churn driver PRICE_SENSITIVITY across all segments."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Matching retention offers for PRICE_SENSITIVITY include OFR-001 and OFR-006 ordered by expected save lift percentage."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "find_matching_retention_offers",
+                "args": {
+                  "churn_driver": "PRICE_SENSITIVITY",
+                  "eligible_segment": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_csm_call_outcomes",
+      "conversation": [
+        {
+          "invocation_id": "t10-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Analyze historical save rates and retained MRR for the CSM_CALL channel."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the top CSM_CALL retention outcomes sorted by 90-day net MRR retained."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "analyze_historical_save_rates",
+                "args": {
+                  "channel": "CSM_CALL"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_dispatch_save_offer",
+      "conversation": [
+        {
+          "invocation_id": "t10-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Dispatch retention offer OFR-006 to subscriber SUB-0001 with a 20% discount and 50 EUR credit."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Save offer SAVE-1001 (OFR-006, 20% discount, \u20ac50.00 credit) has been SENT to SUB-0001."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "dispatch_retention_offer",
+                "args": {
+                  "subscriber_id": "SUB-0001",
+                  "offer_id": "OFR-006",
+                  "discount_pct": 20,
+                  "credit_eur": 50.0
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_schedule_csm_rescue",
+      "conversation": [
+        {
+          "invocation_id": "t10-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Schedule a HIGH priority onboarding rescue call for subscriber SUB-0002 on topic 'Team_Templates_Automation'."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Onboarding rescue call CSM-2001 is BOOKED for SUB-0002 on Team_Templates_Automation with HIGH priority."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "schedule_onboarding_rescue_call",
+                "args": {
+                  "subscriber_id": "SUB-0002",
+                  "product_specialist_topic": "Team_Templates_Automation",
+                  "priority": "HIGH"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

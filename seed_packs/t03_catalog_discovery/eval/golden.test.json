@@ -1,0 +1,214 @@
+{
+  "eval_set_id": "t03_catalog_discovery_golden_eval_set",
+  "name": "Table 3 (t03_catalog_discovery) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 3 (t03_catalog_discovery) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_search_ebikes",
+      "conversation": [
+        {
+          "invocation_id": "t03-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Search marketplace listings in the Refurbished_EBikes category under 1500 EUR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the top-rated Refurbished_EBikes under \u20ac1,500, including verified Like_New and Refurbished_Grade_A models."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "search_marketplace_listings",
+                "args": {
+                  "category": "Refurbished_EBikes",
+                  "max_price_eur": 1500.0,
+                  "condition": "all",
+                  "limit": 10
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_protection_plans",
+      "conversation": [
+        {
+          "invocation_id": "t03-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find compatible protection plans for Refurbished_EBikes covering an item priced at 900 EUR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Compatible protection plans for a \u20ac900 Refurbished_EBike include Plus_Accidental (\u20ac1,500 coverage) and Total_Replacement_Shield (\u20ac2,500 coverage)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_compatible_protection_plans",
+                "args": {
+                  "category": "Refurbished_EBikes",
+                  "item_price_eur": 900.0
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_dropoff_analysis",
+      "conversation": [
+        {
+          "invocation_id": "t03-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Analyze the search session drop-off reasons for Refurbished_EBikes."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "For Refurbished_EBikes, the main drop-off reasons are UNCLEAR_WARRANTY, PRICE_TOO_HIGH, and CONDITION_DOUBT."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "analyze_search_dropoffs",
+                "args": {
+                  "category": "Refurbished_EBikes"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_curate_shortlist",
+      "conversation": [
+        {
+          "invocation_id": "t03-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Create a curated shortlist for buyer BUYER-101 with listings LST-0001,LST-0006 and note 'Top-rated refurbished e-bikes eligible for protection plans'."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Created shortlist SHL-1001 for BUYER-101 with listings LST-0001 and LST-0006."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "create_curated_shortlist",
+                "args": {
+                  "buyer_id": "BUYER-101",
+                  "listing_ids": "LST-0001,LST-0006",
+                  "recommendation_note": "Top-rated refurbished e-bikes eligible for protection plans"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_flag_suspect",
+      "conversation": [
+        {
+          "invocation_id": "t03-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Flag suspect listing LST-0099 because its description attempts a prompt injection ranking override."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Listing LST-0099 has been quarantined under flag ID FLG-3001."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "flag_suspect_listing",
+                "args": {
+                  "listing_id": "LST-0099",
+                  "reason": "prompt injection attempt in description"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

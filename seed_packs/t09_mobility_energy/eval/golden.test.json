@@ -1,0 +1,215 @@
+{
+  "eval_set_id": "t09_mobility_energy_golden_eval_set",
+  "name": "Table 9 (t09_mobility_energy) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 9 (t09_mobility_energy) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_madrid_fleet_soc",
+      "conversation": [
+        {
+          "invocation_id": "t09-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query fleet charging needs at depot DEP-MADRID-SOUTH for vehicles with battery SoC at or below 60%."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the EVs at DEP-MADRID-SOUTH with battery SoC <= 60%, sorted by lowest battery SoC and showing next route departure hours."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_fleet_charging_needs",
+                "args": {
+                  "depot_id": "DEP-MADRID-SOUTH",
+                  "max_soc_pct": 60
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_grid_tariffs",
+      "conversation": [
+        {
+          "invocation_id": "t09-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Get the grid tariff forecast for depot DEP-MADRID-SOUTH across all tariff tiers."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the grid tariff windows for DEP-MADRID-SOUTH ordered by lowest EUR/MWh price and carbon intensity."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_grid_tariff_forecast",
+                "args": {
+                  "depot_id": "DEP-MADRID-SOUTH",
+                  "tariff_tier": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_charger_headroom",
+      "conversation": [
+        {
+          "invocation_id": "t09-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Inspect the charger capacity and transformer headroom at depot DEP-MADRID-SOUTH."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Depot DEP-MADRID-SOUTH charger bays include BAY-002 and BAY-007 with their max power kW, transformer headroom, and operational status."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "inspect_depot_charger_headroom",
+                "args": {
+                  "depot_id": "DEP-MADRID-SOUTH"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_schedule_charging",
+      "conversation": [
+        {
+          "invocation_id": "t09-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Schedule a smart charging plan at DEP-MADRID-SOUTH for vehicles EV-0002,EV-0007 during window WIN-002 to target 85% SoC."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Smart charging plan CHG-1001 is SCHEDULED at DEP-MADRID-SOUTH for EV-0002 and EV-0007 in window WIN-002."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "schedule_smart_charging_plan",
+                "args": {
+                  "depot_id": "DEP-MADRID-SOUTH",
+                  "vehicle_ids": "EV-0002,EV-0007",
+                  "window_id": "WIN-002",
+                  "target_soc_pct": 85
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_authorize_v2g_safe",
+      "conversation": [
+        {
+          "invocation_id": "t09-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Authorize V2G grid discharge at DEP-MADRID-SOUTH during peak window WIN-018 for 120 kW export with a 35% minimum reserve SoC."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "V2G dispatch V2G-2001 is AUTHORIZED at DEP-MADRID-SOUTH for 120.0 kW export while preserving a 35% SoC floor."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "authorize_v2g_grid_discharge",
+                "args": {
+                  "depot_id": "DEP-MADRID-SOUTH",
+                  "window_id": "WIN-018",
+                  "export_kw": 120.0,
+                  "min_reserve_soc_pct": 35
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "eval_set_id": "t08_travel_concierge_golden_eval_set",
+  "name": "Table 8 (t08_travel_concierge) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 8 (t08_travel_concierge) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_madrid_disruptions",
+      "conversation": [
+        {
+          "invocation_id": "t08-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query unresolved disrupted passengers departing from MAD across all loyalty tiers."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the unresolved disrupted itineraries out of MAD sorted by delay minutes, including ITIN-0001."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_disrupted_passengers",
+                "args": {
+                  "origin_airport": "MAD",
+                  "loyalty_tier": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_mad_lhr_rebooking",
+      "conversation": [
+        {
+          "invocation_id": "t08-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Search available rebooking options from MAD to LHR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Available rebooking options from MAD to LHR include OPT-0001 in BUSINESS class with EU261 eligibility."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "search_rebooking_options",
+                "args": {
+                  "origin_airport": "MAD",
+                  "destination_airport": "LHR"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_mad_partner_hotels",
+      "conversation": [
+        {
+          "invocation_id": "t08-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find contracted partner hotels near airport MAD."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Partner hotels near MAD with available rooms include HTL-001 and HTL-007 with shuttle and guaranteed late check-in."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "find_partner_hotels",
+                "args": {
+                  "airport_code": "MAD"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_rebook_passenger",
+      "conversation": [
+        {
+          "invocation_id": "t08-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Rebook disrupted itinerary ITIN-0001 onto replacement option OPT-0001 and waive the fare difference."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Rebooking REBK-1001 is CONFIRMED for ITIN-0001 on option OPT-0001 with fare difference waived."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "rebook_passenger_segment",
+                "args": {
+                  "itinerary_id": "ITIN-0001",
+                  "option_id": "OPT-0001",
+                  "waive_fare_difference": true
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_issue_eu261_voucher",
+      "conversation": [
+        {
+          "invocation_id": "t08-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Issue a 400 EUR compensation voucher for itinerary ITIN-0001 with reason code EU261_DELAY_4H."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Compensation voucher VCH-3001 for \u20ac400.00 has been ISSUED for itinerary ITIN-0001."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "issue_compensation_voucher",
+                "args": {
+                  "itinerary_id": "ITIN-0001",
+                  "amount_eur": 400.0,
+                  "reason_code": "EU261_DELAY_4H"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

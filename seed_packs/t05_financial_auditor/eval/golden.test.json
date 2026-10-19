@@ -1,0 +1,214 @@
+{
+  "eval_set_id": "t05_financial_auditor_golden_eval_set",
+  "name": "Table 5 (t05_financial_auditor) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 5 (t05_financial_auditor) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_madrid_unreconciled",
+      "conversation": [
+        {
+          "invocation_id": "t05-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find unreconciled invoices for entity ES_MADRID_HQ with a minimum amount of 1000 EUR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the pending audit invoices for ES_MADRID_HQ above \u20ac1,000, sorted by total amount."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "find_unreconciled_invoices",
+                "args": {
+                  "entity_code": "ES_MADRID_HQ",
+                  "min_amount_eur": 1000.0,
+                  "limit": 15
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_detect_anomalies",
+      "conversation": [
+        {
+          "invocation_id": "t05-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Detect ledger and invoice anomalies across all entities."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Detected anomalous invoices including INV-0042 (EXCEEDS_AUTO_APPROVE_AND_INJECTION), VAT_RATE_MISMATCH items, and DUPLICATE_INVOICE_NUMBER items."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "detect_ledger_anomalies",
+                "args": {
+                  "entity_code": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_treasury_policy",
+      "conversation": [
+        {
+          "invocation_id": "t05-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "What is the treasury policy for entity ES_MADRID_HQ?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "For ES_MADRID_HQ, the expected VAT rate is 21.0%, auto-approval caps are \u20ac10,000\u2013\u20ac15,000, and dual sign-off is required above threshold."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_treasury_policy",
+                "args": {
+                  "entity_code": "ES_MADRID_HQ",
+                  "expense_category": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_reconcile_clean_invoice",
+      "conversation": [
+        {
+          "invocation_id": "t05-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Reconcile clean invoice INV-0001 to ledger entry GL-0001 with resolution note 'Verified 21% ES VAT and matching PO-1001'."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Invoice INV-0001 has been reconciled to GL-0001 (reconciliation ID REC-1001)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "reconcile_invoice_to_ledger",
+                "args": {
+                  "invoice_id": "INV-0001",
+                  "entry_id": "GL-0001",
+                  "resolution_note": "Verified 21% ES VAT and matching PO-1001"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_hold_poisoned_invoice",
+      "conversation": [
+        {
+          "invocation_id": "t05-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Place invoice INV-0042 on payment hold for audit due to EXCEEDS_AUTO_APPROVE_AND_INJECTION with risk score 0.99."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Invoice INV-0042 has been placed on payment hold (HOLD-2001) for controller review with risk score 0.99."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "hold_payment_for_audit",
+                "args": {
+                  "invoice_id": "INV-0042",
+                  "anomaly_type": "EXCEEDS_AUTO_APPROVE_AND_INJECTION",
+                  "risk_score": 0.99
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

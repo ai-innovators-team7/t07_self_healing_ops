@@ -1,0 +1,249 @@
+# AI Innovators Expedition — London 2026 Hackathon Kit
+
+> **Disclaimer:** *This is not an officially supported Google product. All datasets, companies, personas, scenarios, and mock action APIs in this repository are 100% synthetic and fictional.*
+
+Welcome to the official participant repository for the **AI Innovators Expedition** hands-on hackathon at **Google London (29–30 October 2026)**!
+
+Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of Engineering, and tech leads from Digital Native startups and scaleups) work across **10 pre-assigned Tables of 5** (5 different companies per Table, paired into **5 industry Tribes** of 2 Tables each) to build, evaluate, deploy, and red-team production-grade AI agents on Google Cloud—culminating in a live **Pitch** and **VAR / Red Team Minute** at the end of Day 2. *(Final agenda slot timings and showcase logistics will be shared by the organisers.)*
+
+### Quick Links
+- **[Pre-Work Checklist (`docs/PREWORK.md`)](docs/PREWORK.md)** — Mandatory laptop setup & Google Cloud path preparation before arriving in London.
+- **[Challenge Cards (`challenges/README.md`)](challenges/README.md)** — Browse all 10 Table Challenge Cards (`T01`–`T10`), Sister Tables, and known VAR attack vectors.
+- **[Seed Packs Catalog (`seed_packs/README.md`)](seed_packs/README.md)** — Deep-dive into the 10 synthetic BigQuery datasets, read tools, and FastMCP Mock Action APIs.
+- **[Starter Technical Reference (`docs/STARTER.md`)](docs/STARTER.md)** — Full ADK Starter architecture, plugin contract, and deployment workflow.
+- **[Coding Agent Instructions (`AGENTS.md`)](AGENTS.md)** — Rules and conventions read automatically by **Google Antigravity**.
+
+---
+
+## 1. Hackathon Rules, Scoring & Awards
+
+### The 5 Must-Haves (The `10 / 20` Score Gate)
+Because this **Starter** gives every Table a working baseline from minute one, the **5 Must-Haves** act as a mandatory pass/fail gate:
+
+| # | Must-Have | What Your Table Must Demonstrate |
+| :--- | :--- | :--- |
+| **1** | **ADK (Agent Development Kit)** | Your agent is built and orchestrated using Google's open-source **ADK** (`google-adk`). |
+| **2** | **Agent Runtime** | Your agent is deployed to and running live on Vertex AI **Agent Runtime** (`reasoningEngines`) in your Table's **Scored Deployment** project (`make deploy` + `make test-remote`, not running only on `localhost`). |
+| **3** | **Google Antigravity** | Your Table builds its solution using **Google Antigravity** and follows the **Pilot** rotation rule below. |
+| **4** | **A Gemini Model (`gemini-3.8-flash`)** | Your agent is powered by a Google **Gemini** model (**Gemini 3.8 Flash**, `gemini-3.8-flash` on `GOOGLE_CLOUD_LOCATION=global`), with the model ID and location read from environment variables (`GEMINI_MODEL`, `GOOGLE_CLOUD_LOCATION`) and never hardcoded. **Anthropic Claude is not allowed.** |
+| **5** | **An Evaluation Pipeline** | Your Table runs an automated evaluation pipeline (`make eval`, expanding on the Starter harness and `.test.json` golden cases) measuring tool trajectories and response quality. |
+
+> **Gate Rule:** Missing one or more **Must-Haves** at Pitch time caps your Table's total **Score** at a maximum of **`10 / 20`**, regardless of category sub-totals.
+
+### Score Breakdown (`/20` Points)
+
+| Category | Max Points | What the Jury Evaluates |
+| :--- | :---: | :--- |
+| **Agent & Creativity** | **6 pts** | Depth of agentic reasoning and orchestration, real action-taking via tools and the **Mock Action API** (MCP server), creative problem-solving, and business impact. |
+| **Evaluation Quality** | **4 pts** | Realism and coverage of your evaluation dataset (happy-path + edge/adversarial cases), trajectory and response metrics, and evidence that eval runs drove agent improvements. |
+| **Bonuses** | **6 pts** | Working integrations from the **Bonus Menu** below (**1 whole point each**, capped at **6 points** total). |
+| **Pitch & Timing** | **4 pts** | Clarity of the business and architecture narrative (max 2 slides), live demo execution on the **Scored Deployment**, and finishing within the **5:00** hard stop. |
+| **Total Score** | **20 pts** | *Capped at **10 / 20** if any **Must-Have** is missing.* |
+
+### Bonus Menu (`+1` Whole Point Each, Capped at 6 Points)
+Each Bonus item below is worth **1 whole point** (no half points), up to a maximum of **6 points** in the Bonus bucket:
+
+1. **Governance features (`+1 pt`)** — Agent governance, policy enforcement, and observability (e.g. Agent Gateway, Agent Registry, OpenTelemetry tracing / Agent Topology spans, or human-in-the-loop confirmation gates on high-impact tool actions).
+2. **Security features — incl. resisting the VAR attack (`+1 pt`)** — Hardening your agent (Model Armor, system-instruction guardrails, input/output sanitization, strict parameter bounds in tools) and **successfully resisting the live 30-second prompt-injection attack** during the **VAR / Red Team Minute**.
+3. **Gemini Enterprise App (`+1 pt`)** — Registering and surfacing your deployed Agent Runtime agent inside a **Gemini Enterprise** application.
+4. **MCP App (`+1 pt`)** — Extending your MCP action server or rendering an interactive **MCP App** UI component.
+5. **Gemma (`+1 pt`)** — Incorporating a **Gemma** open-weights model alongside Gemini (e.g. as a specialized classifier, validator, or sub-agent; supplements Gemini, does not replace the Gemini Must-Have).
+6. **Other Google Cloud components (`+1 pt`)** — Meaningfully integrating additional Google Cloud services beyond the baseline, such as custom **BigQuery** analytics, **Cloud Run** microservices, **Enterprise Knowledge Graph**, or dynamic **model routing** between Google models.
+7. **Tribe A2A (`+1 pt`)** — Connecting your Table's agent with your **sister Table's agent** in the same **Tribe** using the **A2A (Agent-to-Agent)** protocol for a live cross-Table workflow.
+
+### Pilot Rotation (~Every 35 Minutes)
+- Each Table appoints a **Repo Captain** to create **one shared private GitHub repository** from this Starter and invite the other 4 Table members.
+- At any time during **Build Time**, **one Pilot** drives **Antigravity** while the other 4 teammates collaborate on architecture, tools, evaluation cases, security guardrails, and the Pitch.
+- **Swap the Pilot role roughly every 35 minutes** (`make test && git commit && git push` -> next Pilot runs `git pull`) so all 5 Participants drive Antigravity and quota is shared evenly across accounts.
+
+### Pitch & VAR / Red Team Minute
+- **5:00 Pitch (Hard Stop):**
+  - **Maximum 2 slides:** **Slide 1 (Presentation)** covering the user persona, problem, and value proposition; **Slide 2 (Architecture & Evaluation)** covering your ADK topology, Agent Runtime deployment, MCP / Google Cloud stack, Bonuses, and evaluation pipeline results.
+  - **Live Demo:** Demonstrate your live agent running on your Table's **Scored Deployment**.
+- **0:30 VAR / Red Team Minute:**
+  - Immediately after the 5:00 Pitch, a Google mentor takes **30 seconds** to attempt a live prompt-injection attack against your agent.
+  - **No ambush:** Your Table's exact attack category is printed in advance on your **Challenge Card** (`challenges/T01-*.md`..`T10-*.md`). Blocking or safely handling the attack without unauthorized tool calls earns the Security Bonus point.
+- *(Final showcase schedule and logistics will be shared by the organisers.)*
+
+### Awards & People's Choice Voting
+There are **two official hackathon awards**:
+1. **Jury Award** — Won by the Table with the highest jury **Score** (`/20`).
+2. **People's Choice Award** — Voted live by all Participants after the Pitches: **each Participant gives 3 votes to 3 different Tables, never their own**.
+
+---
+
+## 2. Get Started in 15 Minutes
+
+> Completing setup before the event? Follow the full **[Pre-Work Checklist (`docs/PREWORK.md`)](docs/PREWORK.md)**.
+
+### Step 1 — Prerequisites
+- **Python 3.12** (required for `cloudpickle` parity with Vertex AI Agent Runtime containers)
+- **[`uv`](https://docs.astral.sh/uv/)** (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
+- **[Google Cloud SDK (`gcloud`)](https://cloud.google.com/sdk/docs/install)** authenticated against your Table's **Scored Deployment** project (either a **Google-provided Sandbox Project** or your own company's Google Cloud project):
+  ```bash
+  gcloud auth login
+  gcloud auth application-default login
+  gcloud config set project YOUR_GCP_PROJECT_ID
+  gcloud auth application-default set-quota-project YOUR_GCP_PROJECT_ID
+  ```
+- Enable the required APIs in your project (once per project):
+  ```bash
+  gcloud services enable aiplatform.googleapis.com bigquery.googleapis.com \
+    storage.googleapis.com cloudresourcemanager.googleapis.com --project=YOUR_GCP_PROJECT_ID
+  ```
+- **macOS or Linux** with GNU Make and bash (**Windows:** run inside WSL2 Ubuntu).
+
+### Step 2 — Clone & Create the Python 3.12 Environment (`uv`)
+```bash
+git clone https://github.com/papelamineG/ai-innovators-london-hackathon.git
+cd ai-innovators-london-hackathon
+make setup
+```
+
+### Step 3 — Configure `.env` & Staging Bucket
+```bash
+cp .env.example .env
+```
+Edit `.env` (plain `KEY=value` lines, no quotes, no spaces around `=`):
+```dotenv
+GOOGLE_CLOUD_PROJECT=your-gcp-project-id
+GOOGLE_GENAI_USE_VERTEXAI=1
+GOOGLE_CLOUD_LOCATION=global
+GEMINI_MODEL=gemini-3.8-flash
+AGENT_RUNTIME_LOCATION=europe-west1
+STAGING_BUCKET=
+SEED_PACK=t08
+BQ_LOCATION=EU
+```
+When `STAGING_BUCKET` is left empty, the Starter defaults to `gs://<GOOGLE_CLOUD_PROJECT>-hackathon-staging`. Create your staging bucket once:
+```bash
+gcloud storage buckets create gs://$(grep '^GOOGLE_CLOUD_PROJECT=' .env | cut -d= -f2)-hackathon-staging \
+  --location=europe-west1
+```
+
+### Step 4 — Seed Your Table's Synthetic Data (`make seed PACK=tNN`)
+Load your Table's bundled synthetic CSV files (`seed_packs/tNN_<slug>/data/*.csv`) into BigQuery (`seed_tNN`) in your `GOOGLE_CLOUD_PROJECT`:
+```bash
+make seed PACK=t08
+```
+*(Or test with the reference roastery pack via `make seed PACK=t00_example`.)*
+
+> **Optional Cloud Storage Mirror (`gs://ai-innovators-london-2026-data`):**
+> All CSV datasets are already bundled inside this repository under `seed_packs/tNN_<slug>/data/*.csv`, so `make seed PACK=tNN` works out of the box without any external download. As an optional mirror—available once the organisers open public access—the seed CSVs and a full zip archive of this kit are also staged in `gs://ai-innovators-london-2026-data`:
+> - Seed CSV pattern: `https://storage.googleapis.com/ai-innovators-london-2026-data/seed/tNN/<table_name>.csv` (e.g. `https://storage.googleapis.com/ai-innovators-london-2026-data/seed/t08/disrupted_itineraries.csv`)
+> - Kit archive: `https://storage.googleapis.com/ai-innovators-london-2026-data/kit/ai-innovators-london-hackathon.zip`
+
+### Step 5 — Run Offline Tests & Launch the Local ADK Web UI
+```bash
+make test
+make dev
+```
+Open **`http://127.0.0.1:8000`** in your browser, select `app` from the top-left agent dropdown, and inspect tool calls and traces.
+
+### Step 6 — Run the Evaluation Pipeline (`make eval`)
+```bash
+make eval
+```
+Validates your pack's `.test.json` golden cases against the ADK `EvalSet` schema, runs each turn against your agent, scores tool trajectories (`tool_trajectory_avg_score`) and response grounding (`response_match_score`), and prints `EVAL_SUMMARY: x/y cases passed`. *(Use `make eval-validate` for offline schema validation without calling Gemini.)*
+
+### Step 7 — Deploy to Agent Runtime, Test Remotely & Clean Up
+```bash
+make deploy
+make test-remote
+make delete
+```
+- `make deploy` packages `app/` and `seed_packs/` on Python 3.12, deploys (or updates in-place) your agent on **Vertex AI Agent Runtime** (`europe-west1`), and writes `.deployed_agent.json`.
+- `make test-remote` creates a live session on your remote `ReasoningEngine` and streams a verification prompt (`make test-remote PROMPT="..."`).
+- `make delete` deletes the deployed `ReasoningEngine` recorded in `.deployed_agent.json` (or `make delete RESOURCE=projects/.../reasoningEngines/<id>`).
+
+---
+
+## 3. Find Your Challenge (Tables T01–T10)
+
+Every Table has a **Challenge Card** in [`challenges/`](challenges/README.md) (also inside `seed_packs/tNN_<slug>/CHALLENGE_CARD.md`) with its persona, dataset schema, read tools, FastMCP Mock Action APIs, Sister Table for the **Tribe A2A Bonus**, and **VAR / Red Team Minute** attack category:
+
+| Table | Tribe | Collaborative Challenge Title | Sister Table (A2A) | Challenge Card | Seed Pack |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **T01** | Creative AI & AdTech | **Autonomous Creative Campaign Orchestrator** | **T02** (`t02_dynamic_storefronts`) | [`challenges/T01-campaign_orchestrator.md`](challenges/T01-campaign_orchestrator.md) | [`seed_packs/t01_campaign_orchestrator`](seed_packs/t01_campaign_orchestrator/) |
+| **T02** | Creative AI & AdTech | **Visual Content Creator & Dynamic Storefronts** | **T01** (`t01_campaign_orchestrator`) | [`challenges/T02-dynamic_storefronts.md`](challenges/T02-dynamic_storefronts.md) | [`seed_packs/t02_dynamic_storefronts`](seed_packs/t02_dynamic_storefronts/) |
+| **T03** | Content Intelligence | **Conversational Catalog Discovery Assistant** | **T04** (`t04_b2b_sourcing`) | [`challenges/T03-catalog_discovery.md`](challenges/T03-catalog_discovery.md) | [`seed_packs/t03_catalog_discovery`](seed_packs/t03_catalog_discovery/) |
+| **T04** | Content Intelligence | **Dynamic B2B Integration & Sourcing Agent** | **T03** (`t03_catalog_discovery`) | [`challenges/T04-b2b_sourcing.md`](challenges/T04-b2b_sourcing.md) | [`seed_packs/t04_b2b_sourcing`](seed_packs/t04_b2b_sourcing/) |
+| **T05** | FinTech & Analytics | **Autonomous B2B Financial Auditor & Reconciler** | **T06** (`t06_climate_risk`) | [`challenges/T05-financial_auditor.md`](challenges/T05-financial_auditor.md) | [`seed_packs/t05_financial_auditor`](seed_packs/t05_financial_auditor/) |
+| **T06** | FinTech & Analytics | **Dynamic Climate & Regulatory Risk Assessor** | **T05** (`t05_financial_auditor`) | [`challenges/T06-climate_risk.md`](challenges/T06-climate_risk.md) | [`seed_packs/t06_climate_risk`](seed_packs/t06_climate_risk/) |
+| **T07** | Cross-functional Ops & CX | **Self-Healing Infrastructure & Security Copilot** | **T08** (`t08_travel_concierge`) | [`challenges/T07-self_healing_ops.md`](challenges/T07-self_healing_ops.md) | [`seed_packs/t07_self_healing_ops`](seed_packs/t07_self_healing_ops/) |
+| **T08** | Cross-functional Ops & CX | **Hyper-Personalized Travel Concierge & Incident Management Agent** | **T07** (`t07_self_healing_ops`) | [`challenges/T08-travel_concierge.md`](challenges/T08-travel_concierge.md) | [`seed_packs/t08_travel_concierge`](seed_packs/t08_travel_concierge/) |
+| **T09** | Smart Mobility & UX | **Smart Mobility & Energy Optimizer Agent** | **T10** (`t10_retention_matcher`) | [`challenges/T09-mobility_energy.md`](challenges/T09-mobility_energy.md) | [`seed_packs/t09_mobility_energy`](seed_packs/t09_mobility_energy/) |
+| **T10** | Smart Mobility & UX | **Predictive Retention & Resource Matcher** | **T09** (`t09_mobility_energy`) | [`challenges/T10-retention_matcher.md`](challenges/T10-retention_matcher.md) | [`seed_packs/t10_retention_matcher`](seed_packs/t10_retention_matcher/) |
+
+---
+
+## 4. Repository Layout
+
+```text
+ai-innovators-london-hackathon/
+├── app/
+│   ├── agent.py                  # Root ADK LlmAgent (reads GEMINI_MODEL & GOOGLE_CLOUD_LOCATION from env)
+│   ├── loader.py                 # Seed Pack plugin loader (YAML + BigQuery TOOLS + MCP stdio/fallback)
+│   └── preflight.py              # Actionable "do this next" hints for common Google Cloud errors
+├── challenges/
+│   ├── README.md                 # Index of all 10 Table Challenge Cards
+│   └── T01 .. T10-*.md           # Per-Table Challenge Cards (same content as seed_packs/tNN_*/CHALLENGE_CARD.md)
+├── deploy/
+│   ├── deploy.py                 # One-command deploy/update to Vertex AI Agent Runtime (Python 3.12)
+│   ├── test_remote.py            # Live session + stream_query verification against Agent Runtime
+│   └── delete.py                 # Clean up deployed ReasoningEngine resource
+├── docs/
+│   ├── PREWORK.md                # Participant Pre-Work checklist (Path 1 Sandbox & Path 2 Own-Org)
+│   └── STARTER.md                # Detailed Starter quickstart & plugin contract reference
+├── eval/
+│   ├── run_eval.py               # Golden evaluation runner & ADK EvalSet validator
+│   ├── test_config.json          # Default tool trajectory & response match thresholds
+│   └── hello_fallback.test.json  # Baseline evalset when SEED_PACK is unset
+├── seed_packs/
+│   ├── README.md                 # Full Seed Pack catalog & tool index
+│   ├── check_packs.py            # Structural & cross-reference validator for all 10 Seed Packs
+│   ├── t00_example/              # Reference pack (London Specialty Roastery)
+│   └── t01 .. t10/               # Per-Table Seed Packs (pack.yaml, data/*.csv, tools.py, mcp_server.py, load.py, eval/, CHALLENGE_CARD.md)
+├── tests/
+│   └── test_starter.py           # Offline pytest suite
+├── .env.example                  # Environment variable template (GOOGLE_CLOUD_PROJECT, GEMINI_MODEL, SEED_PACK)
+├── AGENTS.md                     # Rules & coding conventions for Google Antigravity
+├── LICENSE                       # Apache License 2.0
+├── Makefile                      # One-command workflow targets
+├── pyproject.toml                # Pinned Python 3.12 dependencies
+└── README.md                     # This participant guide
+```
+
+---
+
+## 5. Troubleshooting
+
+| Symptom | Cause | Fix |
+| :--- | :--- | :--- |
+| `DefaultCredentialsError` or `403 PERMISSION_DENIED` | ADC credentials missing or quota project unset | Run `gcloud auth application-default login` and `gcloud auth application-default set-quota-project $GOOGLE_CLOUD_PROJECT`. |
+| `SERVICE_DISABLED` / `API ... has not been used in project` | Required API not enabled | Run the `gcloud services enable ...` command from Step 1, wait ~1 minute, and retry. |
+| `Staging bucket gs://... does not exist` | Staging bucket not created yet | Run `gcloud storage buckets create gs://${GOOGLE_CLOUD_PROJECT}-hackathon-staging --location=europe-west1`. |
+| `Not found: Dataset ...` in a tool result | Seed data not loaded into BigQuery | Run `make seed PACK=<your pack>`. |
+| `.venv/bin/python not found` | Virtualenv setup skipped | Run `make setup`. |
+| `404 Not Found` calling `gemini-3.8-flash` | Regional endpoint used instead of `global` | Keep `GOOGLE_CLOUD_LOCATION=global` in `.env` (`AGENT_RUNTIME_LOCATION=europe-west1` is used separately for Agent Runtime). |
+| Blank reply or `KeyError` on turn 1 | Unescaped `{variable}` in `instruction` | ADK treats `{foo}` in `instruction` as a session-state placeholder. Replace `{foo}` with `[foo]`. |
+| Tool spinner hangs or stream dies mid-turn | Tool raised an unhandled Python exception | ADK tools must never raise; catch exceptions and return `json.dumps({"status": "ERROR", "error": str(exc)})`. |
+| Deserialization error in Agent Runtime | Deployed from Python 3.13 instead of 3.12 | Always deploy via `make deploy` (which enforces `.venv/bin/python` on Python 3.12). |
+
+---
+
+## 6. Official Documentation Links
+
+- **Google Agent Development Kit (ADK):** [https://adk.dev](https://adk.dev)
+  - [ADK Custom & Multi-Agent Orchestration](https://adk.dev/agents/custom-agents/)
+  - [ADK Model Context Protocol (MCP) Tools](https://adk.dev/tools-custom/mcp-tools/)
+  - [ADK Safety & Callbacks](https://adk.dev/callbacks/)
+  - [ADK CLI & A2A Deployment Reference](https://adk.dev/api-reference/cli/)
+- **Google Antigravity:** [https://antigravity.google](https://antigravity.google) ([Download](https://antigravity.google/download) · [Getting Started Docs](https://antigravity.google/docs/getting-started))
+- **Google Cloud & Vertex AI:** [https://cloud.google.com](https://cloud.google.com)
+  - [Vertex AI Agent Engine (Agent Runtime) Documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview)
+  - [Register and Manage an ADK Agent in Gemini Enterprise](https://cloud.google.com/gemini/enterprise/docs/register-and-manage-an-adk-agent)
+  - [Model Armor Overview](https://cloud.google.com/security-command-center/docs/model-armor-overview)
+  - [BigQuery Python Client Reference](https://cloud.google.com/python/docs/reference/bigquery/latest)
+  - [Google Cloud CLI (`gcloud`) Installation](https://cloud.google.com/sdk/docs/install)
+- **Gemma Open Models:** [https://ai.google.dev/gemma/docs](https://ai.google.dev/gemma/docs)

@@ -1,0 +1,25 @@
+# Virtual environment & Python cache
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets & local environment
+.env
+.env.local
+*.key.json
+*credentials*.json
+
+# ADK local state & deployment artifacts
+.adk/
+.deployed_agent.json
+agent_engine_deploy_src/
+/tmp/
+
+# Local mock state runtime files
+seed_packs/*/.state.json

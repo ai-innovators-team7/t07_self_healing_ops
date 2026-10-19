@@ -1,0 +1,8 @@
+[
+  {"sale_date": "2026-10-25", "store_location": "King's Cross", "top_item": "Flat White", "cups_sold": 410, "revenue_gbp": 1685.50, "bean_stock_kg": 42.0},
+  {"sale_date": "2026-10-26", "store_location": "King's Cross", "top_item": "Single Origin Pour Over (Ethiopian Yirgacheffe)", "cups_sold": 445, "revenue_gbp": 1840.00, "bean_stock_kg": 34.5},
+  {"sale_date": "2026-10-25", "store_location": "London Soho", "top_item": "Flat White", "cups_sold": 520, "revenue_gbp": 2132.00, "bean_stock_kg": 28.0},
+  {"sale_date": "2026-10-26", "store_location": "London Soho", "top_item": "Cardamom Cold Brew", "cups_sold": 560, "revenue_gbp": 2318.40, "bean_stock_kg": 19.5},
+  {"sale_date": "2026-10-25", "store_location": "Shoreditch", "top_item": "Ceremonial Matcha Oat Latte", "cups_sold": 380, "revenue_gbp": 1596.00, "bean_stock_kg": 51.0},
+  {"sale_date": "2026-10-26", "store_location": "Shoreditch", "top_item": "Ceremonial Matcha Oat Latte", "cups_sold": 395, "revenue_gbp": 1669.25, "bean_stock_kg": 44.0}
+]
