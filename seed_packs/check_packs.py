@@ -258,8 +258,23 @@ def _check_pack(pack_id: str, table_num: int, slug: str) -> list[str]:
         errors.append(f"{slug}: missing CHALLENGE_CARD.md")
     else:
         card_text = card_path.read_text(encoding="utf-8")
-        if "This challenge is a starting point - adapt it." not in card_text:
-            errors.append(f"{slug}: CHALLENGE_CARD.md missing required footer")
+        suggestion_line = (
+            "> This card is a suggestion to help you get started - "
+            "your Table is free to take its own direction."
+        )
+        if suggestion_line not in card_text:
+            errors.append(f"{slug}: CHALLENGE_CARD.md missing required top suggestion line")
+        for stale in (
+            "/20",
+            "out of 20",
+            "capped at 6",
+            "max 6",
+            "up to 6 points",
+            "caps the score at 10",
+            "this challenge is a starting point - adapt it.",
+        ):
+            if stale in card_text.lower():
+                errors.append(f"{slug}: CHALLENGE_CARD.md contains retired phrase '{stale}'")
         for marker in (
             "GEMINI_MODEL",
             "Gemini 3.8 Flash",

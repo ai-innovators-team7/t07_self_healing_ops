@@ -4,7 +4,7 @@
 
 Welcome to the official participant repository for the **AI Innovators Expedition** hands-on hackathon at **Google London (29–30 October 2026)**!
 
-Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of Engineering, and tech leads from Digital Native startups and scaleups) work across **10 pre-assigned Tables of 5** (5 different companies per Table, paired into **5 industry Tribes** of 2 Tables each) to build, evaluate, deploy, and red-team production-grade AI agents on Google Cloud—culminating in a live **Pitch** and **VAR / Red Team Minute** at the end of Day 2. *(Final agenda slot timings and showcase logistics will be shared by the organisers.)*
+Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of Engineering, and tech leads from Digital Native startups and scaleups) work across **10 pre-assigned Tables of 5** (5 different companies per Table, paired into **5 industry Tribes** of 2 Tables each) to build, evaluate, deploy, and red-team production-grade AI agents on Google Cloud—culminating in a live **Pitch** and **VAR / Red Team Minute** at the end of Day 2. *(Final agenda slot timings and showcase logistics will be shared by the organisers.)* The challenge cards, sample data and Starter are here to help - use them as much or as little as you like.
 
 ### Quick Links
 - **[Pre-Work Checklist (`docs/PREWORK.md`)](docs/PREWORK.md)** — Mandatory laptop setup & Google Cloud path preparation before arriving in London.
@@ -17,8 +17,14 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 
 ## 1. Hackathon Rules, Scoring & Awards
 
-### The 5 Must-Haves (The `10 / 20` Score Gate)
-Because this **Starter** gives every Table a working baseline from minute one, the **5 Must-Haves** act as a mandatory pass/fail gate:
+### Scoring
+- **Score = Core (max 14) + Bonuses (no maximum).**
+- **Core:** Agent & creativity 0–6 · Evaluation quality 0–4 · Pitch & timing 0–4.
+- **Bonuses:** 1 whole point per capability that works live in your demo and adds real value to your agent (shown, not just mentioned). Suggested menu: governance, security (including resisting the VAR attack), Gemini Enterprise App, MCP App, Gemma, Tribe A2A (connect with your sister Table's agent), BigQuery, Cloud Run, Knowledge Graph, model routing, multimodality (voice, image), memory — or any other capability that clearly adds value. Each distinct capability counts once; the jury decides what counts.
+- **Must-Haves (ADK, Agent Runtime, Antigravity, a Gemini model, an evaluation pipeline):** your bonus points only count once all 5 are shown working; otherwise you keep your core score.
+- **Quality beats quantity:** we reward things that work well, not boxes ticked.
+
+### The 5 Must-Haves
 
 | # | Must-Have | What Your Table Must Demonstrate |
 | :--- | :--- | :--- |
@@ -27,29 +33,6 @@ Because this **Starter** gives every Table a working baseline from minute one, t
 | **3** | **Google Antigravity** | Your Table builds its solution using **Google Antigravity** and follows the **Pilot** rotation rule below. |
 | **4** | **A Gemini Model (`gemini-3.8-flash`)** | Your agent is powered by a Google **Gemini** model (**Gemini 3.8 Flash**, `gemini-3.8-flash` on `GOOGLE_CLOUD_LOCATION=global`), with the model ID and location read from environment variables (`GEMINI_MODEL`, `GOOGLE_CLOUD_LOCATION`) and never hardcoded. **Anthropic Claude is not allowed.** |
 | **5** | **An Evaluation Pipeline** | Your Table runs an automated evaluation pipeline (`make eval`, expanding on the Starter harness and `.test.json` golden cases) measuring tool trajectories and response quality. |
-
-> **Gate Rule:** Missing one or more **Must-Haves** at Pitch time caps your Table's total **Score** at a maximum of **`10 / 20`**, regardless of category sub-totals.
-
-### Score Breakdown (`/20` Points)
-
-| Category | Max Points | What the Jury Evaluates |
-| :--- | :---: | :--- |
-| **Agent & Creativity** | **6 pts** | Depth of agentic reasoning and orchestration, real action-taking via tools and the **Mock Action API** (MCP server), creative problem-solving, and business impact. |
-| **Evaluation Quality** | **4 pts** | Realism and coverage of your evaluation dataset (happy-path + edge/adversarial cases), trajectory and response metrics, and evidence that eval runs drove agent improvements. |
-| **Bonuses** | **6 pts** | Working integrations from the **Bonus Menu** below (**1 whole point each**, capped at **6 points** total). |
-| **Pitch & Timing** | **4 pts** | Clarity of the business and architecture narrative (max 2 slides), live demo execution on the **Scored Deployment**, and finishing within the **5:00** hard stop. |
-| **Total Score** | **20 pts** | *Capped at **10 / 20** if any **Must-Have** is missing.* |
-
-### Bonus Menu (`+1` Whole Point Each, Capped at 6 Points)
-Each Bonus item below is worth **1 whole point** (no half points), up to a maximum of **6 points** in the Bonus bucket:
-
-1. **Governance features (`+1 pt`)** — Agent governance, policy enforcement, and observability (e.g. Agent Gateway, Agent Registry, OpenTelemetry tracing / Agent Topology spans, or human-in-the-loop confirmation gates on high-impact tool actions).
-2. **Security features — incl. resisting the VAR attack (`+1 pt`)** — Hardening your agent (Model Armor, system-instruction guardrails, input/output sanitization, strict parameter bounds in tools) and **successfully resisting the live 30-second prompt-injection attack** during the **VAR / Red Team Minute**.
-3. **Gemini Enterprise App (`+1 pt`)** — Registering and surfacing your deployed Agent Runtime agent inside a **Gemini Enterprise** application.
-4. **MCP App (`+1 pt`)** — Extending your MCP action server or rendering an interactive **MCP App** UI component.
-5. **Gemma (`+1 pt`)** — Incorporating a **Gemma** open-weights model alongside Gemini (e.g. as a specialized classifier, validator, or sub-agent; supplements Gemini, does not replace the Gemini Must-Have).
-6. **Other Google Cloud components (`+1 pt`)** — Meaningfully integrating additional Google Cloud services beyond the baseline, such as custom **BigQuery** analytics, **Cloud Run** microservices, **Enterprise Knowledge Graph**, or dynamic **model routing** between Google models.
-7. **Tribe A2A (`+1 pt`)** — Connecting your Table's agent with your **sister Table's agent** in the same **Tribe** using the **A2A (Agent-to-Agent)** protocol for a live cross-Table workflow.
 
 ### Pilot Rotation (~Every 35 Minutes)
 - Each Table appoints a **Repo Captain** to create **one shared private GitHub repository** from this Starter and invite the other 4 Table members.
@@ -67,7 +50,7 @@ Each Bonus item below is worth **1 whole point** (no half points), up to a maxim
 
 ### Awards & People's Choice Voting
 There are **two official hackathon awards**:
-1. **Jury Award** — Won by the Table with the highest jury **Score** (`/20`).
+1. **Jury Award** — Won by the Table with the highest jury **Score**.
 2. **People's Choice Award** — Voted live by all Participants after the Pitches: **each Participant gives 3 votes to 3 different Tables, never their own**.
 
 ---

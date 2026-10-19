@@ -163,9 +163,9 @@ ai-innovators-london-hackathon/
 
 ---
 
-## Bonus Ideas (Up to 6 Bonus Points)
+## Bonus Ideas (1 Point Each When Working Live & Adding Value)
 
-Once your Table has all **Must-Haves** green (`make eval`, `make deploy`, `make test-remote`), explore these **Bonus** upgrades using official documentation:
+Once your Table has all 5 **Must-Haves** working (`make eval`, `make deploy`, `make test-remote`), each capability that works live in your demo and adds real value to your agent earns **1 whole point** (no maximum; quality beats quantity):
 
 - **Tribe A2A Bonus (Agent-to-Agent Protocol)**: Connect your Table's agent with your sister Table's agent in the same **Tribe** using ADK's A2A integration — [ADK A2A Documentation](https://adk.dev/agents/custom-agents/) & [Deploy ADK with `--a2a`](https://adk.dev/api-reference/cli/).
 - **MCP Tools & Interactive MCP Apps**: Extend your Seed Pack's `mcp_server.py` with rich action tools or connect external MCP servers — [ADK Model Context Protocol Tools](https://adk.dev/tools-custom/mcp-tools/).

@@ -3,7 +3,7 @@
 This repository is the **Common Starter** for the **AI Innovators Expedition Hackathon** (Google London, 29–30 October 2026). Every Table forks this repository and activates its assigned **Seed Pack** (`t01`..`t10`, or `t00_example`).
 
 ## 1. Hackathon Must-Haves (Gate Criteria)
-Missing any Must-Have caps a Table's Jury Score at **10 / 20**:
+Your bonus points only count once all 5 Must-Haves are shown working; otherwise your Table keeps its core score (max 14):
 1. **Google ADK (`google-adk`)**: Root agent defined in `app/agent.py` (`root_agent`).
 2. **Vertex AI Agent Runtime (Reasoning Engine)**: Deployed via `make deploy` (`deploy/deploy.py`) to `europe-west1` or `europe-west2`.
 3. **Google Antigravity**: Used by the Table's active **Pilot** (rotating every ~35 minutes).
