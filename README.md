@@ -19,9 +19,10 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 
 ### Scoring
 - **Score = Core (max 14) + Bonuses (no maximum).**
-- **Core:** Agent & creativity 0–6 · Evaluation quality 0–4 · Pitch & timing 0–4.
+- **Core:** Agent & creativity 0–6 · Evaluation quality 0–4 · Pitch & timing 0–4 (timing deductions come out of Pitch & timing).
 - **Bonuses:** 1 whole point per capability that works live in your demo and adds real value to your agent (shown, not just mentioned). Suggested menu: governance, security (including resisting the VAR attack), Gemini Enterprise App, MCP App, Gemma, Tribe A2A (connect with your sister Table's agent), BigQuery, Cloud Run, Knowledge Graph, model routing, multimodality (voice, image), memory — or any other capability that clearly adds value. Each distinct capability counts once; the jury decides what counts.
-- **Must-Haves (ADK, Agent Runtime, Antigravity, a Gemini model, an evaluation pipeline):** your bonus points only count once all 5 are shown working; otherwise you keep your core score.
+- **Must-Haves (ADK, Agent Runtime, Antigravity, a Gemini model, an evaluation pipeline):** your bonus points only count once all 5 are shown working; otherwise you keep your core score (max 14).
+- **Jury score:** average of the jurors' totals (ties broken by **Agent & creativity**).
 - **Quality beats quantity:** we reward things that work well, not boxes ticked.
 
 ### The 5 Must-Haves
@@ -50,8 +51,8 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 
 ### Awards & People's Choice Voting
 There are **two official hackathon awards**:
-1. **Jury Award** — Won by the Table with the highest jury **Score**.
-2. **People's Choice Award** — Voted live by all Participants after the Pitches: **each Participant gives 3 votes to 3 different Tables, never their own**.
+1. **Jury Award** — Won by the Table with the highest jury **Score** (mean of jurors' totals; ties broken by **Agent & creativity**).
+2. **People's Choice Award** — Voted live by all Participants: **each Participant gives 3 votes to 3 different Tables, never their own** (voting opens at the first Pitch, remains editable until 3 minutes after the last Pitch, and stays hidden until the reveal).
 
 ---
 

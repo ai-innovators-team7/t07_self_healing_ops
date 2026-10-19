@@ -165,11 +165,18 @@ ai-innovators-london-hackathon/
 
 ## Bonus Ideas (1 Point Each When Working Live & Adding Value)
 
-Once your Table has all 5 **Must-Haves** working (`make eval`, `make deploy`, `make test-remote`), each capability that works live in your demo and adds real value to your agent earns **1 whole point** (no maximum; quality beats quantity):
+Once your Table has all 5 **Must-Haves** working (`make eval`, `make deploy`, `make test-remote`), each capability that works live in your demo and adds real value to your agent earns **1 whole point** (no maximum; each distinct capability counts once and the jury decides what counts; quality beats quantity):
 
-- **Tribe A2A Bonus (Agent-to-Agent Protocol)**: Connect your Table's agent with your sister Table's agent in the same **Tribe** using ADK's A2A integration — [ADK A2A Documentation](https://adk.dev/agents/custom-agents/) & [Deploy ADK with `--a2a`](https://adk.dev/api-reference/cli/).
-- **MCP Tools & Interactive MCP Apps**: Extend your Seed Pack's `mcp_server.py` with rich action tools or connect external MCP servers — [ADK Model Context Protocol Tools](https://adk.dev/tools-custom/mcp-tools/).
-- **Gemini Enterprise App Registration**: Surface your deployed Agent Runtime engine inside Gemini Enterprise — [Register and Manage an ADK Agent in Gemini Enterprise](https://cloud.google.com/gemini/enterprise/docs/register-and-manage-an-adk-agent).
-- **BigQuery Analytics & Grounding**: Join multiple tables or add parameterized SQL analytics in `seed_packs/<pack>/tools.py` — [BigQuery Python Client Documentation](https://cloud.google.com/python/docs/reference/bigquery/latest).
+- **Governance & Observability**: Agent Gateway, Agent Registry, OpenTelemetry / Agent Topology trace spans, or human-in-the-loop approval gates before sensitive actions.
 - **Security & Prompt-Injection Defense (VAR / Red Team Minute)**: Harden your agent's instructions, input validation, and safety guardrails with [Model Armor Overview](https://cloud.google.com/security-command-center/docs/model-armor-overview) and [ADK Safety & Callbacks](https://adk.dev/callbacks/).
-- **Gemma Open Models**: Experiment with **Gemma 4** alongside Gemini for specialized sub-tasks — [Gemma Documentation on Google AI](https://ai.google.dev/gemma/docs) & [ADK Gemini/Gemma Models](https://adk.dev/agents/models/).
+- **Gemini Enterprise App**: Surface your deployed Agent Runtime engine inside Gemini Enterprise — [Register and Manage an ADK Agent in Gemini Enterprise](https://cloud.google.com/gemini/enterprise/docs/register-and-manage-an-adk-agent).
+- **MCP App**: Render an interactive MCP App (`ui://` rich UI component) or extend your Seed Pack's `mcp_server.py` — [ADK Model Context Protocol Tools](https://adk.dev/tools-custom/mcp-tools/).
+- **Gemma Open Models**: Experiment with **Gemma** alongside Gemini for specialized sub-tasks — [Gemma Documentation on Google AI](https://ai.google.dev/gemma/docs) & [ADK Gemini/Gemma Models](https://adk.dev/agents/models/).
+- **Tribe A2A Bonus (Agent-to-Agent Protocol)**: Connect your Table's agent with your sister Table's agent in the same **Tribe** using ADK's A2A integration — [ADK A2A Documentation](https://adk.dev/agents/custom-agents/) & [Deploy ADK with `--a2a`](https://adk.dev/api-reference/cli/).
+- **BigQuery**: Join multiple tables or add parameterized SQL analytics in `seed_packs/<pack>/tools.py` — [BigQuery Python Client Documentation](https://cloud.google.com/python/docs/reference/bigquery/latest).
+- **Cloud Run**: Deploy supporting microservices, A2A bridges, or custom MCP endpoints on Cloud Run.
+- **Knowledge Graph**: Integrate Enterprise Knowledge Graph or entity resolution into your agent's grounding workflow.
+- **Model Routing**: Route dynamically between Google models (e.g. `gemini-3.8-flash` and another Gemini tier or **Gemma**) based on task complexity or latency.
+- **Multimodality (Voice, Image)**: Integrate live voice, audio, or image input/output (`GEMINI_IMAGE_MODEL=gemini-3.1-flash-image`).
+- **Memory**: Demonstrate stateful cross-session or persistent long-term memory live in your agent workflow.
+- **Open Door (Other Capability)**: Any other capability that clearly adds real value to your agent and works live in the demo.
