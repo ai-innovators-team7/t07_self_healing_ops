@@ -4,7 +4,7 @@ You'll spend two days building an AI agent with your Table. To spend that time b
 
 ## Checklist
 
-- [ ] Install [Antigravity](https://antigravity.google/download) and sign in with a personal Google account
+- [ ] Install the Antigravity 2.0 app (https://antigravity.google/download) - not the Antigravity IDE. Don't sign in yet: on Day 1 you'll use a Business account we give you.
 - [ ] Install the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
 - [ ] Install Python 3.12 and [uv](https://docs.astral.sh/uv/)
 - [ ] Install Git and have a GitHub account ready
@@ -17,7 +17,7 @@ You'll spend two days building an AI agent with your Table. To spend that time b
 >
 > **No company Google Cloud? No problem** - we'll give your Table a Google sandbox project on the day.
 
-Please don't create cloud resources or start building before the event - everything is provided on Day 1 (full challenge cards, sample data and a starter kit).
+Please don't create cloud resources or start building before the event - everything is provided on Day 1 (full challenge cards, sample data and a starter kit). Step-by-step guide: https://medium.com/google-cloud/unlock-antigravity-2-0-logins-plans-cost-and-quota-9165725685be
 
 ## The 10 challenges
 

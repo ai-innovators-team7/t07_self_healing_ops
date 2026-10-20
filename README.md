@@ -61,6 +61,7 @@ There are **two official hackathon awards**:
 > Completing setup before the event? Follow the full **[Pre-Work Checklist (`docs/PREWORK.md`)](docs/PREWORK.md)**.
 
 ### Step 1 — Prerequisites
+- **Google Antigravity 2.0 App** — Install the **Antigravity 2.0 app** (https://antigravity.google/download) - not the Antigravity IDE (the IDE has no Agent Platform plan). Don't sign in with your personal Gmail. On Day 1 you'll sign in with the sandbox Business account we give you (or your company's Google Cloud account): choose **'Use business account'** (not 'Continue with Google'), pick your project and keep **'Use Agent Platform instead'**. Step-by-step guide: https://medium.com/google-cloud/unlock-antigravity-2-0-logins-plans-cost-and-quota-9165725685be
 - **Python 3.12** (required for `cloudpickle` parity with Vertex AI Agent Runtime containers)
 - **[`uv`](https://docs.astral.sh/uv/)** (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
 - **[Google Cloud SDK (`gcloud`)](https://cloud.google.com/sdk/docs/install)** authenticated against your Table's **Scored Deployment** project (either a **Google-provided Sandbox Project** or your own company's Google Cloud project):
@@ -223,7 +224,7 @@ ai-innovators-london-hackathon/
   - [ADK Model Context Protocol (MCP) Tools](https://adk.dev/tools-custom/mcp-tools/)
   - [ADK Safety & Callbacks](https://adk.dev/callbacks/)
   - [ADK CLI & A2A Deployment Reference](https://adk.dev/api-reference/cli/)
-- **Google Antigravity:** [https://antigravity.google](https://antigravity.google) ([Download](https://antigravity.google/download) · [Getting Started Docs](https://antigravity.google/docs/getting-started))
+- **Google Antigravity:** [https://antigravity.google](https://antigravity.google) ([Download](https://antigravity.google/download) · [Getting Started Docs](https://antigravity.google/docs/getting-started) · [Antigravity 2.0 Login & Quota Guide](https://medium.com/google-cloud/unlock-antigravity-2-0-logins-plans-cost-and-quota-9165725685be))
 - **Google Cloud & Vertex AI:** [https://cloud.google.com](https://cloud.google.com)
   - [Vertex AI Agent Engine (Agent Runtime) Documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview)
   - [Register and Manage an ADK Agent in Gemini Enterprise](https://cloud.google.com/gemini/enterprise/docs/register-and-manage-an-adk-agent)
