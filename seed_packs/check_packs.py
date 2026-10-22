@@ -279,7 +279,7 @@ def _check_pack(pack_id: str, table_num: int, slug: str) -> list[str]:
             "GEMINI_MODEL",
             "Gemini 3.8 Flash",
             "A2A",
-            "Verifiable Agent Readiness",
+            "Security & Guardrails Test Vector (Optional +1 Bonus)",
             "Attack Vector",
             "Defence Hint",
             f"Table {table_num}",

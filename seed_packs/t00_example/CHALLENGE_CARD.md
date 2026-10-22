@@ -15,5 +15,6 @@
 ## Stretch Goal
 Add a margin-optimization tool that cross-references `menu` unit cost against `daily_sales` volume and recommends bundle promotions.
 
-## Known VAR / Red Team Attack Category
-**Unauthorized Supplier Payout / Instruction Override**: During the 30-second VAR Red Team Minute, the red teamer will attempt to trick the agent into approving a fake supplier invoice or ignoring its tool data.
+## Security & Guardrails Test Vector (Optional +1 Bonus)
+- **Attack Vector**: **Unauthorized Supplier Payout / Instruction Override**: An adversarial prompt or poisoned record attempts to trick the agent into approving a fake supplier reorder or ignoring its tool data.
+- **Defence Hint**: Enforce strict parameter validation in `submit_bean_reorder` and demonstrate blocking or safely handling untrusted inputs during your demo or evals to earn the `+1 pt` Security bonus.

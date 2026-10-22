@@ -5,12 +5,12 @@ Welcome to the **Seed Packs** catalog for the **AI Innovators Expedition — Lon
 Each table (`Table 1` through `Table 10`) has a dedicated, self-contained **Seed Pack** (`t01_<slug>` .. `t10_<slug>`) that pairs a real-world enterprise scenario with:
 
 1. **`pack.yaml`** — Declarative metadata, ADK system `instruction`, BigQuery dataset (`seed_t01`..`seed_t10`), GCS prefix (`seed/t01/`..`seed/t10/`), and MCP server module path.
-2. **`data/*.csv` + `generate.py`** — 3 realistic, deterministic synthetic CSV datasets (60–150 rows per table) with realistic edge cases and an embedded prompt-injection / policy-trap row for **Verifiable Agent Readiness (VAR)** testing.
+2. **`data/*.csv` + `generate.py`** — 3 realistic, deterministic synthetic CSV datasets (60–150 rows per table) with realistic edge cases and an embedded adversarial / policy-trap row for the **Security & Guardrails Test Vector (Optional +1 Bonus)**.
 3. **`load.py`** — Idempotent loader (`make seed PACK=tNN`) that creates the BigQuery dataset in **your** `GOOGLE_CLOUD_PROJECT` (`BQ_LOCATION`, default `EU`, `WRITE_TRUNCATE`) from the bundled `data/*.csv` files, and optionally copies the CSVs to a bucket you own (`SEED_BUCKET` or `STAGING_BUCKET`). It stops with a clear error if `GOOGLE_CLOUD_PROJECT` is not set.
 4. **`tools.py`** — 3 ADK-ready BigQuery Function Tools (`TOOLS`) with full type annotations, docstrings and parameterized SQL (`@params`, never string-built values) against `GOOGLE_CLOUD_PROJECT`. If the project is unset, the dataset is missing or `SEED_OFFLINE_MODE=1`, they answer from the bundled CSVs and say so in `source: "local_csv_fallback"` plus a `fallback_reason` that tells you what to fix (usually `make seed PACK=tNN`).
 5. **`mcp_server.py`** — FastMCP (`from mcp.server.fastmcp import FastMCP`) stdio server with 3 local, side-effect-free Mock Action APIs (`MCP_TOOLS`, re-exported as `ACTION_TOOLS`) and policy guardrails. Mock confirmations are kept in `seed_packs/<slug>/.state.json` (git-ignored), or in a temp-dir file when the pack folder is read-only (for example in Agent Runtime). Nothing real is ever called.
 6. **`eval/golden.test.json`** — 5 realistic evaluation test cases in the official ADK `EvalSet` schema (`adk eval` / `make eval PACK=tNN`).
-7. **`CHALLENGE_CARD.md`** — Printable one-page table brief with persona, minimum playable scope (~3.5h), stretch goal, Must-Haves, Bonus ideas (including a named sister Table for **A2A** handshakes), and a **VAR** defensive hint.
+7. **`CHALLENGE_CARD.md`** — Printable one-page table brief with persona, minimum playable scope (~3.5h), stretch goal, Must-Haves, Bonus ideas (including a named sister Table for **A2A** handshakes), and a **Security & Guardrails Test Vector (Optional +1 Bonus)** with a defensive hint.
 
 ---
 

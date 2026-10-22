@@ -6,7 +6,7 @@ This repository is the **Common Starter** for the **AI Innovators Expedition Hac
 Your bonus points only count once all 5 Must-Haves are shown working; otherwise your Table keeps its core score (max 14):
 1. **Google ADK (`google-adk`)**: Root agent defined in `app/agent.py` (`root_agent`).
 2. **Vertex AI Agent Runtime (Reasoning Engine)**: Deployed via `make deploy` (`deploy/deploy.py`) to `europe-west1` or `europe-west2`.
-3. **Google Antigravity**: Used by the Table's active **Pilot** (rotating every ~35 minutes).
+3. **Google Antigravity**: Used by all Table members in parallel (each participant has a pre-configured `@gcplab.me` sandbox account with Agent Platform Pay-As-You-Go, collaborating via a shared private GitHub repository created by the Table's **Repo Captain**).
 4. **Gemini Model**: Configured via `GEMINI_MODEL` in `.env` (default `gemini-3.8-flash` on `GOOGLE_CLOUD_LOCATION=global`).
 5. **Evaluation Pipeline**: Golden `.test.json` evaluation suite executed via `make eval` (`eval/run_eval.py`).
 

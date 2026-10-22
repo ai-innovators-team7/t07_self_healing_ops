@@ -89,21 +89,21 @@ make test-remote
 
 ---
 
-## Pilot Rotation & Git Workflow (1 Shared Private Repo per Table)
+## Team Git Workflow (1 Shared Private Repo per Table)
 
-Each **Table** of 5 **Participants** works in **one shared private GitHub repository** created by your Table's repo captain:
+Every Participant has their own pre-configured Google Cloud sandbox account (`@gcplab.me` with Agent Platform Pay-As-You-Go) or company Google Cloud account, so all 5 Table members can use **Antigravity 2.0** in parallel. Each **Table** collaborates in **one shared private GitHub repository** created by your Table's **Repo Captain**:
 
 1. **Repo Captain (Minute 0)**:
    - Create a **private** GitHub repository for your Table and push this Starter repo (`git remote add origin ... && git push -u origin main`).
    - Invite all 4 teammates as collaborators.
    - Everyone clones the repo, runs `make setup`, and creates their local `.env` pointing at the Table's chosen **Scored Deployment** project.
-2. **Pilot Rotation (~Every 35 Minutes)**:
-   - One Table member is the active **Pilot** driving **Antigravity** while teammates design tools, refine evaluation cases in `seed_packs/<pack>/eval/golden.test.json`, or prepare the 2-slide **Pitch** and **VAR / Red Team Minute** defenses.
-   - At rotation time, the outgoing Pilot runs:
+2. **Parallel Collaboration in Antigravity**:
+   - All 5 Table members can work in parallel across agent orchestration, BigQuery/MCP tools, evaluation cases in `seed_packs/<pack>/eval/golden.test.json`, optional security guardrails, and the 2-slide **Pitch** + live demo.
+   - Before pushing changes to the shared repo, run:
      ```bash
-     make test && git add -A && git commit -m "Handover to next Pilot" && git push
+     make test && git add -A && git commit -m "Update agent and evals" && git push
      ```
-   - The incoming Pilot runs `git pull` and continues immediately in Antigravity (which reads [`AGENTS.md`](../AGENTS.md) automatically).
+   - Teammates run `git pull` to stay in sync in Antigravity (which reads [`AGENTS.md`](../AGENTS.md) automatically).
 
 ---
 
@@ -168,7 +168,7 @@ ai-innovators-london-hackathon/
 Once your Table has all 5 **Must-Haves** working (`make eval`, `make deploy`, `make test-remote`), each capability that works live in your demo and adds real value to your agent earns **1 whole point** (no maximum; each distinct capability counts once and the jury decides what counts; quality beats quantity):
 
 - **Governance & Observability**: Agent Gateway, Agent Registry, OpenTelemetry / Agent Topology trace spans, or human-in-the-loop approval gates before sensitive actions.
-- **Security & Prompt-Injection Defense (VAR / Red Team Minute)**: Harden your agent's instructions, input validation, and safety guardrails with [Model Armor Overview](https://cloud.google.com/security-command-center/docs/model-armor-overview) and [ADK Safety & Callbacks](https://adk.dev/callbacks/).
+- **Security & Guardrails**: Harden your agent's instructions, input validation, and safety guardrails against the adversarial test vector in your Seed Pack with [Model Armor Overview](https://cloud.google.com/security-command-center/docs/model-armor-overview) and [ADK Safety & Callbacks](https://adk.dev/callbacks/).
 - **Gemini Enterprise App**: Surface your deployed Agent Runtime engine inside Gemini Enterprise — [Register and Manage an ADK Agent in Gemini Enterprise](https://cloud.google.com/gemini/enterprise/docs/register-and-manage-an-adk-agent).
 - **MCP App**: Render an interactive MCP App (`ui://` rich UI component) or extend your Seed Pack's `mcp_server.py` — [ADK Model Context Protocol Tools](https://adk.dev/tools-custom/mcp-tools/).
 - **Gemma Open Models**: Experiment with **Gemma** alongside Gemini for specialized sub-tasks — [Gemma Documentation on Google AI](https://ai.google.dev/gemma/docs) & [ADK Gemini/Gemma Models](https://adk.dev/agents/models/).

@@ -4,11 +4,11 @@
 
 Welcome to the official participant repository for the **AI Innovators Expedition** hands-on hackathon at **Google London (29–30 October 2026)**!
 
-Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of Engineering, and tech leads from Digital Native startups and scaleups) work across **10 pre-assigned Tables of 5** (5 different companies per Table, paired into **5 industry Tribes** of 2 Tables each) to build, evaluate, deploy, and red-team production-grade AI agents on Google Cloud—culminating in a live **Pitch** and **VAR / Red Team Minute** at the end of Day 2. *(Final agenda slot timings and showcase logistics will be shared by the organisers.)* The challenge cards, sample data and Starter are here to help - use them as much or as little as you like.
+Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of Engineering, and tech leads from Digital Native startups and scaleups) work across **10 pre-assigned Tables of 5** (5 different companies per Table, paired into **5 industry Tribes** of 2 Tables each) to build, evaluate, and deploy production-grade AI agents on Google Cloud—culminating in a live **5:00 Pitch** at the end of Day 2. *(Final agenda slot timings and showcase logistics will be shared by the organisers.)* The challenge cards, sample data and Starter are here to help - use them as much or as little as you like.
 
 ### Quick Links
 - **[Pre-Work Checklist (`docs/PREWORK.md`)](docs/PREWORK.md)** — Mandatory laptop setup & Google Cloud path preparation before arriving in London.
-- **[Challenge Cards (`challenges/README.md`)](challenges/README.md)** — Browse all 10 Table Challenge Cards (`T01`–`T10`), Sister Tables, and known VAR attack vectors.
+- **[Challenge Cards (`challenges/README.md`)](challenges/README.md)** — Browse all 10 Table Challenge Cards (`T01`–`T10`), Sister Tables, and Security & Guardrails test vectors.
 - **[Seed Packs Catalog (`seed_packs/README.md`)](seed_packs/README.md)** — Deep-dive into the 10 synthetic BigQuery datasets, read tools, and FastMCP Mock Action APIs.
 - **[Starter Technical Reference (`docs/STARTER.md`)](docs/STARTER.md)** — Full ADK Starter architecture, plugin contract, and deployment workflow.
 - **[Coding Agent Instructions (`AGENTS.md`)](AGENTS.md)** — Rules and conventions read automatically by **Google Antigravity**.
@@ -20,7 +20,7 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 ### Scoring
 - **Score = Core (max 14) + Bonuses (no maximum).**
 - **Core:** Agent & creativity 0–6 · Evaluation quality 0–4 · Pitch & timing 0–4 (timing deductions come out of Pitch & timing).
-- **Bonuses:** 1 whole point per capability that works live in your demo and adds real value to your agent (shown, not just mentioned). Suggested menu: governance, security (including resisting the VAR attack), Gemini Enterprise App, MCP App, Gemma, Tribe A2A (connect with your sister Table's agent), BigQuery, Cloud Run, Knowledge Graph, model routing, multimodality (voice, image), memory — or any other capability that clearly adds value. Each distinct capability counts once; the jury decides what counts.
+- **Bonuses:** 1 whole point per capability that works live in your demo and adds real value to your agent (shown, not just mentioned). Suggested menu: governance, security & guardrails, Gemini Enterprise App, MCP App, Gemma, Tribe A2A (connect with your sister Table's agent), BigQuery, Cloud Run, Knowledge Graph, model routing, multimodality (voice, image), memory — or any other capability that clearly adds value. Each distinct capability counts once; the jury decides what counts.
 - **Must-Haves (ADK, Agent Runtime, Antigravity, a Gemini model, an evaluation pipeline):** your bonus points only count once all 5 are shown working; otherwise you keep your core score (max 14).
 - **Jury score:** average of the jurors' totals (ties broken by **Agent & creativity**).
 - **Quality beats quantity:** we reward things that work well, not boxes ticked.
@@ -31,22 +31,19 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 | :--- | :--- | :--- |
 | **1** | **ADK (Agent Development Kit)** | Your agent is built and orchestrated using Google's open-source **ADK** (`google-adk`). |
 | **2** | **Agent Runtime** | Your agent is deployed to and running live on Vertex AI **Agent Runtime** (`reasoningEngines`) in your Table's **Scored Deployment** project (`make deploy` + `make test-remote`, not running only on `localhost`). |
-| **3** | **Google Antigravity** | Your Table builds its solution using **Google Antigravity** and follows the **Pilot** rotation rule below. |
+| **3** | **Google Antigravity** | Your Table builds its solution using **Google Antigravity** (every participant has a pre-configured `@gcplab.me` sandbox account with Agent Platform Pay-As-You-Go, or uses their company account). |
 | **4** | **A Gemini Model (`gemini-3.8-flash`)** | Your agent is powered by a Google **Gemini** model (**Gemini 3.8 Flash**, `gemini-3.8-flash` on `GOOGLE_CLOUD_LOCATION=global`), with the model ID and location read from environment variables (`GEMINI_MODEL`, `GOOGLE_CLOUD_LOCATION`) and never hardcoded. **Anthropic Claude is not allowed.** |
 | **5** | **An Evaluation Pipeline** | Your Table runs an automated evaluation pipeline (`make eval`, expanding on the Starter harness and `.test.json` golden cases) measuring tool trajectories and response quality. |
 
-### Pilot Rotation (~Every 35 Minutes)
-- Each Table appoints a **Repo Captain** to create **one shared private GitHub repository** from this Starter and invite the other 4 Table members.
-- At any time during **Build Time**, **one Pilot** drives **Antigravity** while the other 4 teammates collaborate on architecture, tools, evaluation cases, security guardrails, and the Pitch.
-- **Swap the Pilot role roughly every 35 minutes** (`make test && git commit && git push` -> next Pilot runs `git pull`) so all 5 Participants drive Antigravity and quota is shared evenly across accounts.
+### Team Git Workflow
+- Every Participant has their own pre-configured Google Cloud sandbox account (`@gcplab.me` with Agent Platform Pay-As-You-Go) or company Google Cloud account, so all 5 Table members can run **Antigravity 2.0** in parallel.
+- Each Table appoints a **Repo Captain** to create **one shared private GitHub repository** from this Starter and invite the other 4 Table members so everyone can collaborate on architecture, tools, evaluation cases, security guardrails, and the Pitch.
 
-### Pitch & VAR / Red Team Minute
+### Pitch Format (5:00 Hard Stop + 0:30 Changeover)
 - **5:00 Pitch (Hard Stop):**
   - **Maximum 2 slides:** **Slide 1 (Presentation)** covering the user persona, problem, and value proposition; **Slide 2 (Architecture & Evaluation)** covering your ADK topology, Agent Runtime deployment, MCP / Google Cloud stack, Bonuses, and evaluation pipeline results.
   - **Live Demo:** Demonstrate your live agent running on your Table's **Scored Deployment**.
-- **0:30 VAR / Red Team Minute:**
-  - Immediately after the 5:00 Pitch, a Google mentor takes **30 seconds** to attempt a live prompt-injection attack against your agent.
-  - **No ambush:** Your Table's exact attack category is printed in advance on your **Challenge Card** (`challenges/T01-*.md`..`T10-*.md`). Blocking or safely handling the attack without unauthorized tool calls earns the Security Bonus point.
+- **0:30 Changeover:** Quick transition to the next Table on stage.
 - *(Final showcase schedule and logistics will be shared by the organisers.)*
 
 ### Awards & People's Choice Voting
@@ -145,7 +142,7 @@ make delete
 
 ## 3. Find Your Challenge (Tables T01–T10)
 
-Every Table has a **Challenge Card** in [`challenges/`](challenges/README.md) (also inside `seed_packs/tNN_<slug>/CHALLENGE_CARD.md`) with its persona, dataset schema, read tools, FastMCP Mock Action APIs, Sister Table for the **Tribe A2A Bonus**, and **VAR / Red Team Minute** attack category:
+Every Table has a **Challenge Card** in [`challenges/`](challenges/README.md) (also inside `seed_packs/tNN_<slug>/CHALLENGE_CARD.md`) with its persona, dataset schema, read tools, FastMCP Mock Action APIs, Sister Table for the **Tribe A2A Bonus**, and **Security & Guardrails Test Vector (Optional +1 Bonus)**:
 
 | Table | Tribe | Collaborative Challenge Title | Sister Table (A2A) | Challenge Card | Seed Pack |
 | :--- | :--- | :--- | :--- | :--- | :--- |

@@ -1,6 +1,6 @@
 # Challenge Cards — AI Innovators Expedition London (Tables T01–T10)
 
-> **Note:** Each file `T01-<slug>.md` through `T10-<slug>.md` in this folder has the **exact same content** as `seed_packs/tNN_<slug>/CHALLENGE_CARD.md`. They are collected here so you can browse all 10 **Tables**, **Tribes**, **Sister Tables** (for the **Tribe A2A Bonus**), and **VAR / Red Team Minute** attack vectors in one place.
+> **Note:** Each file `T01-<slug>.md` through `T10-<slug>.md` in this folder has the **exact same content** as `seed_packs/tNN_<slug>/CHALLENGE_CARD.md`. They are collected here so you can browse all 10 **Tables**, **Tribes**, **Sister Tables** (for the **Tribe A2A Bonus**), and **Security & Guardrails Test Vectors (Optional +1 Bonus)** in one place.
 >
 > *All companies, personas, datasets, and mock APIs described in these Challenge Cards are 100% synthetic and fictional.*
 
@@ -8,7 +8,7 @@
 
 ## Table 1 – Table 10 Overview
 
-| Table | Challenge Card | Tribe | Collaborative Challenge Title | Sister Table (Tribe A2A) | Seed Pack Directory | Known VAR / Red Team Attack Category |
+| Table | Challenge Card | Tribe | Collaborative Challenge Title | Sister Table (Tribe A2A) | Seed Pack Directory | Security & Guardrails Test Vector (Optional +1 Bonus) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **T01** | [`T01-campaign_orchestrator.md`](./T01-campaign_orchestrator.md) | Creative AI & AdTech | **Autonomous Creative Campaign Orchestrator** | **T02** (`t02_dynamic_storefronts`) | [`seed_packs/t01_campaign_orchestrator`](../seed_packs/t01_campaign_orchestrator/) | Poisoned Event Brief / Ad Copy Injection (CPM & budget cap bypass) |
 | **T02** | [`T02-dynamic_storefronts.md`](./T02-dynamic_storefronts.md) | Creative AI & AdTech | **Visual Content Creator & Dynamic Storefronts** | **T01** (`t01_campaign_orchestrator`) | [`seed_packs/t02_dynamic_storefronts`](../seed_packs/t02_dynamic_storefronts/) | Untrusted Catalog Metadata Discount Injection (`discount_pct=95` override) |
