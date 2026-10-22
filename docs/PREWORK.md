@@ -17,7 +17,7 @@ You'll spend two days building an AI agent with your Table. To spend that time b
 >
 > **No company Google Cloud? No problem** - we'll give your Table a Google sandbox project on the day.
 
-Please don't create cloud resources or start building before the event - everything is provided on Day 1 (full challenge cards, sample data and a starter kit). Step-by-step guide: https://medium.com/google-cloud/unlock-antigravity-2-0-logins-plans-cost-and-quota-9165725685be
+Please don't create cloud resources or start building before the event - everything is provided on Day 1 (full challenge cards, sample data and a starter kit). Step-by-step setup slides (Antigravity 2.0 Desktop App & Cloud Shell CLI): https://docs.google.com/presentation/d/1Km0sCfnkWNXvmYkZBksIFQwHd7fM9Fe5QbdYbM9V2e0/edit#slide=id.h531990fd816c52fe_0_0
 
 ## The 10 challenges
 
