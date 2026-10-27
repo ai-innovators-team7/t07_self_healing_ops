@@ -20,7 +20,7 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 ### Scoring
 - **Score = Core (max 14) + Bonuses (no maximum).**
 - **Core:** Agent & creativity 0–6 · Evaluation quality 0–4 · Pitch & timing 0–4 (timing deductions come out of Pitch & timing).
-- **Bonuses:** 1 whole point per capability that works live in your demo and adds real value to your agent (shown, not just mentioned). Suggested menu: governance, security & guardrails, Gemini Enterprise App, MCP App, Gemma, Tribe A2A (connect with your sister Table's agent), BigQuery, Cloud Run, Knowledge Graph, model routing, multimodality (voice, image), memory — or any other capability that clearly adds value. Each distinct capability counts once; the jury decides what counts.
+- **Bonuses:** 1 whole point per capability that works live in your demo and adds real value to your agent (shown, not just mentioned). Suggested menu: governance, security & guardrails, CI/CD pipeline, Agentic SDLC practices, Gemini Enterprise App, MCP App, Gemma, Tribe A2A (connect with your sister Table's agent), BigQuery, Cloud Run, Knowledge Graph, model routing, multimodality (voice, image), memory — or any other capability that clearly adds value. Each distinct capability counts once; the jury decides what counts.
 - **Must-Haves (ADK, Agent Runtime, Antigravity, a Gemini model, an evaluation pipeline):** your bonus points only count once all 5 are shown working; otherwise you keep your core score (max 14).
 - **Jury score:** average of the jurors' totals (ties broken by **Agent & creativity**).
 - **Quality beats quantity:** we reward things that work well, not boxes ticked.
@@ -38,6 +38,9 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 ### Team Git Workflow
 - Every Participant has their own pre-configured Google Cloud sandbox account (`@gcplab.me` with Agent Platform Pay-As-You-Go) or company Google Cloud account, so all 5 Table members can run **Antigravity 2.0** in parallel.
 - Each Table appoints a **Repo Captain** to create **one shared private GitHub repository** from this Starter and invite the other 4 Table members so everyone can collaborate on architecture, tools, evaluation cases, security guardrails, and the Pitch.
+- **Unlock up to +2 Bonus Points for Engineering Rigor:**
+  - **CI/CD Pipeline (`+1 pt`):** Automate quality gates (`make test` + `make eval-validate`/`make eval`) and deployment to Agent Runtime (`make deploy`) via **GitHub Actions** and/or **Google Cloud Build**, verified by showing a green pipeline run to a Mentor or live during your Pitch.
+  - **Agentic SDLC Practices (`+1 pt`):** Demonstrate at least **2 of the 3 Agentic SDLC pillars** in your repo and workflow: **(1)** Custom Antigravity rules/skills/subagents or a domain-tailored `AGENTS.md`, **(2)** Spec/Eval-first development (Plan-Act-Verify / TDD by adding `.test.json` golden cases or `pytest` tests before implementing tools), and **(3)** Parallel Git workflow (feature branches, `git worktree` isolation, and Pull Requests). See [`docs/STARTER.md`](docs/STARTER.md) for copy-paste recipes.
 
 ### Pitch Format (5:00 Hard Stop + 0:30 Changeover)
 - **5:00 Pitch (Hard Stop):**

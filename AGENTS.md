@@ -70,3 +70,12 @@ make deploy              # Deploy (or update) agent on Vertex AI Agent Runtime (
 make test-remote         # Stream a live verification query to the deployed Agent Runtime agent
 make delete              # Delete the deployed Agent Runtime agent saved in .deployed_agent.json
 ```
+
+## 4. Agentic SDLC & CI/CD Bonus Practices (+1 pt Each)
+Tables can unlock two dedicated engineering-rigor Bonus points (`+1 pt` each once all 5 Must-Haves are met):
+1. **Agentic SDLC Practices (`+1 pt` — demonstrate at least 2 of 3 pillars)**:
+   - **Custom Primitives & Context**: Extend this `AGENTS.md` with Table-specific domain rules, or add custom Antigravity rules, skills, or subagents under `.agents/`.
+   - **Spec / Eval-First Loop (Plan-Act-Verify & TDD)**: Draft a brief plan and add golden test cases in `seed_packs/<pack>/eval/golden.test.json` or unit tests in `tests/test_starter.py` *before* implementing new tools or prompts, then verify with `make test` and `make eval`.
+   - **Parallel Git Collaboration**: Use feature branches, `git worktree` isolation, and Pull Requests across the 5 Table members rather than pushing untested code directly to `main`.
+2. **Automated CI/CD Pipeline (`+1 pt`)**:
+   - Wire GitHub Actions and/or Google Cloud Build (`cloudbuild.yaml`) to run automated quality gates (`make test` + `make eval-validate`/`make eval`) and deploy to Vertex AI Agent Runtime (`make deploy`). Note: `@gcplab.me` sandbox projects forbid exporting Service Account JSON keys, so use Cloud Build (native GCP service agent) or Workload Identity Federation for cloud steps. See `docs/STARTER.md` for copy-paste templates.

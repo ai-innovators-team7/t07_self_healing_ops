@@ -105,6 +105,62 @@ Every Participant has their own pre-configured Google Cloud sandbox account (`@g
      ```
    - Teammates run `git pull` to stay in sync in Antigravity (which reads [`AGENTS.md`](../AGENTS.md) automatically).
 
+### Unlocking the Agentic SDLC (`+1 pt`) & CI/CD Pipeline (`+1 pt`) Bonuses
+
+#### 1. Agentic SDLC Practices (`+1 pt` — demonstrate at least 2 of 3 pillars)
+1. **Pillar 1 — Custom Antigravity Context & Primitives**: Extend [`AGENTS.md`](../AGENTS.md) with your Table's domain invariants, or create custom rules, skills, or subagents (`.agents/rules/`, `.agents/skills/`) tailored to your architecture.
+2. **Pillar 2 — Spec / Eval-First Development (Plan-Act-Verify & TDD)**: Write a brief feature spec/plan and add new golden evaluation scenarios in `seed_packs/<pack>/eval/golden.test.json` or unit tests in `tests/test_starter.py` *before* asking Antigravity to implement a new tool or prompt change, then verify with `make test` and `make eval`.
+3. **Pillar 3 — Parallel Multi-Agent Git Workflow (`git worktree` & PRs)**: Instead of 5 builders pushing directly to `main`, use feature branches, isolated Git worktrees (`git worktree add ../wt-evals -b feat/evals`), and Pull Requests so multiple coding agents work concurrently without file collisions.
+
+#### 2. Automated CI/CD Pipeline (`+1 pt` — green pipeline run running tests/evals + deploy)
+Because `@gcplab.me` sandbox projects enforce org policies that block exporting Service Account JSON keys, use **GitHub Actions** for fast PR quality gates (`make test` + `make eval-validate`) and **Google Cloud Build** (which runs natively inside your GCP project using the Cloud Build service agent—no exported keys needed!) or Workload Identity Federation to run `make eval` + `make deploy` to Vertex AI Agent Runtime:
+
+- **Example `.github/workflows/ci.yml` (PR & Push Quality Gates)**:
+  ```yaml
+  name: Agent CI Gates
+  on:
+    pull_request:
+    push:
+      branches: [main]
+  jobs:
+    test-and-validate-evals:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: astral-sh/setup-uv@v4
+          with:
+            python-version: "3.12"
+        - name: Install dependencies & run offline tests + eval schema check
+          run: |
+            make setup
+            make test
+            SEED_PACK=t08 make eval-validate
+  ```
+- **Example `cloudbuild.yaml` (Test + Eval + Deploy to Agent Runtime on GCP)**:
+  ```yaml
+  steps:
+    - name: "ghcr.io/astral-sh/uv:python3.12-bookworm"
+      entrypoint: "bash"
+      env:
+        - "GOOGLE_CLOUD_PROJECT=$PROJECT_ID"
+        - "GOOGLE_GENAI_USE_VERTEXAI=1"
+        - "GOOGLE_CLOUD_LOCATION=global"
+        - "GEMINI_MODEL=gemini-3.8-flash"
+        - "AGENT_RUNTIME_LOCATION=europe-west1"
+        - "SEED_PACK=${_SEED_PACK}"
+      args:
+        - "-c"
+        - |
+          uv venv --python 3.12 .venv
+          uv pip install --python .venv/bin/python -r pyproject.toml
+          .venv/bin/pytest -q
+          .venv/bin/python eval/run_eval.py --validate-only
+          .venv/bin/python deploy/deploy.py
+  substitutions:
+    _SEED_PACK: "t08"
+  ```
+  *(Trigger via a Cloud Build GitHub trigger or `gcloud builds submit --config=cloudbuild.yaml --substitutions=_SEED_PACK=t08` and show the green build log + deployed `ReasoningEngine` to your Mentor or the Jury!)*
+
 ---
 
 ## Architecture & Seed Pack Plugin Contract
@@ -169,6 +225,8 @@ Once your Table has all 5 **Must-Haves** working (`make eval`, `make deploy`, `m
 
 - **Governance & Observability**: Agent Gateway, Agent Registry, OpenTelemetry / Agent Topology trace spans, or human-in-the-loop approval gates before sensitive actions.
 - **Security & Guardrails**: Harden your agent's instructions, input validation, and safety guardrails against the adversarial test vector in your Seed Pack with [Model Armor Overview](https://cloud.google.com/security-command-center/docs/model-armor-overview) and [ADK Safety & Callbacks](https://adk.dev/callbacks/).
+- **CI/CD Pipeline**: Wire an automated pipeline (GitHub Actions and/or Google Cloud Build) that runs automated test/eval gates (`make test` + `make eval-validate`/`make eval`) and deploys your agent to Vertex AI Agent Runtime (`make deploy`), verified by showing a green pipeline run during your demo or to a Mentor.
+- **Agentic SDLC Practices**: Apply what you learned in the Agentic SDLC session by demonstrating at least **2 of the 3 core pillars** in your Table's repo and workflow: (1) Custom Antigravity rules/skills/subagents or a domain-tailored `AGENTS.md`, (2) Spec/Eval-first development (Plan-Act-Verify / TDD with new `.test.json` golden cases or `pytest` tests before implementation), and (3) Parallel Git collaboration (feature branches, `git worktree` isolation, and Pull Requests).
 - **Gemini Enterprise App**: Surface your deployed Agent Runtime engine inside Gemini Enterprise — [Register and Manage an ADK Agent in Gemini Enterprise](https://cloud.google.com/gemini/enterprise/docs/register-and-manage-an-adk-agent).
 - **MCP App**: Render an interactive MCP App (`ui://` rich UI component) or extend your Seed Pack's `mcp_server.py` — [ADK Model Context Protocol Tools](https://adk.dev/tools-custom/mcp-tools/).
 - **Gemma Open Models**: Experiment with **Gemma** alongside Gemini for specialized sub-tasks — [Gemma Documentation on Google AI](https://ai.google.dev/gemma/docs) & [ADK Gemini/Gemma Models](https://adk.dev/agents/models/).
