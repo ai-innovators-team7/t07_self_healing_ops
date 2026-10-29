@@ -22,8 +22,13 @@ _INJECTION_PATTERNS = (
     "prompt injection",
     "<!--",
     "target_replicas=0",
+    "replicas=0",
+    "replicas: 0",
     "ignore previous",
     "ignore policy",
+    "system:",
+    "drop table",
+    "rm -rf",
 )
 
 
@@ -114,19 +119,32 @@ def query_active_incidents(
         project, dataset = _resolve_project_and_dataset()
         sev_clean = (severity or "all").strip()
         svc_clean = (service_name or "all").strip()
+        inc_filter = ""
+        if sev_clean.upper().startswith("INC-"):
+            inc_filter = sev_clean.upper()
+            sev_clean = "all"
+        if svc_clean.upper().startswith("INC-"):
+            inc_filter = svc_clean.upper()
+            svc_clean = "all"
+
         use_offline = os.environ.get("SEED_OFFLINE_MODE", "").lower() in {"1", "true", "yes"}
         if project and not use_offline:
             try:
                 client = bigquery.Client(project=project)
                 table_ref = f"`{project}.{dataset}.service_incidents`"
-                clauses = ["status = 'OPEN'"]
+                clauses: list[str] = []
                 params: list[Any] = []
-                if sev_clean.lower() != "all":
-                    clauses.append("UPPER(severity) = UPPER(@sev)")
-                    params.append(bigquery.ScalarQueryParameter("sev", "STRING", sev_clean))
-                if svc_clean.lower() != "all":
-                    clauses.append("LOWER(service_name) = LOWER(@svc)")
-                    params.append(bigquery.ScalarQueryParameter("svc", "STRING", svc_clean))
+                if inc_filter:
+                    clauses.append("UPPER(incident_id) = UPPER(@inc)")
+                    params.append(bigquery.ScalarQueryParameter("inc", "STRING", inc_filter))
+                else:
+                    clauses.append("status = 'OPEN'")
+                    if sev_clean.lower() != "all":
+                        clauses.append("UPPER(severity) = UPPER(@sev)")
+                        params.append(bigquery.ScalarQueryParameter("sev", "STRING", sev_clean))
+                    if svc_clean.lower() != "all":
+                        clauses.append("LOWER(service_name) = LOWER(@svc)")
+                        params.append(bigquery.ScalarQueryParameter("svc", "STRING", svc_clean))
                 where_sql = " AND ".join(clauses)
                 sql = (
                     f"SELECT incident_id, service_name, cluster_region, severity, symptom_code, "
@@ -147,12 +165,16 @@ def query_active_incidents(
         else:
             fallback_error = _offline_reason(project)
 
-        rows = [
-            r for r in _read_local_csv("service_incidents")
-            if r["status"] == "OPEN"
-            and (sev_clean.lower() == "all" or r["severity"].lower() == sev_clean.lower())
-            and (svc_clean.lower() == "all" or r["service_name"].lower() == svc_clean.lower())
-        ]
+        all_csv = _read_local_csv("service_incidents")
+        if inc_filter:
+            rows = [r for r in all_csv if r["incident_id"].upper() == inc_filter]
+        else:
+            rows = [
+                r for r in all_csv
+                if r["status"] == "OPEN"
+                and (sev_clean.lower() == "all" or r["severity"].lower() == sev_clean.lower())
+                and (svc_clean.lower() == "all" or r["service_name"].lower() == svc_clean.lower())
+            ]
         rows.sort(key=lambda r: float(r["error_rate_pct"]), reverse=True)
         top_rows = _annotate_prompt_injection_warnings(rows[:15])
         return json.dumps({
@@ -178,6 +200,17 @@ def inspect_deployment_release(release_id: str = "REL-0001") -> str:
     try:
         project, dataset = _resolve_project_and_dataset()
         rel_clean = (release_id or "REL-0001").strip()
+        if rel_clean.upper().startswith("INC-"):
+            inc_match = next(
+                (
+                    r for r in _read_local_csv("service_incidents")
+                    if r.get("incident_id", "").strip().upper() == rel_clean.upper()
+                ),
+                None,
+            )
+            if inc_match and inc_match.get("active_release_id"):
+                rel_clean = inc_match["active_release_id"].strip()
+
         use_offline = os.environ.get("SEED_OFFLINE_MODE", "").lower() in {"1", "true", "yes"}
         if project and not use_offline:
             try:

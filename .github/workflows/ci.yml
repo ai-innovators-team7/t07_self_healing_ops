@@ -1,0 +1,39 @@
+name: Table 7 Self-Healing Ops CI
+
+on:
+  push:
+    branches: ["main", "feat/**"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  quality-gates:
+    name: Unit Tests, Seed Pack Validator & Golden Eval Schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv and Python 3.12
+        uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+
+      - name: Create virtualenv & install pinned dependencies
+        run: |
+          uv venv --python 3.12 .venv
+          uv pip install --python .venv/bin/python -r pyproject.toml
+
+      - name: Run offline unit tests (23 tests including SecOps & A2A guardrails)
+        env:
+          SEED_PACK: t07
+          SEED_OFFLINE_MODE: "1"
+        run: .venv/bin/python -m pytest -q
+
+      - name: Validate all 10 Seed Packs & CHALLENGE_CARD contracts
+        run: .venv/bin/python seed_packs/check_packs.py
+
+      - name: Validate Table 7 Golden Eval Schema
+        env:
+          SEED_PACK: t07
+        run: .venv/bin/python -m eval.run_eval --pack t07 --validate-only

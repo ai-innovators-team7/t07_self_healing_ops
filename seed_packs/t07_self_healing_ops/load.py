@@ -59,6 +59,9 @@ def seed_gcs(project_id: str, bucket_uri: str | None) -> list[str]:
 
 
 def _run() -> None:
+    from app.preflight import _sanitize_google_application_credentials
+
+    _sanitize_google_application_credentials()
     load_dotenv(_PACK_DIR.parent.parent / ".env")
     project_id = (
         os.environ.get("GOOGLE_CLOUD_PROJECT", "").strip()

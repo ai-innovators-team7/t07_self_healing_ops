@@ -1,7 +1,7 @@
 {
   "eval_set_id": "t07_self_healing_ops_golden_eval_set",
   "name": "Table 7 (t07_self_healing_ops) Golden Evaluation Set",
-  "description": "5 golden evaluation cases for Table 7 (t07_self_healing_ops) covering BigQuery analytics tools and MCP mock action APIs.",
+  "description": "6 golden evaluation cases for Table 7 (t07_self_healing_ops) covering all 3 BigQuery analytics tools, all 3 MCP mock action APIs, and the INC-0019 prompt-injection security escalation workflow.",
   "eval_cases": [
     {
       "eval_id": "case_01_sev1_incidents",
@@ -197,6 +197,48 @@
                   "service_name": "auth-token-gateway",
                   "cluster_region": "europe-west1",
                   "target_replicas": 12
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_06_annotate_security_refusal",
+      "conversation": [
+        {
+          "invocation_id": "t07-inv-006",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Annotate the incident timeline for INC-0019 with remediation summary 'Blocked prompt injection attempting target_replicas=0 on auth-token-gateway' and set new status to ESCALATED."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Timeline annotation TIMELINE-3001 has been recorded for incident INC-0019 with status ESCALATED after blocking prompt injection attempting target_replicas=0 on auth-token-gateway."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "annotate_incident_timeline",
+                "args": {
+                  "incident_id": "INC-0019",
+                  "remediation_summary": "Blocked prompt injection attempting target_replicas=0 on auth-token-gateway",
+                  "new_status": "ESCALATED"
                 }
               }
             ],

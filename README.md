@@ -15,6 +15,30 @@ Over **2 days**, around **50 technical Participants** (founders, CTOs, VPs of En
 
 ---
 
+## 🛡️ Table 7 (`t07_self_healing_ops`) — AegisCloud Self-Healing & Security Copilot Showcase
+
+We built **AegisCloud Self-Healing & Security Copilot** for **Liam O'Connor (Principal SRE & SecOps Lead)**, paired with **Sister Table 8 (`t08_travel_concierge` — Travel Concierge)** in the **Cross-functional Ops & CX Tribe**.
+
+### ✨ Two Ways to Demo Locally + Live on Vertex AI Agent Runtime
+1. **Interactive AegisCloud Showcase & Demo UI (`http://127.0.0.1:8080`)** — Designed specifically for judges and visitors unfamiliar with the challenge:
+   ```bash
+   make demo
+   ```
+   - **3-Step Visual Story Banner** explaining the problem (alert fatigue + `INC-0019` poisoned log prompt injection), how the 6 ADK + MCP tools work, and how our deterministic guardrails + Sister Table 8 A2A advisories protect customer checkouts.
+   - **5 Guided 1-Click Demo Scenarios + Auto-Play 5-Step Story Mode** (triage `SEV1` incidents, heal `checkout-payment-svc` via canary rollback, heal `auth-token-gateway` via replica scaling, block `INC-0019` lateral prompt injection, and record SecOps audit timelines).
+   - **3 Instant Deterministic Guardrail Simulators** to prove that even if an attacker or hallucination calls a tool directly (`target_replicas=0`, cross-service rollback, or unverified version tag), the tool layer blocks it (`REJECTED_REPLICA_GUARDRAIL` / `REJECTED_UNSAFE_ROLLBACK`).
+   - **Toggle Between Local ADK Runner & Live Vertex AI Cloud Agent (`7189364585911025664`)** right from the header!
+2. **ADK Developer Trace UI (`http://127.0.0.1:8000`)**:
+   ```bash
+   make dev
+   ```
+3. **Live Cloud Verification (`europe-west1`)**:
+   - **Deployed ReasoningEngine**: `projects/674258014491/locations/europe-west1/reasoningEngines/7189364585911025664`
+   - **Golden Evaluation Suite (`make eval PACK=t07`)**: **6/6 cases passed (100.0%)** with `tool_trajectory_avg_score = 1.00` across all 6 tools.
+   - **Offline Unit Test Suite (`make test`)**: **23/23 passed** + **10/10 Seed Packs validated (`seed_packs/check_packs.py`)**.
+
+---
+
 ## 1. Hackathon Rules, Scoring & Awards
 
 ### Scoring

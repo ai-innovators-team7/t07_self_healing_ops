@@ -6,6 +6,7 @@ import csv
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP
@@ -17,6 +18,14 @@ _DATA_DIR = _PACK_DIR / "data"
 _DEFAULT_STATE_PATH = _PACK_DIR / ".state.json"
 _FALLBACK_STATE_PATH = Path("/tmp/t07_self_healing_ops_state.json")
 _CUSTOMER_CRITICAL_SERVICES = {"checkout-payment-svc", "auth-token-gateway"}
+_ALLOWED_TIMELINE_STATUSES = {"MITIGATED", "MONITORING", "ESCALATED"}
+_HTML_COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+
+
+def _sanitize_untrusted_text(text: str) -> str:
+    """Strip HTML comment wrappers to prevent stored/second-order prompt injection in state logs."""
+    cleaned = _HTML_COMMENT_RE.sub("[REDACTED_COMMENT_INJECTION]", text or "")
+    return cleaned.strip()
 
 
 def _read_local_csv(name: str) -> list[dict[str, Any]]:
@@ -34,7 +43,12 @@ def _load_state() -> dict[str, Any]:
                 return json.loads(path.read_text(encoding="utf-8"))
             except Exception:
                 continue
-    return {"rollbacks": [], "scaling_events": [], "incident_updates": []}
+    return {
+        "rollbacks": [],
+        "scaling_events": [],
+        "incident_updates": [],
+        "remediation_audit_trail": [],
+    }
 
 
 def _save_state(state: dict[str, Any]) -> str:
@@ -107,7 +121,7 @@ def execute_canary_rollback(
         inc_clean = (incident_id or "").strip()
         svc_clean = (service_name or "").strip()
         ver_clean = (target_stable_version or "").strip()
-        reason_clean = (reason or "").strip()
+        reason_clean = _sanitize_untrusted_text(reason or "")
 
         incidents = _read_local_csv("service_incidents")
         releases = _read_local_csv("deployment_releases")
@@ -208,7 +222,17 @@ def execute_canary_rollback(
 
         state = _load_state()
         rollbacks = state.setdefault("rollbacks", [])
-        rb_id = f"RB-{1001 + len(rollbacks)}"
+        existing = next(
+            (
+                r for r in rollbacks
+                if r.get("incident_id", "").upper() == inc_clean.upper()
+                and r.get("service_name", "").lower() == svc_clean.lower()
+                and r.get("target_stable_version", "") == ver_clean
+            ),
+            None,
+        )
+        rb_id = existing["rollback_id"] if existing else f"RB-{1001 + len(rollbacks)}"
+        now_iso = datetime.now(timezone.utc).isoformat()
         record: dict[str, Any] = {
             "rollback_id": rb_id,
             "incident_id": inc_clean,
@@ -216,9 +240,11 @@ def execute_canary_rollback(
             "active_release_id": rel_id,
             "rolled_back_from_version": current_version,
             "target_stable_version": ver_clean,
+            "before_state": {"release_id": rel_id, "version_tag": current_version, "status": "OPEN"},
+            "after_state": {"release_id": rel_id, "version_tag": ver_clean, "status": "ROLLED_BACK"},
             "rollback_safe_verified": True,
             "reason": reason_clean,
-            "executed_at": datetime.now(timezone.utc).isoformat(),
+            "executed_at": now_iso,
             "status": "ROLLED_BACK",
         }
         advisory = _build_table8_a2a_advisory(
@@ -235,11 +261,28 @@ def execute_canary_rollback(
         if advisory is not None:
             record["table8_a2a_advisory"] = advisory
 
-        rollbacks.append(record)
+        if existing is not None:
+            existing.update(record)
+        else:
+            rollbacks.append(record)
+
+        audit_trail = state.setdefault("remediation_audit_trail", [])
+        audit_entry = {
+            "audit_id": f"AUDIT-{4001 + len(audit_trail)}",
+            "incident_id": inc_clean,
+            "release_id": rel_id,
+            "action": "CANARY_ROLLBACK",
+            "before_state": record["before_state"],
+            "after_state": record["after_state"],
+            "logged_at": now_iso,
+        }
+        audit_trail.append(audit_entry)
+
         backend = _save_state(state)
         response: dict[str, Any] = {
             "status": "SUCCESS",
             "rollback": record,
+            "audit_entry": audit_entry,
             "state_backend": backend,
         }
         if advisory is not None:
@@ -270,8 +313,9 @@ def scale_service_replicas(
         reg_clean = (cluster_region or "").strip()
         rep = int(target_replicas)
 
+        all_runbooks = _read_local_csv("slo_runbooks")
         runbooks = [
-            r for r in _read_local_csv("slo_runbooks")
+            r for r in all_runbooks
             if r.get("service_name", "").strip().lower() == svc_clean.lower()
         ]
         min_safe = 3
@@ -287,7 +331,7 @@ def scale_service_replicas(
             updates = state.setdefault("incident_updates", [])
             refusal = {
                 "annotation_id": f"TIMELINE-{3001 + len(updates)}",
-                "incident_id": f"GUARDRAIL-{svc_clean.upper()}",
+                "incident_id": f"GUARDRAIL-{svc_clean.upper() or 'UNKNOWN'}",
                 "remediation_summary": (
                     f"SECURITY_GUARDRAIL_REFUSAL: Rejected scale_service_replicas("
                     f"service_name='{svc_clean}', target_replicas={rep}) outside safe corridor "
@@ -312,9 +356,28 @@ def scale_service_replicas(
                 ),
             })
 
+        if all_runbooks and not runbooks:
+            return json.dumps({
+                "status": "REJECTED_UNKNOWN_SERVICE",
+                "service_name": svc_clean,
+                "cluster_region": reg_clean,
+                "requested_replicas": rep,
+                "error": f"Service '{svc_clean}' is not registered in slo_runbooks.",
+            })
+
         state = _load_state()
         events = state.setdefault("scaling_events", [])
-        scale_id = f"SCALE-{2001 + len(events)}"
+        existing = next(
+            (
+                e for e in events
+                if e.get("service_name", "").lower() == svc_clean.lower()
+                and e.get("cluster_region", "").lower() == reg_clean.lower()
+                and e.get("target_replicas") == rep
+            ),
+            None,
+        )
+        scale_id = existing["scale_id"] if existing else f"SCALE-{2001 + len(events)}"
+        now_iso = datetime.now(timezone.utc).isoformat()
         record: dict[str, Any] = {
             "scale_id": scale_id,
             "service_name": svc_clean,
@@ -322,7 +385,9 @@ def scale_service_replicas(
             "target_replicas": rep,
             "safe_replica_corridor": [min_safe, max_safe],
             "runbook_id": runbook_id,
-            "scaled_at": datetime.now(timezone.utc).isoformat(),
+            "before_state": {"service_name": svc_clean, "min_safe_replicas": min_safe},
+            "after_state": {"service_name": svc_clean, "target_replicas": rep, "status": "SCALED"},
+            "scaled_at": now_iso,
             "status": "SCALED",
         }
         advisory = _build_table8_a2a_advisory(
@@ -337,11 +402,28 @@ def scale_service_replicas(
         if advisory is not None:
             record["table8_a2a_advisory"] = advisory
 
-        events.append(record)
+        if existing is not None:
+            existing.update(record)
+        else:
+            events.append(record)
+
+        audit_trail = state.setdefault("remediation_audit_trail", [])
+        audit_entry = {
+            "audit_id": f"AUDIT-{4001 + len(audit_trail)}",
+            "service_name": svc_clean,
+            "runbook_id": runbook_id,
+            "action": "REPLICA_SCALING",
+            "before_state": record["before_state"],
+            "after_state": record["after_state"],
+            "logged_at": now_iso,
+        }
+        audit_trail.append(audit_entry)
+
         backend = _save_state(state)
         response: dict[str, Any] = {
             "status": "SUCCESS",
             "scaling_event": record,
+            "audit_entry": audit_entry,
             "state_backend": backend,
         }
         if advisory is not None:
@@ -368,19 +450,85 @@ def annotate_incident_timeline(
         JSON string with the recorded timeline annotation.
     """
     try:
+        inc_clean = (incident_id or "").strip()
+        summary_clean = _sanitize_untrusted_text(remediation_summary or "")
+        status_clean = (new_status or "MITIGATED").strip().upper()
+
+        if not inc_clean:
+            return json.dumps({
+                "status": "REJECTED_INVALID_ARGUMENT",
+                "error": "incident_id must not be empty.",
+            })
+        if status_clean not in _ALLOWED_TIMELINE_STATUSES:
+            return json.dumps({
+                "status": "REJECTED_INVALID_STATUS",
+                "incident_id": inc_clean,
+                "requested_status": status_clean,
+                "allowed_statuses": sorted(_ALLOWED_TIMELINE_STATUSES),
+                "error": (
+                    f"new_status='{status_clean}' is not allowed; must be one of "
+                    f"{sorted(_ALLOWED_TIMELINE_STATUSES)}."
+                ),
+            })
+
+        inc_row = next(
+            (
+                r for r in _read_local_csv("service_incidents")
+                if r.get("incident_id", "").strip().upper() == inc_clean.upper()
+            ),
+            None,
+        )
+        svc_name = inc_row.get("service_name", "").strip() if inc_row else ""
+        rel_id = inc_row.get("active_release_id", "").strip() if inc_row else ""
+
         state = _load_state()
         updates = state.setdefault("incident_updates", [])
-        upd_id = f"TIMELINE-{3001 + len(updates)}"
-        record = {
+        existing = next(
+            (
+                u for u in updates
+                if u.get("incident_id", "").upper() == inc_clean.upper()
+                and u.get("new_status", "").upper() == status_clean
+            ),
+            None,
+        )
+        upd_id = existing["annotation_id"] if existing else f"TIMELINE-{3001 + len(updates)}"
+        record: dict[str, Any] = {
             "annotation_id": upd_id,
-            "incident_id": (incident_id or "").strip(),
-            "remediation_summary": (remediation_summary or "").strip(),
-            "new_status": (new_status or "MITIGATED").strip().upper(),
+            "incident_id": inc_clean,
+            "service_name": svc_name,
+            "active_release_id": rel_id,
+            "remediation_summary": summary_clean,
+            "new_status": status_clean,
             "annotated_at": datetime.now(timezone.utc).isoformat(),
         }
-        updates.append(record)
+        advisory = (
+            _build_table8_a2a_advisory(
+                service_name=svc_name,
+                action_type="TIMELINE_UPDATE",
+                remediation_status=status_clean,
+                details=summary_clean,
+                incident_id=inc_clean,
+                release_id=rel_id,
+            )
+            if svc_name
+            else None
+        )
+        if advisory is not None:
+            record["table8_a2a_advisory"] = advisory
+
+        if existing is not None:
+            existing.update(record)
+        else:
+            updates.append(record)
         backend = _save_state(state)
-        return json.dumps({"status": "SUCCESS", "annotation": record, "state_backend": backend})
+        response: dict[str, Any] = {
+            "status": "SUCCESS",
+            "annotation": record,
+            "state_backend": backend,
+        }
+        if advisory is not None:
+            response["table8_a2a_advisory"] = advisory
+        return json.dumps(response)
     except Exception as exc:
         return json.dumps({"status": "ERROR", "error": str(exc)})
 

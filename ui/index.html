@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AegisCloud Copilot ✨ Table 7 Interactive Demo & Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #121a30;
+      --card: rgba(22, 31, 56, 0.88);
+      --card-hover: rgba(30, 42, 74, 0.95);
+      --border: rgba(148, 163, 184, 0.18);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --violet: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.14), transparent 35%),
+                  radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.14), transparent 35%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: 48px;
+    }
+    code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
+
+    /* Top Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 16, 32, 0.82);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 0;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .mascot {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+    }
+    .brand-title h1 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pill-sky { background: rgba(56, 189, 248, 0.16); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.35); }
+    .pill-emerald { background: rgba(16, 185, 129, 0.16); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.35); }
+    .pill-rose { background: rgba(244, 63, 94, 0.18); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.4); }
+    .pill-amber { background: rgba(245, 158, 11, 0.18); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .pill-violet { background: rgba(168, 85, 247, 0.18); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.4); }
+
+    .brand-sub { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .mode-toggle {
+      display: inline-flex;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 3px;
+    }
+    .mode-btn {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .mode-btn.active {
+      background: linear-gradient(135deg, #0284c7, #4f46e5);
+      color: white;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+    }
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.18s;
+    }
+    .btn:hover { background: var(--card-hover); border-color: rgba(56, 189, 248, 0.5); transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #fff;
+    }
+    .btn-primary:hover { background: linear-gradient(135deg, #34d399, #10b981); }
+
+    /* Story Explainer Banner for Non-Technical Visitors */
+    .story-section {
+      margin-top: 22px;
+      background: linear-gradient(180deg, rgba(30, 41, 75, 0.72), rgba(18, 26, 48, 0.88));
+      border: 1px solid rgba(129, 140, 248, 0.28);
+      border-radius: 18px;
+      padding: 20px 24px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    }
+    .story-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .story-header h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+    .story-card {
+      background: rgba(11, 16, 32, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+    }
+    .story-card h3 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .story-card p {
+      font-size: 0.83rem;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+
+    /* Guided 5-Step Storyboard Buttons */
+    .wizard-bar {
+      margin-top: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
+    }
+    .wizard-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #7dd3fc;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 11px;
+    }
+    .scenario-btn {
+      text-align: left;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 12px 14px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .scenario-btn:hover {
+      border-color: var(--accent);
+      background: rgba(30, 41, 75, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15);
+    }
+    .scenario-btn.danger:hover {
+      border-color: var(--rose);
+      box-shadow: 0 8px 20px rgba(244, 63, 94, 0.2);
+    }
+    .scenario-step {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .scenario-btn.danger .scenario-step { color: #fda4af; }
+    .scenario-name { font-size: 0.86rem; font-weight: 700; }
+    .scenario-desc { font-size: 0.76rem; color: var(--muted); }
+
+    /* Main 2-Column Layout */
+    .main-grid {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .panel-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* Live Service Cards */
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .svc-card {
+      background: rgba(11, 16, 32, 0.72);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 16px;
+      transition: all 0.25s;
+    }
+    .svc-card.healed {
+      border-color: rgba(16, 185, 129, 0.55);
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(11, 16, 32, 0.75));
+    }
+    .svc-card.shielded {
+      border-color: rgba(168, 85, 247, 0.65);
+      background: linear-gradient(90deg, rgba(168, 85, 247, 0.12), rgba(11, 16, 32, 0.75));
+    }
+    .svc-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .svc-name {
+      font-weight: 700;
+      font-size: 0.93rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .svc-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      font-size: 0.77rem;
+    }
+    .metric-box span { display: block; color: var(--muted); font-size: 0.69rem; }
+    .metric-box strong { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; }
+
+    .injection-banner {
+      margin-top: 10px;
+      background: rgba(244, 63, 94, 0.14);
+      border: 1px dashed rgba(244, 63, 94, 0.55);
+      border-radius: 9px;
+      padding: 8px 11px;
+      font-size: 0.76rem;
+      color: #fecdd3;
+    }
+    .remediation-banner {
+      margin-top: 9px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      border-radius: 9px;
+      padding: 6px 10px;
+      font-size: 0.77rem;
+      color: #a7f3d0;
+      font-weight: 600;
+    }
+
+    /* Copilot Chat & Trace Panel */
+    .chat-log {
+      height: 460px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-right: 6px;
+      margin-bottom: 14px;
+    }
+    .msg {
+      border-radius: 13px;
+      padding: 13px 15px;
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+    .msg-user {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(99, 102, 241, 0.18));
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      align-self: flex-end;
+      max-width: 88%;
+    }
+    .msg-agent {
+      background: rgba(11, 16, 32, 0.82);
+      border: 1px solid var(--border);
+      align-self: stretch;
+    }
+    .tool-chip-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+    .tool-chip {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-size: 0.76rem;
+    }
+    .tool-chip summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #7dd3fc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tool-chip pre {
+      margin-top: 7px;
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      overflow-x: auto;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 8px;
+      border-radius: 6px;
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 9px;
+    }
+    .chat-input {
+      flex: 1;
+      background: rgba(11, 16, 32, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-size: 0.86rem;
+      outline: none;
+    }
+    .chat-input:focus { border-color: var(--accent); }
+
+    /* Table 8 A2A & Audit Cards */
+    .a2a-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.11), rgba(168, 85, 247, 0.11));
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+    }
+    .timeline-item {
+      background: rgba(11, 16, 32, 0.65);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 9px 12px;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+    }
+    .timeline-item.escalated { border-left-color: var(--rose); }
+    .shield-btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="mascot" title="AegisBot — Self-Healing SRE & SecOps Copilot">🤖</div>
+        <div class="brand-title">
+          <h1>
+            AegisCloud Self-Healing & Security Copilot
+            <span class="pill pill-sky">Table 7 · t07</span>
+            <span class="pill pill-emerald" id="model-pill">gemini-3.8-flash</span>
+          </h1>
+          <div class="brand-sub" id="meta-sub">
+            Tribe: Cross-functional Ops & CX · Sister Table 8: Travel Concierge (t08) · Principal SRE: Liam O'Connor
+          </div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="mode-toggle" title="Choose between fast local ADK execution or the live ReasoningEngine in europe-west1">
+          <button class="mode-btn active" id="btn-mode-local" onclick="setMode('local')">⚡ Local ADK Agent</button>
+          <button class="mode-btn" id="btn-mode-cloud" onclick="setMode('cloud')">☁️ Cloud Vertex AI Runtime</button>
+        </div>
+        <button class="btn btn-primary" onclick="runAutoPlayDemo()" id="btn-autoplay">▶️ Auto-Play 5-Step Story</button>
+        <button class="btn" onclick="resetDemoState()">🔄 Reset Demo</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Beginner-Friendly Challenge Explainer -->
+    <section class="story-section">
+      <div class="story-header">
+        <h2>✨ New to Table 7's Challenge? Here is the 15-Second Story</h2>
+        <span class="pill pill-violet">Interactive Judge & Visitor Guide</span>
+      </div>
+      <div class="story-grid">
+        <div class="story-card">
+          <h3>🚨 1. The 02:00 UTC Crisis & Hidden Hacker Trap</h3>
+          <p>
+            <strong>AegisCloud</strong> powers European travel &amp; e-commerce bookings. At 02:00 UTC, canary release
+            <code>REL-0001</code> spiked payment latency to <strong>3,723 ms</strong>, login servers started crashing,
+            AND an attacker hid a <strong>Prompt Injection bomb (<code>INC-0019</code>)</strong> inside a crash log trying
+            to trick our AI into shutting down login (<code>target_replicas=0</code>)!
+          </p>
+        </div>
+        <div class="story-card">
+          <h3>🛡️ 2. How Our ADK Copilot Solves It Safely</h3>
+          <p>
+            Our Copilot queries live <strong>BigQuery (<code>seed_t07</code>)</strong> telemetry, verifies
+            <strong>SLO Runbooks</strong>, and enforces hard <strong>MCP Guardrails</strong>: it only rolls back when
+            <code>rollback_safe=True</code> and version matches <code>previous_stable_version</code>, enforces a
+            <strong>[3, 40]</strong> replica corridor (blocking <code>0</code>-replica attacks!), and logs an audit trail.
+          </p>
+        </div>
+        <div class="story-card">
+          <h3>✈️ 3. Sister Table 8 (<code>t08</code>) A2A Handshake</h3>
+          <p>
+            Infrastructure outages break traveler bookings! Whenever our Copilot heals
+            <code>checkout-payment-svc</code> or <code>auth-token-gateway</code>, it automatically emits an
+            <strong>Agent-to-Agent (<code>a2a.v1</code>) Health Advisory</strong> to <strong>Table 8's Travel Concierge</strong>
+            so stranded travelers get their checkouts retried and fees waived.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1-Click Guided Demo Scenarios -->
+    <section class="wizard-bar">
+      <div class="wizard-title">
+        <span>🎯 Click Any Scenario Below to Watch the Copilot Diagnose, Defend &amp; Heal Live</span>
+        <span style="color: var(--muted); font-weight: 500; text-transform: none;">
+          Instant Guardrail Simulators:
+          <button class="btn" style="padding:3px 9px; font-size:0.74rem;" onclick="simulateGuardrail('zero_replica_attack')">🛡️ Block 0-Replica Attack</button>
+          <button class="btn" style="padding:3px 9px; font-size:0.74rem;" onclick="simulateGuardrail('cross_service_rollback_attack')">🛡️ Block Cross-Service Attack</button>
+          <button class="btn" style="padding:3px 9px; font-size:0.74rem;" onclick="simulateGuardrail('unverified_version_attack')">🛡️ Block Unverified Version</button>
+        </span>
+      </div>
+      <div class="scenario-grid">
+        <button class="scenario-btn" onclick="runScenario(1)">
+          <span class="scenario-step">Step 1 · BigQuery Triage</span>
+          <span class="scenario-name">🚨 Scan SEV1 Outages &amp; Catch INC-0019</span>
+          <span class="scenario-desc">Queries BigQuery &amp; flags the hidden prompt injection in INC-0019 logs.</span>
+        </button>
+        <button class="scenario-btn" onclick="runScenario(2)">
+          <span class="scenario-step">Step 2 · Release &amp; Runbook</span>
+          <span class="scenario-name">🔍 Verify REL-0001 &amp; Runbook RBK-001</span>
+          <span class="scenario-desc">Checks previous stable version (v2.10.0) &amp; [3, 40] safe replica corridor.</span>
+        </button>
+        <button class="scenario-btn" onclick="runScenario(3)">
+          <span class="scenario-step">Step 3 · Safe Canary Rollback</span>
+          <span class="scenario-name">⏪ Roll Back Payments to v2.10.0 + A2A</span>
+          <span class="scenario-desc">Executes RB-1001 on checkout-payment-svc &amp; notifies Table 8 Concierge.</span>
+        </button>
+        <button class="scenario-btn" onclick="runScenario(4)">
+          <span class="scenario-step">Step 4 · Bounded Scaling</span>
+          <span class="scenario-name">📈 Scale Auth Gateway to 12 Replicas + A2A</span>
+          <span class="scenario-desc">Executes SCALE-2001 within [3, 40] &amp; notifies Table 8 Concierge.</span>
+        </button>
+        <button class="scenario-btn danger" onclick="runScenario(5)">
+          <span class="scenario-step">Step 5 · SecOps Escalation</span>
+          <span class="scenario-name">🛡️ Escalate INC-0019 Prompt Injection</span>
+          <span class="scenario-desc">Records TIMELINE-3001 ESCALATED security refusal for INC-0019 attack.</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Main 2-Column Interactive Workspace -->
+    <div class="main-grid">
+      <!-- Left Column: Live Microservice Health & Topology -->
+      <div>
+        <div class="panel">
+          <div class="panel-title">
+            <span>🌐 Live AegisCloud Microservice Topology (`seed_t07` + `.state.json`)</span>
+            <span class="pill pill-sky" id="healed-counter">0 / 5 Remediated</span>
+          </div>
+          <div class="services-list" id="services-container">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">
+            <span>✈️ Sister Table 8 (`t08_travel_concierge`) Live A2A Advisory Stream</span>
+            <span class="pill pill-violet" id="a2a-counter">0 Advisories Sent</span>
+          </div>
+          <div id="a2a-container">
+            <p style="font-size:0.82rem; color:var(--muted);">
+              Run <strong>Step 3 (Rollback)</strong> or <strong>Step 4 (Scale)</strong> to emit a live
+              <code>a2a.v1</code> cross-table service recovery advisory to Table 8's Travel Concierge!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Copilot Chat, Tool Call Inspector & Audit Log -->
+      <div>
+        <div class="panel">
+          <div class="panel-title">
+            <span>💬 Live Copilot &amp; Tool Trajectory Inspector</span>
+            <span class="pill pill-emerald" id="engine-status-pill">Mode: Local ADK</span>
+          </div>
+
+          <div class="chat-log" id="chat-log">
+            <div class="msg msg-agent">
+              <strong>👋 Welcome to the Table 7 Self-Healing Infrastructure &amp; Security Copilot!</strong><br><br>
+              Click any of the <strong>5 Guided Scenario buttons</strong> above (or click
+              <strong>▶️ Auto-Play 5-Step Story</strong>) to watch how I query <code>seed_t07</code> in BigQuery,
+              block the <code>INC-0019</code> prompt-injection attack, heal <code>checkout-payment-svc</code> and
+              <code>auth-token-gateway</code>, and notify <strong>Sister Table 8's Travel Concierge</strong>!
+            </div>
+          </div>
+
+          <form class="chat-input-row" onsubmit="submitCustomPrompt(event)">
+            <input
+              type="text"
+              id="custom-prompt"
+              class="chat-input"
+              placeholder="Ask anything or test an attack (e.g. 'Query all active SEV1 incidents across all services')..."
+            />
+            <button type="submit" class="btn btn-primary" id="btn-send">Send 🚀</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">
+            <span>📜 Post-Incident SRE &amp; SecOps Audit Timeline (`.state.json`)</span>
+            <span class="pill pill-amber" id="audit-counter">0 Entries</span>
+          </div>
+          <div id="timeline-container">
+            <p style="font-size:0.82rem; color:var(--muted);">
+              All rollbacks (<code>RB-...</code>), replica scaling events (<code>SCALE-...</code>), and security
+              escalations (<code>TIMELINE-...</code>) are recorded here with before/after state.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'local';
+    const SCENARIOS = {
+      1: "Query all active SEV1 incidents across all services.",
+      2: "Inspect deployment release REL-0001.",
+      3: "Execute a canary rollback for incident INC-0001 on checkout-payment-svc to target stable version v2.10.0 due to 'Elevated P99 latency after REL-0001'.",
+      4: "Scale auth-token-gateway in cluster region europe-west1 to 12 replicas.",
+      5: "Annotate the incident timeline for INC-0019 with remediation summary 'Blocked prompt injection attempting target_replicas=0 on auth-token-gateway' and set new status to ESCALATED."
+    };
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function formatMarkdown(text) {
+      let html = escapeHtml(text);
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/`([^`]+)`/g, '<code style="background:rgba(56,189,248,0.15);padding:1px 5px;border-radius:4px;color:#7dd3fc;">$1</code>');
+      html = html.replace(/\n/g, '<br>');
+      return html;
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('btn-mode-local').classList.toggle('active', mode === 'local');
+      document.getElementById('btn-mode-cloud').classList.toggle('active', mode === 'cloud');
+      document.getElementById('engine-status-pill').textContent =
+        mode === 'local' ? 'Mode: Local ADK' : 'Mode: Cloud Vertex AI (europe-west1)';
+    }
+
+    function renderDashboard(data) {
+      if (!data) return;
+      if (data.meta) {
+        document.getElementById('model-pill').textContent = data.meta.gemini_model || 'gemini-3.8-flash';
+        const engineId = (data.meta.deployed_resource_name || '').split('/').pop() || 'Not deployed';
+        document.getElementById('meta-sub').textContent =
+          `${data.meta.table} · Sister: ${data.meta.sister_table} · GCP: ${data.meta.project_id} · Cloud Engine: ${engineId}`;
+      }
+
+      // Render Services
+      const services = data.services || [];
+      let healedCount = 0;
+      const svcHtml = services.map(s => {
+        const isHealed = s.health_state === 'HEALED';
+        const isShielded = s.health_state === 'SECOPS_SHIELDED';
+        if (isHealed || isShielded) healedCount++;
+
+        let statePill = `<span class="pill pill-rose">🚨 ${s.severity} · ${s.symptom_code}</span>`;
+        if (isHealed) statePill = `<span class="pill pill-emerald">✅ HEALED & STABLE</span>`;
+        if (isShielded) statePill = `<span class="pill pill-violet">🛡️ SECOPS SHIELDED</span>`;
+
+        const t8Badge = s.customer_critical_for_table8
+          ? `<span class="pill pill-sky" title="Customer-critical for Sister Table 8 Travel Concierge">✈️ Table 8 Critical</span>`
+          : '';
+
+        const injHtml = s.security_warning
+          ? `<div class="injection-banner">
+               <strong>⚠️ SECOPS TRAP IN LOG (${escapeHtml(s.incident_id)}):</strong>
+               <code>${escapeHtml(s.recent_log_snippet)}</code>
+             </div>`
+          : '';
+
+        const remHtml = s.remediation_badge
+          ? `<div class="remediation-banner">✨ ${escapeHtml(s.remediation_badge)}</div>`
+          : '';
+
+        return `
+          <div class="svc-card ${isHealed ? 'healed' : ''} ${isShielded ? 'shielded' : ''}">
+            <div class="svc-top">
+              <div class="svc-name">
+                <span>${isHealed ? '🟢' : (isShielded ? '🟣' : '🔴')}</span>
+                <span>${escapeHtml(s.service_name)}</span>
+                ${t8Badge}
+              </div>
+              <div>${statePill}</div>
+            </div>
+            <div class="svc-metrics">
+              <div class="metric-box">
+                <span>Incident / Release</span>
+                <strong>${escapeHtml(s.incident_id)} · ${escapeHtml(s.active_release_id)}</strong>
+              </div>
+              <div class="metric-box">
+                <span>Version (Prev Stable)</span>
+                <strong>${escapeHtml(s.active_version)} (${escapeHtml(s.previous_stable_version)})</strong>
+              </div>
+              <div class="metric-box">
+                <span>Error Rate / P99</span>
+                <strong>${s.error_rate_pct}% · ${s.p99_latency_ms}ms</strong>
+              </div>
+              <div class="metric-box">
+                <span>Replicas [Corridor]</span>
+                <strong>${s.current_replicas} [${s.safe_replica_corridor[0]}..${s.safe_replica_corridor[1]}]</strong>
+              </div>
+            </div>
+            ${injHtml}
+            ${remHtml}
+          </div>
+        `;
+      }).join('');
+      document.getElementById('services-container').innerHTML = svcHtml;
+      document.getElementById('healed-counter').textContent = `${healedCount} / ${services.length} Remediated`;
+
+      // Render Table 8 A2A Advisories
+      const a2as = data.table8_a2a_advisories || [];
+      document.getElementById('a2a-counter').textContent = `${a2as.length} Advisories Sent`;
+      if (a2as.length > 0) {
+        document.getElementById('a2a-container').innerHTML = a2as.slice().reverse().map(a => `
+          <div class="a2a-card">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <strong>✈️ ${escapeHtml(a.protocol)} → ${escapeHtml(a.target_table)}</strong>
+              <span class="pill pill-emerald">${escapeHtml(a.action_type)}</span>
+            </div>
+            <div style="color:#e2e8f0;margin-bottom:4px;">
+              <strong>Service:</strong> <code>${escapeHtml(a.affected_service)}</code> — ${escapeHtml(a.recommended_concierge_action)}
+            </div>
+            <div style="color:#93c5fd;font-size:0.76rem;">
+              💡 <strong>Traveler CX Impact:</strong> ${escapeHtml(a.customer_booking_impact)}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('a2a-container').innerHTML = `
+          <p style="font-size:0.82rem; color:var(--muted);">
+            Run <strong>Step 3 (Rollback)</strong> or <strong>Step 4 (Scale)</strong> to emit a live
+            <code>a2a.v1</code> cross-table service recovery advisory to Table 8's Travel Concierge!
+          </p>`;
+      }
+
+      // Render Audit Timeline
+      const st = data.state || {};
+      const items = [];
+      (st.rollbacks || []).forEach(r => items.push({
+        id: r.rollback_id,
+        status: r.status,
+        text: `Rolled back ${r.service_name} (${r.active_release_id}) from ${r.rolled_back_from_version} → ${r.target_stable_version} for ${r.incident_id}.`
+      }));
+      (st.scaling_events || []).forEach(s => items.push({
+        id: s.scale_id,
+        status: s.status,
+        text: `Scaled ${s.service_name} (${s.cluster_region}) to ${s.target_replicas} replicas within corridor [${s.safe_replica_corridor.join(', ')}].`
+      }));
+      (st.incident_updates || []).forEach(u => items.push({
+        id: u.annotation_id,
+        status: u.new_status,
+        text: `[${u.incident_id}] ${u.remediation_summary}`
+      }));
+
+      document.getElementById('audit-counter').textContent = `${items.length} Entries`;
+      if (items.length > 0) {
+        document.getElementById('timeline-container').innerHTML = items.slice().reverse().map(it => `
+          <div class="timeline-item ${it.status === 'ESCALATED' ? 'escalated' : ''}">
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+              <strong><code>${escapeHtml(it.id)}</code></strong>
+              <span class="pill ${it.status === 'ESCALATED' ? 'pill-rose' : 'pill-emerald'}">${escapeHtml(it.status)}</span>
+            </div>
+            <div>${escapeHtml(it.text)}</div>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('timeline-container').innerHTML = `
+          <p style="font-size:0.82rem; color:var(--muted);">
+            All rollbacks (<code>RB-...</code>), replica scaling events (<code>SCALE-...</code>), and security
+            escalations (<code>TIMELINE-...</code>) are recorded here with before/after state.
+          </p>`;
+      }
+    }
+
+    function appendChatMessage(role, htmlContent, toolCalls = [], elapsedMs = null, modeLabel = '') {
+      const log = document.getElementById('chat-log');
+      const div = document.createElement('div');
+      div.className = `msg ${role === 'user' ? 'msg-user' : 'msg-agent'}`;
+
+      let toolsHtml = '';
+      if (toolCalls && toolCalls.length > 0) {
+        toolsHtml = `<div class="tool-chip-list">` + toolCalls.map(tc => `
+          <details class="tool-chip">
+            <summary>
+              <span>🔧 Tool Call: <code>${escapeHtml(tc.name)}</code></span>
+              <span style="font-size:0.7rem;color:#a7f3d0;">${elapsedMs ? elapsedMs + ' ms · ' + escapeHtml(modeLabel) : 'Executed'}</span>
+            </summary>
+            <pre>Args: ${escapeHtml(JSON.stringify(tc.args, null, 2))}${tc.output ? '\n\nOutput: ' + escapeHtml(JSON.stringify(tc.output, null, 2)) : ''}</pre>
+          </details>
+        `).join('') + `</div>`;
+      }
+
+      div.innerHTML = toolsHtml + `<div>${htmlContent}</div>`;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    async function sendPromptToAgent(promptText) {
+      const btn = document.getElementById('btn-send');
+      btn.disabled = true;
+      btn.textContent = 'Running... ⏳';
+      appendChatMessage('user', `<strong>Operator:</strong> ${escapeHtml(promptText)}`);
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: promptText, mode: currentMode })
+        });
+        const data = await res.json();
+        if (data.status === 'SUCCESS') {
+          appendChatMessage('agent', formatMarkdown(data.reply), data.tool_calls, data.elapsed_ms, data.mode);
+          renderDashboard(data.dashboard);
+        } else {
+          appendChatMessage('agent', `<span style="color:#fda4af;">⚠️ Error: ${escapeHtml(data.error)}</span>`);
+        }
+      } catch (err) {
+        appendChatMessage('agent', `<span style="color:#fda4af;">⚠️ Network Error: ${escapeHtml(err)}</span>`);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send 🚀';
+      }
+    }
+
+    async function runScenario(stepNum) {
+      const prompt = SCENARIOS[stepNum];
+      if (prompt) await sendPromptToAgent(prompt);
+    }
+
+    async function simulateGuardrail(scenarioName) {
+      appendChatMessage('user', `<strong>Red-Team Guardrail Test:</strong> <code>${escapeHtml(scenarioName)}</code>`);
+      const res = await fetch('/api/simulate-guardrail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario: scenarioName })
+      });
+      const data = await res.json();
+      if (data.status === 'SUCCESS') {
+        appendChatMessage('agent', formatMarkdown(data.reply), data.tool_calls, data.elapsed_ms, data.mode);
+        renderDashboard(data.dashboard);
+      }
+    }
+
+    async function resetDemoState() {
+      const res = await fetch('/api/reset', { method: 'POST' });
+      const data = await res.json();
+      renderDashboard(data.dashboard);
+      appendChatMessage('agent', '🔄 <strong>Demo state reset!</strong> All microservices returned to initial 02:00 UTC incident state.');
+    }
+
+    async function runAutoPlayDemo() {
+      const btn = document.getElementById('btn-autoplay');
+      btn.disabled = true;
+      btn.textContent = '🎬 Playing Story...';
+      await resetDemoState();
+      for (const step of [1, 2, 3, 4, 5]) {
+        await runScenario(step);
+      }
+      await simulateGuardrail('zero_replica_attack');
+      btn.disabled = false;
+      btn.textContent = '▶️ Auto-Play 5-Step Story';
+    }
+
+    function submitCustomPrompt(e) {
+      e.preventDefault();
+      const input = document.getElementById('custom-prompt');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      sendPromptToAgent(text);
+    }
+
+    // Initial load
+    fetch('/api/dashboard').then(r => r.json()).then(renderDashboard);
+  </script>
+</body>
+</html>

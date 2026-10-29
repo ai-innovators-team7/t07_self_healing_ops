@@ -17,13 +17,14 @@ endif
 
 PACK ?= $(SEED_PACK)
 
-.PHONY: help setup check-venv seed dev eval eval-validate test deploy test-remote delete
+.PHONY: help setup check-venv seed dev demo eval eval-validate test deploy test-remote delete
 
 help:
 	@echo "AI Innovators Expedition — Starter Commands:"
 	@echo "  make setup                    Create Python 3.12 .venv with uv and install dependencies"
 	@echo "  make seed PACK=t08            Load Seed Pack data into BigQuery & Cloud Storage"
 	@echo "  make dev                      Launch local ADK Web UI (http://127.0.0.1:$(PORT))"
+	@echo "  make demo                     Launch interactive AegisCloud Showcase UI (http://127.0.0.1:8080)"
 	@echo "  make eval [PACK=t08]          Run the golden evaluation cases (live Gemini calls)"
 	@echo "  make eval-validate [PACK=t08] Validate eval files only (no Gemini calls)"
 	@echo "  make test                     Run fast offline unit tests (pytest)"
@@ -51,6 +52,9 @@ seed: check-venv
 
 dev: check-venv
 	$(ADK) web . --port $(PORT)
+
+demo: check-venv
+	$(PYTHON) -m ui.server --port 8080
 
 eval: check-venv
 	@if [ -n "$(PACK)" ]; then \

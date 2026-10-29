@@ -239,6 +239,8 @@ async def run_live_evaluation(
         )
 
     # Run evaluation with plain Python function tools for deterministic speed & reliability
+    for state_file in SEED_PACKS_DIR.glob("*/.state.json"):
+        state_file.unlink(missing_ok=True)
     agent, pack = build_agent(pack_id=pack_id, enable_mcp_stdio=False)
     runner = InMemoryRunner(agent=agent, app_name="app")
 
@@ -319,6 +321,10 @@ async def run_live_evaluation(
 
 
 def main() -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     load_dotenv(REPO_ROOT / ".env")
     parser = argparse.ArgumentParser(description="Run ADK Golden Evaluations for the active Seed Pack.")
     parser.add_argument("--pack", default=None, help="Override SEED_PACK id (e.g. t08 or t00_example).")

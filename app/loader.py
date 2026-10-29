@@ -24,6 +24,16 @@ logger = logging.getLogger(__name__)
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SEED_PACKS_DIR = REPO_ROOT / "seed_packs"
 
+
+def _sanitize_google_application_credentials() -> None:
+    """Remove stale or external GOOGLE_APPLICATION_CREDENTIALS so ADC is used."""
+    gac = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "").strip()
+    if gac and ("docdigitizer" in gac.lower() or not Path(gac).is_file()):
+        os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+
+
+_sanitize_google_application_credentials()
+
 # Regex to catch accidental `{identifier}` tokens in ADK instructions, which ADK
 # interprets as session-state lookups (raising KeyError and blanking the reply).
 _STATE_TOKEN_RE = re.compile(r"{+[^{}]*}+")

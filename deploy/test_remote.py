@@ -72,6 +72,10 @@ def query_remote_agent(
     message: str | None = None,
 ) -> str:
     """Create a remote session, stream a query, and return the assembled text reply."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     load_dotenv(REPO_ROOT / ".env")
     target_resource = resolve_deployed_resource_name(resource_name)
     name_parts = parse_reasoning_engine_name(target_resource)

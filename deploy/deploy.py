@@ -181,6 +181,8 @@ def deploy_agent(
         staging_bucket=staging_bucket,
     )
 
+    for state_file in (REPO_ROOT / "seed_packs").glob("*/.state.json"):
+        state_file.unlink(missing_ok=True)
     extra_packages = ["app", "seed_packs"]
     deploy_kwargs = {
         "requirements": PINNED_REQUIREMENTS,
