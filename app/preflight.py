@@ -8,7 +8,19 @@ location) fail with one clear "do this next" message instead of a traceback.
 
 from __future__ import annotations
 
+import os
+from pathlib import Path
 import re
+
+
+def _sanitize_google_application_credentials() -> None:
+    """Remove stale or external GOOGLE_APPLICATION_CREDENTIALS so ADC is used."""
+    gac = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "").strip()
+    if gac and ("docdigitizer" in gac.lower() or not Path(gac).is_file()):
+        os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+
+
+_sanitize_google_application_credentials()
 
 from app.loader import is_placeholder, resolve_env_config
 
@@ -37,6 +49,7 @@ def require_project() -> str:
 
 def check_adc(project: str) -> None:
     """Raise a RuntimeError with the fix if Application Default Credentials are missing."""
+    _sanitize_google_application_credentials()
     try:
         import google.auth
         from google.auth.exceptions import DefaultCredentialsError

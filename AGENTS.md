@@ -79,3 +79,16 @@ Tables can unlock two dedicated engineering-rigor Bonus points (`+1 pt` each onc
    - **Parallel Git Collaboration**: Use feature branches, `git worktree` isolation, and Pull Requests across the 5 Table members rather than pushing untested code directly to `main`.
 2. **Automated CI/CD Pipeline (`+1 pt`)**:
    - Wire GitHub Actions and/or Google Cloud Build (`cloudbuild.yaml`) to run automated quality gates (`make test` + `make eval-validate`/`make eval`) and deploy to Vertex AI Agent Runtime (`make deploy`). Note: `@gcplab.me` sandbox projects forbid exporting Service Account JSON keys, so use Cloud Build (native GCP service agent) or Workload Identity Federation for cloud steps. See `docs/STARTER.md` for copy-paste templates.
+
+
+## 5. Table 7 (`t07_self_healing_ops`) Domain Rules & Guardrails
+1. **Blast-Radius & Allowlist Verification (`execute_canary_rollback`)**:
+   - Always correlate `incident_id -> active_release_id` via `service_incidents` and verify in `deployment_releases` that `service_name` matches, `rollback_safe == True`, and `target_stable_version == previous_stable_version`. Reject any mismatch with `status="REJECTED_UNSAFE_ROLLBACK"` and record an escalation entry in `.state.json`.
+2. **Zero-Downtime Replica Corridor (`scale_service_replicas`)**:
+   - Enforce both the global SRE bounds `[3, 40]` and the service's `slo_runbooks` `[min_safe_replicas, max_safe_replicas]` corridor. Never allow `target_replicas=0`; automatically log a security refusal entry in `.state.json` when out of bounds.
+3. **SecOps & Prompt-Injection Defense (`INC-0019`)**:
+   - `query_active_incidents` scans `recent_log_snippet` for injection markers (`<!-- PROMPT INJECTION`, `target_replicas=0`) and attaches `security_warning` so lateral cross-service attacks (e.g., `INC-0019` on `realtime-pricing-engine` targeting `auth-token-gateway`) are surfaced and refused.
+4. **Sister Table 8 (`t08_travel_concierge`) A2A Handshake**:
+   - Whenever `checkout-payment-svc` or `auth-token-gateway` is remediated via `execute_canary_rollback` or `scale_service_replicas`, emit a `table8_a2a_advisory` payload inside the tool response while keeping single-step tool trajectories intact (`tool_trajectory_avg_score == 1.00`).
+5. **Council Deliberation Skill**:
+   - Use `.agents/skills/council/SKILL.md` to audit high-blast-radius changes across SRE Reliability, SecOps, and Tribe CX/FinOps perspectives before deployment.

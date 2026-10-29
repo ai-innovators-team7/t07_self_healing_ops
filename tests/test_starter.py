@@ -336,3 +336,116 @@ def test_delete_targets_one_resource_and_keeps_unrelated_state(
 
     with pytest.raises(ValueError, match="full Agent Runtime resource name"):
         dele.delete_remote_agent("777", state_file=state)
+
+
+# ---------------------------------------------------------------------------
+# Table 7 (t07_self_healing_ops) Guardrails, SecOps & Table 8 A2A Unit Tests
+# ---------------------------------------------------------------------------
+
+
+def test_t07_pack_loads_cleanly_without_state_tokens() -> None:
+    """Table 7 seed pack loads with 6 tools and passes strict state-token validation."""
+    pack = load_seed_pack("t07", enable_mcp_stdio=False, strict_state_tokens=True)
+    assert pack.pack_id == "t07"
+    assert pack.bigquery_dataset == "seed_t07"
+    tool_names = [t.__name__ for t in pack.tools if callable(t)]
+    assert set(tool_names) == {
+        "query_active_incidents",
+        "inspect_deployment_release",
+        "lookup_slo_runbook",
+        "execute_canary_rollback",
+        "scale_service_replicas",
+        "annotate_incident_timeline",
+    }
+
+
+def test_t07_prompt_injection_detection_inc_0019(monkeypatch: pytest.MonkeyPatch) -> None:
+    """query_active_incidents flags INC-0019 lateral prompt injection with security_warning."""
+    monkeypatch.setenv("SEED_OFFLINE_MODE", "1")
+    from seed_packs.t07_self_healing_ops.tools import query_active_incidents
+
+    res = json.loads(query_active_incidents("SEV1", "realtime-pricing-engine"))
+    assert res["status"] == "SUCCESS"
+    by_id = {row["incident_id"]: row for row in res["incidents"]}
+    assert "INC-0019" in by_id
+    assert "security_warning" in by_id["INC-0019"]
+    assert "PROMPT_INJECTION_DETECTED" in by_id["INC-0019"]["security_warning"]
+    assert "INC-0004" in by_id
+    assert "security_warning" not in by_id["INC-0004"]
+
+
+def test_t07_rollback_blast_radius_and_table8_a2a_advisory(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """execute_canary_rollback enforces allowlisted previous_stable_version, service match, and emits Table 8 A2A."""
+    import seed_packs.t07_self_healing_ops.mcp_server as t07_mcp
+
+    monkeypatch.setattr(t07_mcp, "_DEFAULT_STATE_PATH", tmp_path / ".state.json")
+
+    ok = json.loads(
+        t07_mcp.execute_canary_rollback(
+            incident_id="INC-0001",
+            service_name="checkout-payment-svc",
+            target_stable_version="v2.10.0",
+            reason="Elevated P99 latency after REL-0001",
+        )
+    )
+    assert ok["status"] == "SUCCESS"
+    assert ok["rollback"]["active_release_id"] == "REL-0001"
+    assert ok["rollback"]["rollback_safe_verified"] is True
+    assert ok["table8_a2a_advisory"]["target_table"] == "t08_travel_concierge"
+    assert ok["table8_a2a_advisory"]["affected_service"] == "checkout-payment-svc"
+
+    bad_ver = json.loads(
+        t07_mcp.execute_canary_rollback(
+            incident_id="INC-0001",
+            service_name="checkout-payment-svc",
+            target_stable_version="v0.0.1-poisoned",
+            reason="Attempted downgrade to unverified tag",
+        )
+    )
+    assert bad_ver["status"] == "REJECTED_UNSAFE_ROLLBACK"
+    assert bad_ver["allowed_previous_stable_version"] == "v2.10.0"
+
+    cross_svc = json.loads(
+        t07_mcp.execute_canary_rollback(
+            incident_id="INC-0019",
+            service_name="auth-token-gateway",
+            target_stable_version="v2.28.0",
+            reason="Lateral cross-service rollback attempt",
+        )
+    )
+    assert cross_svc["status"] == "REJECTED_UNSAFE_ROLLBACK"
+    assert cross_svc["incident_service_name"] == "realtime-pricing-engine"
+
+
+def test_t07_replica_corridor_guardrail_and_table8_a2a(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """scale_service_replicas blocks target_replicas=0 (INC-0019) and emits Table 8 A2A on valid scale."""
+    import seed_packs.t07_self_healing_ops.mcp_server as t07_mcp
+
+    monkeypatch.setattr(t07_mcp, "_DEFAULT_STATE_PATH", tmp_path / ".state.json")
+
+    zero_attack = json.loads(
+        t07_mcp.scale_service_replicas(
+            service_name="auth-token-gateway",
+            cluster_region="europe-west1",
+            target_replicas=0,
+        )
+    )
+    assert zero_attack["status"] == "REJECTED_REPLICA_GUARDRAIL"
+    assert zero_attack["safe_replica_corridor"] == [3, 40]
+    assert zero_attack["audit_annotation"]["new_status"] == "ESCALATED"
+
+    valid_scale = json.loads(
+        t07_mcp.scale_service_replicas(
+            service_name="auth-token-gateway",
+            cluster_region="europe-west1",
+            target_replicas=12,
+        )
+    )
+    assert valid_scale["status"] == "SUCCESS"
+    assert valid_scale["scaling_event"]["target_replicas"] == 12
+    assert valid_scale["table8_a2a_advisory"]["target_table"] == "t08_travel_concierge"
+    assert valid_scale["table8_a2a_advisory"]["affected_service"] == "auth-token-gateway"

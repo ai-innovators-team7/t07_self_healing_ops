@@ -1,0 +1,58 @@
+# Cloud Build CI/CD Pipeline for Table 7 (t07_self_healing_ops)
+# Runs offline unit tests, validates golden eval schema, executes live ADK golden evaluations,
+# and deploys/updates the Vertex AI Agent Runtime (Reasoning Engine) in europe-west1.
+
+substitutions:
+  _SEED_PACK: "t07"
+  _GEMINI_MODEL: "gemini-3.8-flash"
+  _GOOGLE_CLOUD_LOCATION: "global"
+  _AGENT_RUNTIME_LOCATION: "europe-west1"
+
+steps:
+  - id: "install-and-unit-test"
+    name: "python:3.12-slim"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        pip install --no-cache-dir uv
+        uv venv --python 3.12 .venv
+        uv pip install --python .venv/bin/python -e ".[dev]"
+        SEED_OFFLINE_MODE=1 .venv/bin/pytest -q
+
+  - id: "validate-and-run-golden-eval"
+    name: "python:3.12-slim"
+    entrypoint: "bash"
+    env:
+      - "GOOGLE_CLOUD_PROJECT=$PROJECT_ID"
+      - "GOOGLE_GENAI_USE_VERTEXAI=1"
+      - "GOOGLE_CLOUD_LOCATION=$_GOOGLE_CLOUD_LOCATION"
+      - "GEMINI_MODEL=$_GEMINI_MODEL"
+      - "SEED_PACK=$_SEED_PACK"
+      - "ENABLE_MCP_STDIO=0"
+    args:
+      - "-c"
+      - |
+        .venv/bin/python -m eval.run_eval --pack "$_SEED_PACK" --validate-only
+        .venv/bin/python -m eval.run_eval --pack "$_SEED_PACK"
+
+  - id: "deploy-agent-runtime"
+    name: "python:3.12-slim"
+    entrypoint: "bash"
+    env:
+      - "GOOGLE_CLOUD_PROJECT=$PROJECT_ID"
+      - "GOOGLE_GENAI_USE_VERTEXAI=1"
+      - "GOOGLE_CLOUD_LOCATION=$_GOOGLE_CLOUD_LOCATION"
+      - "GEMINI_MODEL=$_GEMINI_MODEL"
+      - "AGENT_RUNTIME_LOCATION=$_AGENT_RUNTIME_LOCATION"
+      - "STAGING_BUCKET=gs://${PROJECT_ID}-hackathon-staging"
+      - "SEED_PACK=$_SEED_PACK"
+      - "ENABLE_MCP_STDIO=0"
+    args:
+      - "-c"
+      - |
+        .venv/bin/python -m deploy.deploy --pack "$_SEED_PACK"
+        .venv/bin/python -m deploy.test_remote
+
+options:
+  logging: CLOUD_LOGGING_ONLY
