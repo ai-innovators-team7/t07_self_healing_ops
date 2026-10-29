@@ -30,6 +30,8 @@ def _resolve_project_and_dataset() -> tuple[str, str]:
     if "your-gcp-project-id" in project.lower() or "your-project-id" in project.lower():
         project = ""
     dataset = os.environ.get("SEED_BQ_DATASET", _DEFAULT_DATASET).strip() or _DEFAULT_DATASET
+    if dataset == "seed_t07":
+        dataset = _DEFAULT_DATASET
     return project, dataset
 
 

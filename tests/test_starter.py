@@ -516,12 +516,22 @@ def test_t07_direct_incident_lookup_and_seed_pack_validator(monkeypatch: pytest.
 def test_t07_showcase_ui_dashboard_and_guardrail_simulator(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    """Showcase UI dashboard and deterministic guardrail simulators work cleanly."""
+    """Showcase UI dashboard, PNG generator, ADK policy callback, and guardrail simulators work cleanly."""
     import asyncio
+    from app.agent import adk_before_tool_policy_callback
     import seed_packs.t07_self_healing_ops.mcp_server as t07_mcp
-    from ui.server import GuardrailSimulationRequest, _build_dashboard_payload, api_simulate_guardrail
+    from ui.server import (
+        GuardrailSimulationRequest,
+        _build_dashboard_payload,
+        _generate_grafana_spike_png,
+        api_simulate_guardrail,
+    )
 
     monkeypatch.setattr(t07_mcp, "_DEFAULT_STATE_PATH", tmp_path / ".state.json")
+
+    png = _generate_grafana_spike_png()
+    assert png.startswith(b"\x89PNG\r\n\x1a\n")
+    assert len(png) > 200
 
     dash = _build_dashboard_payload()
     assert dash["status"] == "ONLINE"
@@ -533,4 +543,45 @@ def test_t07_showcase_ui_dashboard_and_guardrail_simulator(
     assert sim["status"] == "SUCCESS"
     assert sim["tool_calls"][0]["output"]["status"] == "REJECTED_REPLICA_GUARDRAIL"
     assert len(sim["dashboard"]["state"]["incident_updates"]) >= 1
+
+    cb_resp = asyncio.run(api_simulate_guardrail(GuardrailSimulationRequest(scenario="adk_callback_injection")))
+    cb_sim = json.loads(cb_resp.body.decode("utf-8"))
+    assert cb_sim["status"] == "SUCCESS"
+    assert cb_sim["tool_calls"][0]["output"]["status"] == "BLOCKED_BY_ADK_POLICY_CALLBACK"
+
+    class _DummyTool:
+        name = "execute_canary_rollback"
+
+    class _DummyCtx:
+        def __init__(self) -> None:
+            self.state: dict[str, object] = {}
+
+    ctx = _DummyCtx()
+    allowed = adk_before_tool_policy_callback(
+        _DummyTool(),
+        {"incident_id": "INC-0001", "service_name": "checkout-payment-svc", "target_stable_version": "v2.10.0"},
+        ctx,
+    )
+    assert allowed is None
+    assert "adk_governance_trace" in ctx.state
+
+
+def test_t07_parallel_outage_subagents_build_cleanly() -> None:
+    """build_outage_subagents creates 4 specialized ADK LlmAgents for parallel outage scanning."""
+    from app.agent import build_outage_subagents
+
+    subagents = build_outage_subagents()
+    assert len(subagents) == 4
+    ids = [s["subagent_id"] for s in subagents]
+    assert ids == [
+        "sre_checkout_subagent",
+        "secops_pricing_subagent",
+        "infra_capacity_subagent",
+        "tribe_concierge_subagent",
+    ]
+    for spec in subagents:
+        assert spec["agent"].name == spec["subagent_id"]
+        assert len(spec["agent"].tools) >= 2
+
+
 
