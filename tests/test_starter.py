@@ -584,4 +584,55 @@ def test_t07_parallel_outage_subagents_build_cleanly() -> None:
         assert len(spec["agent"].tools) >= 2
 
 
+def test_t07_live_incident_generator_and_listening_agents(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Live incident generator creates new incidents visible to ADK tools and Listening Agents."""
+    import asyncio
+    import seed_packs.t07_self_healing_ops.mcp_server as t07_mcp
+    from seed_packs.t07_self_healing_ops.tools import query_active_incidents
+    from ui.server import (
+        AutoProcessIncidentRequest,
+        GenerateIncidentRequest,
+        api_auto_process_incident,
+        api_generate_incident,
+    )
+
+    monkeypatch.setenv("SEED_OFFLINE_MODE", "1")
+    monkeypatch.setattr(t07_mcp, "_DEFAULT_STATE_PATH", tmp_path / ".state.json")
+
+    gen_resp = asyncio.run(api_generate_incident(GenerateIncidentRequest(preset="batch_3_diverse")))
+    gen_data = json.loads(gen_resp.body.decode("utf-8"))
+    assert gen_data["status"] == "GENERATED"
+    assert gen_data["generated_count"] == 3
+    ids = [r["incident_id"] for r in gen_data["generated_incidents"]]
+    assert ids == ["INC-0051", "INC-0052", "INC-0053"]
+    assert len(gen_data["dashboard"]["all_open_incidents"]) == 38
+
+    # Verify ADK tools can see and operate on newly generated INC-0051
+    q_res = json.loads(query_active_incidents("SEV1", "checkout-payment-svc"))
+    assert any(r["incident_id"] == "INC-0051" for r in q_res["incidents"])
+
+    rb_res = json.loads(
+        t07_mcp.execute_canary_rollback(
+            incident_id="INC-0051",
+            service_name="checkout-payment-svc",
+            target_stable_version="v2.10.0",
+            reason="Rollback newly generated checkout incident",
+        )
+    )
+    assert rb_res["status"] == "SUCCESS"
+
+    # Verify Listening Agents pipeline on safe-margin incident INC-0053
+    proc_resp = asyncio.run(
+        api_auto_process_incident(AutoProcessIncidentRequest(incident_id="INC-0053", mode="local"))
+    )
+    proc_data = json.loads(proc_resp.body.decode("utf-8"))
+    assert proc_data["status"] == "AUTO_PROCESSED"
+    assert len(proc_data["stages"]) == 4
+    assert proc_data["stages"][0]["verdict"] == "OK_SAFE_MARGIN"
+    assert proc_data["stages"][1]["verdict"] == "OK_GENUINE_ALERT"
+
+
+
 

@@ -11,6 +11,7 @@ from typing import Any
 from google.cloud import bigquery
 from seed_packs.t07_self_healing_ops.mcp_server import (
     ACTION_TOOLS,
+    _load_state,
     annotate_incident_timeline,
     execute_canary_rollback,
     scale_service_replicas,
@@ -79,7 +80,31 @@ def _bq_error_hint(exc: Exception) -> str:
 def _read_local_csv(name: str) -> list[dict[str, Any]]:
     path = _DATA_DIR / f"{name}.csv"
     with path.open("r", encoding="utf-8") as fp:
-        return list(csv.DictReader(fp))
+        rows = list(csv.DictReader(fp))
+    if name == "service_incidents":
+        custom = _load_state().get("custom_incidents", [])
+        if isinstance(custom, list) and custom:
+            rows = [dict(r) for r in custom] + rows
+    return rows
+
+
+def _filter_custom_incidents(
+    inc_filter: str,
+    sev_clean: str,
+    svc_clean: str,
+) -> list[dict[str, Any]]:
+    custom = _load_state().get("custom_incidents", [])
+    if not isinstance(custom, list) or not custom:
+        return []
+    if inc_filter:
+        return [dict(r) for r in custom if str(r.get("incident_id", "")).upper() == inc_filter.upper()]
+    return [
+        dict(r)
+        for r in custom
+        if str(r.get("status", "OPEN")).upper() == "OPEN"
+        and (sev_clean.lower() == "all" or str(r.get("severity", "")).lower() == sev_clean.lower())
+        and (svc_clean.lower() == "all" or str(r.get("service_name", "")).lower() == svc_clean.lower())
+    ]
 
 
 def _annotate_prompt_injection_warnings(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -153,7 +178,13 @@ def query_active_incidents(
                 )
                 cfg = bigquery.QueryJobConfig(query_parameters=params)
                 rows = [dict(r.items()) for r in client.query(sql, job_config=cfg).result()]
-                rows = _annotate_prompt_injection_warnings(rows)
+                custom_matches = _filter_custom_incidents(inc_filter, sev_clean, svc_clean)
+                if custom_matches:
+                    existing_ids = {str(r.get("incident_id", "")).upper() for r in custom_matches}
+                    rows = custom_matches + [
+                        r for r in rows if str(r.get("incident_id", "")).upper() not in existing_ids
+                    ]
+                rows = _annotate_prompt_injection_warnings(rows[:15])
                 return json.dumps({
                     "status": "SUCCESS",
                     "source": f"bigquery:{project}.{dataset}.service_incidents",

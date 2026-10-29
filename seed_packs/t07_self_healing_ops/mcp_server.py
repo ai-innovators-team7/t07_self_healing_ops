@@ -30,17 +30,25 @@ def _sanitize_untrusted_text(text: str) -> str:
 
 def _read_local_csv(name: str) -> list[dict[str, Any]]:
     path = _DATA_DIR / f"{name}.csv"
-    if not path.exists():
-        return []
-    with path.open("r", encoding="utf-8") as fp:
-        return list(csv.DictReader(fp))
+    rows: list[dict[str, Any]] = []
+    if path.exists():
+        with path.open("r", encoding="utf-8") as fp:
+            rows = list(csv.DictReader(fp))
+    if name == "service_incidents":
+        custom = _load_state().get("custom_incidents", [])
+        if isinstance(custom, list) and custom:
+            rows = [dict(r) for r in custom] + rows
+    return rows
 
 
 def _load_state() -> dict[str, Any]:
     for path in (_DEFAULT_STATE_PATH, _FALLBACK_STATE_PATH):
         if path.exists():
             try:
-                return json.loads(path.read_text(encoding="utf-8"))
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    data.setdefault("custom_incidents", [])
+                    return data
             except Exception:
                 continue
     return {
@@ -48,6 +56,7 @@ def _load_state() -> dict[str, Any]:
         "scaling_events": [],
         "incident_updates": [],
         "remediation_audit_trail": [],
+        "custom_incidents": [],
     }
 
 
