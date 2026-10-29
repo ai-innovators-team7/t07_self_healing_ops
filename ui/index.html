@@ -144,37 +144,55 @@
     </div>
   </header>
 
-  <!-- Step-by-Step Page Navigation Bar (One Page Per Step) -->
+  <!-- Step-by-Step Page Navigation Bar (One Page Per Step, Strictly Ordered Step 1 -> 2 -> 3 -> 4) -->
   <nav class="bg-slate-950/90 border-b border-slate-800/80 px-6 py-3 sticky top-[69px] z-30 backdrop-blur-md">
     <div class="max-w-[1440px] mx-auto">
-      <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
-        <span>📖 Follow the Story Step-by-Step — Click any page below (No technical background needed!)</span>
+      <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex flex-wrap items-center justify-between gap-2">
+        <span>📖 Follow the Story in Order: Step 1 → Step 2 → Step 3 → Step 4 (Complete each step to unlock the next!)</span>
         <span id="pageIndicatorBadge" class="text-emerald-300 mono">Page 1 of 6</span>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
         <button id="tab-page-1" onclick="goToPage(1)" class="step-tab active text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Page 1 • The Story</div>
-          <div class="text-xs font-bold text-white truncate">🌍 2:00 AM Website Crisis</div>
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Page 1 • Story</span>
+            <span id="tab-status-1" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">🔓 Open</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate mt-0.5">🌍 2:00 AM Website Crisis</div>
         </button>
         <button id="tab-page-2" onclick="goToPage(2)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-sky-400">Page 2 • Step 1</div>
-          <div class="text-xs font-bold text-white truncate">⚡ 4 AI Helpers at Once</div>
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400">Page 2 • Step 1</span>
+            <span id="tab-status-2" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300">🔓 Ready</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate mt-0.5">⚡ Check All 35 Alerts</div>
         </button>
-        <button id="tab-page-3" onclick="goToPage(3)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Page 3 • Step 2</div>
-          <div class="text-xs font-bold text-white truncate">🛡️ Catching the Hacker Trap</div>
+        <button id="tab-page-3" onclick="goToPage(3)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900 opacity-60">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">Page 3 • Step 2</span>
+            <span id="tab-status-3" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">🔒 Locked</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate mt-0.5">🛡️ Catch Hacker Trap</div>
         </button>
-        <button id="tab-page-4" onclick="goToPage(4)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Page 4 • Step 3</div>
-          <div class="text-xs font-bold text-white truncate">🔄 Automatic Repair</div>
+        <button id="tab-page-4" onclick="goToPage(4)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900 opacity-60">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Page 4 • Step 3</span>
+            <span id="tab-status-4" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">🔒 Locked</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate mt-0.5">🔄 Automatic Repair</div>
         </button>
-        <button id="tab-page-5" onclick="goToPage(5)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Page 5 • Step 4</div>
-          <div class="text-xs font-bold text-white truncate">✈️ Rebooking VIP Travelers</div>
+        <button id="tab-page-5" onclick="goToPage(5)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900 opacity-60">
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Page 5 • Step 4</span>
+            <span id="tab-status-5" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300">🔒 Locked</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate mt-0.5">✈️ Rebook VIP Travelers</div>
         </button>
         <button id="tab-page-6" onclick="goToPage(6)" class="step-tab text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 hover:bg-slate-900">
-          <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Page 6 • Summary &amp; Chat</div>
-          <div class="text-xs font-bold text-white truncate">🏆 Summary &amp; Ask Anything</div>
+          <div class="flex items-center justify-between gap-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Page 6 • Summary</span>
+            <span id="tab-status-6" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">🔓 Open</span>
+          </div>
+          <div class="text-xs font-bold text-white truncate mt-0.5">🏆 Summary &amp; Ask AI</div>
         </button>
       </div>
     </div>
@@ -182,6 +200,20 @@
 
   <!-- Main Container -->
   <main class="max-w-[1440px] mx-auto px-6 py-6">
+
+    <!-- Step Lock Notice Toast (Shown if user clicks a locked step before finishing previous step) -->
+    <div id="stepLockToast" class="hidden mb-5 p-4 rounded-2xl bg-amber-500/20 border-2 border-amber-400 shadow-xl flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🔒</span>
+        <div>
+          <div id="stepLockToastTitle" class="text-sm font-extrabold text-amber-200">Step Locked — Please Complete the Previous Step First!</div>
+          <div id="stepLockToastBody" class="text-xs text-slate-200 mt-0.5">You must run Step 1 before Step 2 can begin.</div>
+        </div>
+      </div>
+      <button onclick="document.getElementById('stepLockToast').classList.add('hidden')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900/80 text-slate-200 hover:bg-slate-800 border border-slate-700">
+        Got It ✕
+      </button>
+    </div>
 
     <!-- Animated Global Background Execution Banner -->
     <div id="globalLoadingBar" class="hidden mb-6 rounded-2xl overflow-hidden bg-slate-900/95 border border-sky-500/50 shadow-2xl shadow-sky-500/10">
@@ -377,8 +409,8 @@
         <button onclick="goToPage(1)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: The Story
         </button>
-        <button onclick="goToPage(3)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-rose-500 to-amber-500 text-slate-950 shadow-lg shadow-rose-500/20 hover:opacity-95 transition">
-          Next Page: 🛡️ Step 2 — Security Check Across the 35 Alerts →
+        <button id="btnNextToStep2" onclick="goToPage(3)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition">
+          🔒 Complete Step 1 Above First to Unlock Step 2
         </button>
       </div>
     </section>
@@ -387,17 +419,17 @@
     <!-- PAGE 3: STEP 2 — CATCHING THE HACKER TRAP ACROSS ALL 35 ALERTS          -->
     <!-- ======================================================================= -->
     <section id="page-3" class="hidden space-y-6">
-      <!-- Warning Banner if user jumped to Step 2 after Reset without running Step 1 -->
-      <div id="step2PrerequisiteBanner" class="hidden p-4 rounded-2xl bg-amber-500/15 border border-amber-500/50 flex flex-wrap items-center justify-between gap-3">
+      <!-- Locked Banner if Step 1 has not been completed yet -->
+      <div id="step2PrerequisiteBanner" class="hidden p-4 rounded-2xl bg-rose-500/15 border-2 border-rose-500/60 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <span class="text-2xl">🔒</span>
           <div>
-            <div class="text-sm font-extrabold text-amber-300">Step 1 Has Not Been Run Yet (All 35 Alerts Are Currently Unchecked)</div>
-            <div class="text-xs text-slate-300">Because the demo was reset (or you jumped straight to Step 2), none of the 35 alerts have been scanned yet. Run Step 1 first or click "Scan All 35 Alerts Now" on this page!</div>
+            <div class="text-sm font-extrabold text-rose-200">Step 2 Is Locked — You Cannot Run Step 2 Before Step 1!</div>
+            <div class="text-xs text-slate-200">In our workflow, the AI must first scan all 35 alerts in <strong>Step 1</strong> (`✅ OK` vs `❌ NOK`) before <strong>Step 2</strong> can inspect them for hacker traps. Please complete Step 1 first!</div>
           </div>
         </div>
-        <button onclick="goToPage(2)" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition">
-          ← Go Run Step 1 First
+        <button onclick="goToPage(2)" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition">
+          ← Go Complete Step 1 Now
         </button>
       </div>
 
@@ -412,17 +444,17 @@
             </h2>
           </div>
           <div class="flex flex-wrap gap-2">
-            <button onclick="runPage3AgentSecOps('ALL')" class="px-5 py-3 rounded-xl text-sm font-bold bg-rose-500 hover:bg-rose-400 text-slate-950 shadow-lg shadow-rose-500/25 transition">
+            <button id="btnStep2ScanAll" onclick="runPage3AgentSecOps('ALL')" class="px-5 py-3 rounded-xl text-sm font-bold bg-rose-500 hover:bg-rose-400 text-slate-950 shadow-lg shadow-rose-500/25 transition">
               🛡️ Scan All 35 Alerts One-by-One &amp; Block Any Trap
             </button>
-            <button onclick="runPage3AgentSecOps('INC-0019')" class="px-4 py-3 rounded-xl text-xs font-bold bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/40 transition">
+            <button id="btnStep2Check19" onclick="runPage3AgentSecOps('INC-0019')" class="px-4 py-3 rounded-xl text-xs font-bold bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/40 transition">
               🚨 Deep-Check Alert #19 (The Hacker Trap)
             </button>
           </div>
         </div>
 
         <p class="text-sm text-slate-300 leading-relaxed mb-5">
-          <strong>How does Step 2 work?</strong> Before our AI is allowed to fix any broken system in Step 3, it inspects the text inside all <strong>35 alerts (`INC-0001` to `INC-0035`)</strong> to make sure a hacker hasn't hidden a dangerous command inside an error message.
+          <strong>How does Step 2 work?</strong> After Step 1 finishes triaging the 35 incoming alerts, Step 2 inspects the text inside all <strong>35 alerts (`INC-0001` to `INC-0035`)</strong> before any repair is allowed in Step 3.
           Watch the table below as our AI checks each alert one by one:
           <strong class="text-emerald-300">34 alerts are marked ✅ OK (Genuine Technical Problem — safe to fix)</strong>, while
           <strong class="text-rose-300">Alert `INC-0019` is marked ❌ NOK (HACKER TRAP BLOCKED!)</strong> because it tries to trick the AI into turning off the Login servers!
@@ -490,8 +522,8 @@
         <button onclick="goToPage(2)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: Step 1 (4 AI Helpers &amp; 35-Alert Check)
         </button>
-        <button onclick="goToPage(4)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-lg shadow-emerald-500/20 hover:opacity-95 transition">
-          Next Page: 🔄 Step 3 — How Automatic Repair Works →
+        <button id="btnNextToStep3" onclick="goToPage(4)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition">
+          🔒 Complete Step 2 Above First to Unlock Step 3
         </button>
       </div>
     </section>
@@ -500,17 +532,17 @@
     <!-- PAGE 4: STEP 3 — HOW AUTOMATIC REPAIR WORKS (4-CHECK SAFETY PIPELINE)   -->
     <!-- ======================================================================= -->
     <section id="page-4" class="hidden space-y-6">
-      <!-- Warning Banner if user jumped to Step 3 after Reset without running Step 1/2 -->
-      <div id="step3PrerequisiteBanner" class="hidden p-4 rounded-2xl bg-amber-500/15 border border-amber-500/50 flex flex-wrap items-center justify-between gap-3">
+      <!-- Locked Banner if Step 1 & Step 2 have not been completed yet -->
+      <div id="step3PrerequisiteBanner" class="hidden p-4 rounded-2xl bg-rose-500/15 border-2 border-rose-500/60 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <span class="text-2xl">🔒</span>
           <div>
-            <div class="text-sm font-extrabold text-amber-300">Steps 1 &amp; 2 Have Not Been Run Yet!</div>
-            <div class="text-xs text-slate-300">Normally Step 3 repairs the alerts that were marked <strong>❌ NOK (Outage)</strong> in Step 1 and <strong>✅ OK (Safe Technical Alert)</strong> in Step 2. You can go back to Step 1 or run the repairs directly below!</div>
+            <div class="text-sm font-extrabold text-rose-200">Step 3 Is Locked — You Cannot Repair Systems Before Step 1 &amp; Step 2!</div>
+            <div class="text-xs text-slate-200">Our AI is never allowed to repair the live website until <strong>Step 1</strong> identifies the broken alerts (`❌ NOK`) and <strong>Step 2</strong> verifies they are not hacker traps (`✅ OK`).</div>
           </div>
         </div>
-        <button onclick="goToPage(2)" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition">
-          ← Go to Step 1
+        <button onclick="goToPage(2)" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition">
+          ← Go Complete Previous Steps
         </button>
       </div>
 
@@ -525,10 +557,10 @@
             </h2>
           </div>
           <div class="flex flex-wrap gap-2.5">
-            <button onclick="runPage4CanaryRollback()" class="px-5 py-3 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/25 transition">
+            <button id="btnStep3Rollback" onclick="runPage4CanaryRollback()" class="px-5 py-3 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/25 transition">
               🔄 1. Fix Checkout Alert INC-0001 (Restore Safe Version v2.10.0)
             </button>
-            <button onclick="runPage4SafeScaling()" class="px-4 py-3 rounded-xl text-sm font-bold bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 border border-sky-500/40 transition">
+            <button id="btnStep3Scale" onclick="runPage4SafeScaling()" class="px-4 py-3 rounded-xl text-sm font-bold bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 border border-sky-500/40 transition">
               📈 2. Fix Login Alert INC-0002 (Boost to 12 Servers)
             </button>
           </div>
@@ -617,8 +649,8 @@
         <button onclick="goToPage(3)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: Step 2 (Catching the Hacker Trap)
         </button>
-        <button onclick="goToPage(5)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-purple-500 to-sky-500 text-slate-950 shadow-lg shadow-purple-500/20 hover:opacity-95 transition">
-          Next Page: ✈️ Step 4 — Rebooking Stranded VIP Travelers →
+        <button id="btnNextToStep4" onclick="goToPage(5)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition">
+          🔒 Complete Step 3 (Fix Checkout) Above First to Unlock Step 4
         </button>
       </div>
     </section>
@@ -627,6 +659,20 @@
     <!-- PAGE 5: STEP 4 — TEAMWORK WITH TABLE 8'S TRAVEL CONCIERGE AI            -->
     <!-- ======================================================================= -->
     <section id="page-5" class="hidden space-y-6">
+      <!-- Locked Banner if Step 3 Checkout repair has not been completed yet -->
+      <div id="step4PrerequisiteBanner" class="hidden p-4 rounded-2xl bg-rose-500/15 border-2 border-rose-500/60 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🔒</span>
+          <div>
+            <div class="text-sm font-extrabold text-rose-200">Step 4 Is Locked — Customer Checkout Must Be Repaired in Step 3 First!</div>
+            <div class="text-xs text-slate-200">Partner Team 8's Travel Concierge AI cannot rebook VIP travelers while Checkout is still broken. Please complete Step 3 first!</div>
+          </div>
+        </div>
+        <button onclick="goToPage(4)" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 hover:bg-emerald-300 transition">
+          ← Go Complete Step 3 First
+        </button>
+      </div>
+
       <div class="glass rounded-3xl p-7 border border-purple-500/35">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
@@ -637,7 +683,7 @@
               ✈️ Step 4: Our AI Tells Table 8's Travel AI to Rebook Stranded Passengers
             </h2>
           </div>
-          <button onclick="runPage5Table8A2A()" class="px-5 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-purple-500 to-sky-500 text-slate-950 shadow-lg shadow-purple-500/25 hover:opacity-95 transition">
+          <button id="btnStep4Rebook" onclick="runPage5Table8A2A()" class="px-5 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-purple-500 to-sky-500 text-slate-950 shadow-lg shadow-purple-500/25 hover:opacity-95 transition">
             ✈️ Rebook Stranded VIP Travelers Now (Table 7 → Table 8 AI)
           </button>
         </div>
@@ -841,26 +887,175 @@
       return FRIENDLY_SERVICE_NAMES[svcName] || svcName;
     }
 
+    function showStepLockToast(title, body) {
+      const toast = document.getElementById('stepLockToast');
+      const tEl = document.getElementById('stepLockToastTitle');
+      const bEl = document.getElementById('stepLockToastBody');
+      if (toast && tEl && bEl) {
+        tEl.textContent = title;
+        bEl.textContent = body;
+        toast.classList.remove('hidden');
+      }
+    }
+
+    function hideStepLockToast() {
+      const toast = document.getElementById('stepLockToast');
+      if (toast) toast.classList.add('hidden');
+    }
+
     function updatePrerequisiteBanners() {
-      const b2 = document.getElementById('step2PrerequisiteBanner');
-      const b3 = document.getElementById('step3PrerequisiteBanner');
-      if (b2) {
-        if (!workflowState.step1Done && !workflowState.step2Done) {
-          b2.classList.remove('hidden');
+      const s1 = workflowState.step1Done;
+      const s2 = workflowState.step2Done;
+      const s3 = workflowState.step3CheckoutDone;
+      const s4 = workflowState.step4Done;
+
+      // 1. Update Top Navigation Tabs & Status Pills
+      const tab2 = document.getElementById('tab-page-2');
+      const tab3 = document.getElementById('tab-page-3');
+      const tab4 = document.getElementById('tab-page-4');
+      const tab5 = document.getElementById('tab-page-5');
+      const st2 = document.getElementById('tab-status-2');
+      const st3 = document.getElementById('tab-status-3');
+      const st4 = document.getElementById('tab-status-4');
+      const st5 = document.getElementById('tab-status-5');
+
+      if (st2) {
+        st2.textContent = s1 ? '✅ Done' : '🔓 Ready';
+        st2.className = s1
+          ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300'
+          : 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300';
+      }
+      if (tab3 && st3) {
+        tab3.classList.toggle('opacity-60', !s1);
+        st3.textContent = s2 ? '✅ Done' : (s1 ? '🔓 Ready' : '🔒 Locked');
+        st3.className = s2
+          ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300'
+          : (s1
+            ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300'
+            : 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300');
+      }
+      if (tab4 && st4) {
+        tab4.classList.toggle('opacity-60', !s2);
+        st4.textContent = s3 ? '✅ Done' : (s2 ? '🔓 Ready' : '🔒 Locked');
+        st4.className = s3
+          ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300'
+          : (s2
+            ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300'
+            : 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300');
+      }
+      if (tab5 && st5) {
+        tab5.classList.toggle('opacity-60', !s3);
+        st5.textContent = s4 ? '✅ Done' : (s3 ? '🔓 Ready' : '🔒 Locked');
+        st5.className = s4
+          ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300'
+          : (s3
+            ? 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300'
+            : 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300');
+      }
+
+      // 2. Update "Next Page" Progression Buttons
+      const next2 = document.getElementById('btnNextToStep2');
+      if (next2) {
+        if (s1) {
+          next2.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-rose-500 to-amber-500 text-slate-950 shadow-lg shadow-rose-500/20 hover:opacity-95 transition';
+          next2.innerHTML = '✅ Step 1 Complete! Next Page: 🛡️ Step 2 — Security Check →';
         } else {
-          b2.classList.add('hidden');
+          next2.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition';
+          next2.innerHTML = '🔒 Complete Step 1 Above First to Unlock Step 2';
         }
       }
-      if (b3) {
-        if (!workflowState.step1Done && !workflowState.step2Done && !workflowState.step3CheckoutDone && !workflowState.step3LoginDone) {
-          b3.classList.remove('hidden');
+
+      const next3 = document.getElementById('btnNextToStep3');
+      if (next3) {
+        if (s2) {
+          next3.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-lg shadow-emerald-500/20 hover:opacity-95 transition';
+          next3.innerHTML = '✅ Step 2 Complete! Next Page: 🔄 Step 3 — Automatic Repair →';
         } else {
-          b3.classList.add('hidden');
+          next3.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition';
+          next3.innerHTML = '🔒 Complete Step 2 Above First to Unlock Step 3';
         }
+      }
+
+      const next4 = document.getElementById('btnNextToStep4');
+      if (next4) {
+        if (s3) {
+          next4.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-purple-500 to-sky-500 text-slate-950 shadow-lg shadow-purple-500/20 hover:opacity-95 transition';
+          next4.innerHTML = '✅ Step 3 Complete! Next Page: ✈️ Step 4 — Rebook VIP Travelers →';
+        } else {
+          next4.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition';
+          next4.innerHTML = '🔒 Complete Step 3 (Fix Checkout) Above First to Unlock Step 4';
+        }
+      }
+
+      // 3. Update Prerequisite Warning Banners & Action Button Locks
+      const b2 = document.getElementById('step2PrerequisiteBanner');
+      const b3 = document.getElementById('step3PrerequisiteBanner');
+      const b4 = document.getElementById('step4PrerequisiteBanner');
+      if (b2) b2.classList.toggle('hidden', s1);
+      if (b3) b3.classList.toggle('hidden', s2);
+      if (b4) b4.classList.toggle('hidden', s3);
+
+      const btnS2All = document.getElementById('btnStep2ScanAll');
+      const btnS219 = document.getElementById('btnStep2Check19');
+      if (btnS2All) {
+        btnS2All.disabled = !s1;
+        btnS2All.classList.toggle('opacity-50', !s1);
+        btnS2All.classList.toggle('cursor-not-allowed', !s1);
+      }
+      if (btnS219) {
+        btnS219.disabled = !s1;
+        btnS219.classList.toggle('opacity-50', !s1);
+        btnS219.classList.toggle('cursor-not-allowed', !s1);
+      }
+
+      const btnS3Rb = document.getElementById('btnStep3Rollback');
+      const btnS3Sc = document.getElementById('btnStep3Scale');
+      if (btnS3Rb) {
+        btnS3Rb.disabled = !s2;
+        btnS3Rb.classList.toggle('opacity-50', !s2);
+        btnS3Rb.classList.toggle('cursor-not-allowed', !s2);
+      }
+      if (btnS3Sc) {
+        btnS3Sc.disabled = !s2;
+        btnS3Sc.classList.toggle('opacity-50', !s2);
+        btnS3Sc.classList.toggle('cursor-not-allowed', !s2);
+      }
+
+      const btnS4 = document.getElementById('btnStep4Rebook');
+      if (btnS4) {
+        btnS4.disabled = !s3;
+        btnS4.classList.toggle('opacity-50', !s3);
+        btnS4.classList.toggle('cursor-not-allowed', !s3);
       }
     }
 
     function goToPage(pageNum) {
+      // Enforce strict sequential step order: Step 1 (Page 2) -> Step 2 (Page 3) -> Step 3 (Page 4) -> Step 4 (Page 5)
+      if (pageNum === 3 && !workflowState.step1Done) {
+        showStepLockToast(
+          '🔒 Step 2 Is Locked — You Cannot Run Step 2 Before Step 1!',
+          'Please click "🚀 Launch 4 AI Helpers & Check All 35 Alerts Now" on Step 1 first so all 35 alerts are checked before Step 2 begins.'
+        );
+        pageNum = 2;
+      } else if (pageNum === 4 && !workflowState.step2Done) {
+        const targetPage = workflowState.step1Done ? 3 : 2;
+        const missingStepName = workflowState.step1Done ? 'Step 2 (Security Check)' : 'Step 1 (Check All 35 Alerts)';
+        showStepLockToast(
+          '🔒 Step 3 Is Locked — Complete Previous Steps First!',
+          `Our AI is never allowed to repair the website until both Step 1 and Step 2 are completed. Please complete ${missingStepName} first.`
+        );
+        pageNum = targetPage;
+      } else if (pageNum === 5 && !workflowState.step3CheckoutDone) {
+        const targetPage = !workflowState.step1Done ? 2 : (!workflowState.step2Done ? 3 : 4);
+        showStepLockToast(
+          '🔒 Step 4 Is Locked — Customer Checkout Must Be Repaired in Step 3 First!',
+          'Partner Team 8’s Travel Concierge AI cannot rebook stranded VIP passengers until Customer Checkout is restored in Step 3.'
+        );
+        pageNum = targetPage;
+      } else {
+        hideStepLockToast();
+      }
+
       currentPage = pageNum;
       for (let i = 1; i <= 6; i++) {
         const sec = document.getElementById(`page-${i}`);
@@ -1321,36 +1516,16 @@
 
     // Animates checking each of the 35 alerts one by one on Step 2 (marking OK vs NOK for Hacker Traps)
     async function animateStep2RowsSequentially(targetIncident = 'ALL') {
+      if (!workflowState.step1Done) return;
       if (!latestDashboardData || !latestDashboardData.all_open_incidents) return;
       const incs = latestDashboardData.all_open_incidents;
-      // If Step 1 wasn't run yet, populate Step 1 triage states too so the user sees complete context
-      if (!workflowState.step1Done) {
-        incs.forEach(inc => {
-          step1RowStates[inc.incident_id] = (inc.severity === 'SEV1') ? 'NOK' : 'OK';
-        });
-        workflowState.step1Done = true;
-        renderStep1IncidentsBoard();
-      }
-
-      if (targetIncident && targetIncident !== 'ALL') {
-        const inc = incs.find(x => x.incident_id === targetIncident);
-        if (inc) {
-          step2RowStates[inc.incident_id] = 'SCANNING';
-          renderStep2IncidentsBoard();
-          await new Promise(r => setTimeout(r, 400));
-          const isPoisoned = Boolean(inc.prompt_injection_detected || inc.security_warning);
-          step2RowStates[inc.incident_id] = isPoisoned ? 'NOK' : 'OK';
-          renderStep2IncidentsBoard();
-        }
-        return;
-      }
 
       for (let i = 0; i < incs.length; i++) {
         const inc = incs[i];
         step2RowStates[inc.incident_id] = 'SCANNING';
         renderStep2IncidentsBoard();
         const rowEl = document.getElementById(`s2-row-${inc.incident_id}`);
-        if (rowEl && (i % 4 === 0 || inc.incident_id === 'INC-0019')) {
+        if (rowEl && (i % 4 === 0 || inc.incident_id === 'INC-0019' || inc.incident_id === targetIncident)) {
           rowEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         await new Promise(r => setTimeout(r, 85));
@@ -1482,6 +1657,14 @@
 
     // PAGE 3: Catching the Hacker Trap Across All 35 Alerts (Live Row-by-Row OK vs NOK)
     async function runPage3AgentSecOps(targetIncident = 'ALL') {
+      if (!workflowState.step1Done) {
+        goToPage(2);
+        showStepLockToast(
+          '🔒 Step 2 Cannot Run Before Step 1!',
+          'Please click "🚀 Launch 4 AI Helpers & Check All 35 Alerts Now" on Step 1 first.'
+        );
+        return;
+      }
       const isAll = !targetIncident || targetIncident === 'ALL';
       document.getElementById('page3OutputText').innerHTML = renderAnimatedWaitingBox(
         isAll
@@ -1522,6 +1705,14 @@
     }
 
     async function runPage3Guardrail(scenario) {
+      if (!workflowState.step1Done) {
+        goToPage(2);
+        showStepLockToast(
+          '🔒 Step 2 Cannot Run Before Step 1!',
+          'Please complete Step 1 first before running Step 2 security checks.'
+        );
+        return;
+      }
       document.getElementById('page3OutputText').innerHTML = renderAnimatedWaitingBox(
         'Testing Built-In Safety Lock...',
         'Showing how our safety rules automatically mark dangerous actions ❌ NOK and block them'
@@ -1545,6 +1736,14 @@
 
     // PAGE 4: Step 3 Automatic Repair (4 Safety Checks + Repair Queue)
     async function runPage4CanaryRollback() {
+      if (!workflowState.step2Done) {
+        goToPage(workflowState.step1Done ? 3 : 2);
+        showStepLockToast(
+          '🔒 Step 3 Cannot Run Before Step 1 & Step 2!',
+          'Our AI is never allowed to repair the website until Step 1 and Step 2 (Security Check) are completed.'
+        );
+        return;
+      }
       document.getElementById('page4OutputText').innerHTML = renderAnimatedWaitingBox(
         'Running 4 Safety Checks & Repairing Customer Checkout (INC-0001)...',
         'Switching Checkout back from broken update (v2.10.2-rc1) to proven working version (v2.10.0)'
@@ -1573,6 +1772,14 @@
     }
 
     async function runPage4SafeScaling() {
+      if (!workflowState.step2Done) {
+        goToPage(workflowState.step1Done ? 3 : 2);
+        showStepLockToast(
+          '🔒 Step 3 Cannot Run Before Step 1 & Step 2!',
+          'Our AI is never allowed to repair the website until Step 1 and Step 2 (Security Check) are completed.'
+        );
+        return;
+      }
       document.getElementById('page4OutputText').innerHTML = renderAnimatedWaitingBox(
         'Running 4 Safety Checks & Boosting Customer Login Servers (INC-0002)...',
         'Safely increasing Login capacity from 4 servers to 12 servers (well inside the 3 to 40 safe limit)'
@@ -1602,6 +1809,14 @@
 
     // PAGE 5: Partner Team Table 8 VIP Traveler Rebooking
     async function runPage5Table8A2A() {
+      if (!workflowState.step3CheckoutDone) {
+        goToPage(!workflowState.step1Done ? 2 : (!workflowState.step2Done ? 3 : 4));
+        showStepLockToast(
+          '🔒 Step 4 Cannot Run Before Step 3 Repairs Checkout!',
+          'Partner Team 8’s Travel Concierge AI cannot rebook VIP passengers while Customer Checkout is still broken.'
+        );
+        return;
+      }
       document.getElementById('page5OutputText').innerHTML = renderAnimatedWaitingBox(
         'Notifying Partner Team Table 8’s Travel Concierge AI...',
         'Finding VIP travelers stranded in Madrid and booking their replacement flight to London'
