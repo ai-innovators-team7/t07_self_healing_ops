@@ -1918,9 +1918,6 @@
         `;
       }).join('');
 
-      const pEl = document.getElementById('s2CountPending');
-      const okEl = document.getElementById('s2CountOk');
-      const nokEl = document.getElementById('s2CountNok');
       if (pEl) pEl.textContent = `⚪ Unchecked: ${countPending}`;
       if (okEl) okEl.textContent = `✅ OK (Safe Alert): ${countOk}`;
       if (nokEl) nokEl.textContent = `❌ NOK (Hacker Trap): ${countNok}`;
