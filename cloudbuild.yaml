@@ -1,0 +1,47 @@
+# Google Cloud Build pipeline for Table 7: Self-Healing Infrastructure & Security Copilot (t07_self_healing_ops)
+# Uses the native Cloud Build service agent (no exported Service Account JSON keys required).
+steps:
+  - id: "install-and-test"
+    name: "python:3.12-slim"
+    entrypoint: "bash"
+    env:
+      - "SEED_PACK=t07"
+      - "GOOGLE_CLOUD_PROJECT=$PROJECT_ID"
+      - "GOOGLE_CLOUD_LOCATION=global"
+      - "GEMINI_MODEL=gemini-3.8-flash"
+      - "GEMINI_IMAGE_MODEL=gemini-3.1-flash-image"
+      - "AGENT_RUNTIME_LOCATION=europe-west1"
+      - "BQ_LOCATION=EU"
+    args:
+      - "-c"
+      - |
+        pip install --no-cache-dir uv
+        uv venv --python 3.12 .venv
+        uv pip install --python .venv/bin/python -r pyproject.toml
+        .venv/bin/python -m pytest -q
+        .venv/bin/python seed_packs/check_packs.py
+        .venv/bin/python -m eval.run_eval --pack t07 --validate-only
+
+  - id: "live-eval-and-deploy"
+    name: "python:3.12-slim"
+    entrypoint: "bash"
+    waitFor: ["install-and-test"]
+    env:
+      - "SEED_PACK=t07"
+      - "GOOGLE_CLOUD_PROJECT=$PROJECT_ID"
+      - "GOOGLE_GENAI_USE_VERTEXAI=1"
+      - "GOOGLE_CLOUD_LOCATION=global"
+      - "GEMINI_MODEL=gemini-3.8-flash"
+      - "GEMINI_IMAGE_MODEL=gemini-3.1-flash-image"
+      - "AGENT_RUNTIME_LOCATION=europe-west1"
+      - "BQ_LOCATION=EU"
+    args:
+      - "-c"
+      - |
+        .venv/bin/python -m seed_packs.t07_self_healing_ops.load
+        .venv/bin/python -m eval.run_eval --pack t07
+        .venv/bin/python -m deploy.deploy
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+timeout: "1800s"

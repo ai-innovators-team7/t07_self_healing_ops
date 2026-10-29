@@ -19,11 +19,15 @@
 - `query_active_incidents` (BigQuery read tool in `tools.py`)
 - `inspect_deployment_release` (BigQuery read tool in `tools.py`)
 - `lookup_slo_runbook` (BigQuery read tool in `tools.py`)
+- `correlate_incident_context` (3-table BigQuery join, blast-radius check & prompt-injection scanner in `tools.py`)
+- `generate_incident_topology_card` (Multimodal SVG/HTML blast-radius topology card generator in `tools.py`)
 
 ### Mock Action APIs (`mcp_server.py` & `ACTION_TOOLS` in `tools.py`)
 - `execute_canary_rollback` (FastMCP stdio tool in `mcp_server.py` & `ACTION_TOOLS` in `tools.py`)
 - `scale_service_replicas` (FastMCP stdio tool in `mcp_server.py` & `ACTION_TOOLS` in `tools.py`)
 - `annotate_incident_timeline` (FastMCP stdio tool in `mcp_server.py` & `ACTION_TOOLS` in `tools.py`)
+- `emit_partner_service_advisory` (Tribe A2A Table 7 -> Table 8 advisory tool in `mcp_server.py` & `ACTION_TOOLS` in `tools.py`)
+- `get_remediation_audit_log` (Stateful remediation & blocked-attack audit ledger tool in `mcp_server.py` & `ACTION_TOOLS` in `tools.py`)
 
 ## Minimum Playable Scope (~3.5 Hours Build Time)
 Build an ADK agent connected to `seed_t07` and the `t07_self_healing_ops` MCP server that: (1) queries open incidents by severity and service, (2) inspects the incident's `active_release_id` (previous stable version, canary pass rate, `rollback_safe`) and the matching SLO runbook, and (3) calls `execute_canary_rollback`, `scale_service_replicas`, or `annotate_incident_timeline` safely.

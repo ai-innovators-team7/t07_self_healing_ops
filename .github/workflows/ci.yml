@@ -1,0 +1,38 @@
+name: Table 7 Self-Healing Copilot CI
+
+on:
+  push:
+    branches: [main, "feat/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality-gates:
+    name: Pytest, Pack Contract & ADK Eval Schema Gate (Python 3.12)
+    runs-on: ubuntu-latest
+    env:
+      SEED_PACK: t07
+      GEMINI_MODEL: gemini-3.8-flash
+      GEMINI_IMAGE_MODEL: gemini-3.1-flash-image
+      GOOGLE_CLOUD_LOCATION: global
+      AGENT_RUNTIME_LOCATION: europe-west1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv and Python 3.12
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create .venv and install pinned dependencies
+        run: make setup
+
+      - name: Run unit tests (starter + Table 7 SRE & SecOps guardrails)
+        run: .venv/bin/python -m pytest -q
+
+      - name: Validate all Seed Pack contracts
+        run: .venv/bin/python seed_packs/check_packs.py
+
+      - name: Validate ADK Golden Evaluation Set schema (10 cases)
+        run: make eval-validate PACK=t07

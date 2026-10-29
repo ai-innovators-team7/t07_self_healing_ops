@@ -240,6 +240,12 @@ async def run_live_evaluation(
 
     # Run evaluation with plain Python function tools for deterministic speed & reliability
     agent, pack = build_agent(pack_id=pack_id, enable_mcp_stdio=False)
+    for state_candidate in (
+        pack.pack_dir / ".state.json",
+        Path(f"/tmp/{pack.pack_id}_state.json"),
+    ):
+        if state_candidate.exists():
+            state_candidate.unlink(missing_ok=True)
     runner = InMemoryRunner(agent=agent, app_name="app")
 
     results: list[dict[str, Any]] = []

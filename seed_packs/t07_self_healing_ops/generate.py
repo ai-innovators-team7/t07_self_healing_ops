@@ -87,7 +87,7 @@ def generate_all() -> dict[str, int]:
                 f"team-{svc.split('-')[0]}",
                 "CONFIG_AND_BINARY" if i % 2 == 0 else "BINARY_ONLY",
                 round(rng.uniform(62.0, 99.9), 1),
-                True,
+                False if i == 28 else True,
             ])
 
     run_path = _DATA_DIR / "slo_runbooks.csv"
