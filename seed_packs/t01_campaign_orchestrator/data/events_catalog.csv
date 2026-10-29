@@ -1,0 +1,101 @@
+event_id,event_name,city,country,category,venue,event_date,ticket_price_eur,target_audience,available_tickets
+EVT-0001,London Immersive Exhibition Vol. 2,London,UK,Immersive Exhibition,Docklands Vaults,2026-11-02,62.75,GenZ_Nightlife,443
+EVT-0002,Madrid Electronic Music Night Vol. 3,Madrid,ES,Electronic Music Night,Gran Via Dome,2026-11-03,87.95,Culture_Seekers,1149
+EVT-0003,Barcelona Candlelight Classical Vol. 4,Barcelona,ES,Candlelight Classical,Poble Espanyol Hall,2026-11-04,89.15,Families_Weekend,1001
+EVT-0004,Milan Tech & AI Summit Vol. 5,Milan,IT,Tech & AI Summit,Navigli Warehouse,2026-11-05,21.74,Tech_Professionals,1076
+EVT-0005,Paris Indie Theatre Vol. 6,Paris,FR,Indie Theatre,La Villette Cube,2026-11-06,34.52,Foodie_Explorers,499
+EVT-0006,Berlin Gastronomy Pop-Up Vol. 7,Berlin,DE,Gastronomy Pop-Up,Kreuzberg Kraftwerk,2026-11-07,88.65,GenZ_Nightlife,1039
+EVT-0007,Lisbon Immersive Exhibition Vol. 1,Lisbon,PT,Immersive Exhibition,LX Factory Stage,2026-11-08,71.32,Culture_Seekers,479
+EVT-0008,Amsterdam Electronic Music Night Vol. 2,Amsterdam,NL,Electronic Music Night,Westergas Pavilion,2026-11-09,43.34,Families_Weekend,941
+EVT-0009,London Candlelight Classical Vol. 3,London,UK,Candlelight Classical,Docklands Vaults,2026-11-10,23.42,Tech_Professionals,440
+EVT-0010,Madrid Tech & AI Summit Vol. 4,Madrid,ES,Tech & AI Summit,Gran Via Dome,2026-11-11,30.4,Foodie_Explorers,956
+EVT-0011,Barcelona Indie Theatre Vol. 5,Barcelona,ES,Indie Theatre,Poble Espanyol Hall,2026-11-12,77.28,GenZ_Nightlife,795
+EVT-0012,Milan Gastronomy Pop-Up Vol. 6,Milan,IT,Gastronomy Pop-Up,Navigli Warehouse,2026-11-13,32.75,Culture_Seekers,712
+EVT-0013,Paris Immersive Exhibition Vol. 7,Paris,FR,Immersive Exhibition,La Villette Cube,2026-11-14,36.39,Families_Weekend,872
+EVT-0014,Berlin Electronic Music Night Vol. 1,Berlin,DE,Electronic Music Night,Kreuzberg Kraftwerk,2026-11-15,50.52,Tech_Professionals,173
+EVT-0015,Lisbon Candlelight Classical Vol. 2,Lisbon,PT,Candlelight Classical,LX Factory Stage,2026-11-16,51.12,Foodie_Explorers,668
+EVT-0016,Amsterdam Tech & AI Summit Vol. 3,Amsterdam,NL,Tech & AI Summit,Westergas Pavilion,2026-11-17,34.3,GenZ_Nightlife,717
+EVT-0017,London Indie Theatre Vol. 4,London,UK,Indie Theatre,Docklands Vaults,2026-11-18,69.19,Culture_Seekers,592
+EVT-0018,Madrid Gastronomy Pop-Up Vol. 5,Madrid,ES,Gastronomy Pop-Up,Gran Via Dome,2026-11-19,48.39,Families_Weekend,821
+EVT-0019,Barcelona Immersive Exhibition Vol. 6,Barcelona,ES,Immersive Exhibition,Poble Espanyol Hall,2026-11-20,35.64,Tech_Professionals,202
+EVT-0020,Milan Electronic Music Night Vol. 7,Milan,IT,Electronic Music Night,Navigli Warehouse,2026-11-21,49.15,Foodie_Explorers,901
+EVT-0021,Paris Candlelight Classical Vol. 1,Paris,FR,Candlelight Classical,La Villette Cube,2026-11-22,18.5,GenZ_Nightlife,995
+EVT-0022,Berlin Tech & AI Summit Vol. 2,Berlin,DE,Tech & AI Summit,Kreuzberg Kraftwerk,2026-11-23,34.69,Culture_Seekers,238
+EVT-0023,Lisbon Indie Theatre Vol. 3,Lisbon,PT,Indie Theatre,LX Factory Stage,2026-11-24,44.6,Families_Weekend,89
+EVT-0024,Amsterdam Gastronomy Pop-Up Vol. 4,Amsterdam,NL,Gastronomy Pop-Up,Westergas Pavilion,2026-11-25,46.56,Tech_Professionals,781
+EVT-0025,London Immersive Exhibition Vol. 5,London,UK,Immersive Exhibition,Docklands Vaults,2026-11-26,18.73,Foodie_Explorers,1200
+EVT-0026,Madrid Electronic Music Night Vol. 6,Madrid,ES,Electronic Music Night,Gran Via Dome,2026-11-27,81.09,GenZ_Nightlife,115
+EVT-0027,Barcelona Candlelight Classical Vol. 7,Barcelona,ES,Candlelight Classical,Poble Espanyol Hall,2026-11-28,51.25,Culture_Seekers,613
+EVT-0028,Milan Tech & AI Summit Vol. 1,Milan,IT,Tech & AI Summit,Navigli Warehouse,2026-11-01,23.06,Families_Weekend,353
+EVT-0029,Paris Indie Theatre Vol. 2,Paris,FR,Indie Theatre,La Villette Cube,2026-11-02,49.16,Tech_Professionals,787
+EVT-0030,Berlin Gastronomy Pop-Up Vol. 3,Berlin,DE,Gastronomy Pop-Up,Kreuzberg Kraftwerk,2026-11-03,87.02,Foodie_Explorers,1018
+EVT-0031,Lisbon Immersive Exhibition Vol. 4,Lisbon,PT,Immersive Exhibition,LX Factory Stage,2026-11-04,30.81,GenZ_Nightlife,1090
+EVT-0032,Amsterdam Electronic Music Night Vol. 5,Amsterdam,NL,Electronic Music Night,Westergas Pavilion,2026-11-05,41.97,Culture_Seekers,416
+EVT-0033,London Candlelight Classical Vol. 6,London,UK,Candlelight Classical,Docklands Vaults,2026-11-06,71.21,Families_Weekend,57
+EVT-0034,Madrid Tech & AI Summit Vol. 7,Madrid,ES,Tech & AI Summit,Gran Via Dome,2026-11-07,91.43,Tech_Professionals,180
+EVT-0035,Barcelona Indie Theatre Vol. 1,Barcelona,ES,Indie Theatre,Poble Espanyol Hall,2026-11-08,20.46,Foodie_Explorers,753
+EVT-0036,Milan Gastronomy Pop-Up Vol. 2,Milan,IT,Gastronomy Pop-Up,Navigli Warehouse,2026-11-09,59.13,GenZ_Nightlife,950
+EVT-0037,Paris Immersive Exhibition Vol. 3,Paris,FR,Immersive Exhibition,La Villette Cube,2026-11-10,82.57,Culture_Seekers,288
+EVT-0038,Berlin Electronic Music Night Vol. 4,Berlin,DE,Electronic Music Night,Kreuzberg Kraftwerk,2026-11-11,70.04,Families_Weekend,988
+EVT-0039,Lisbon Candlelight Classical Vol. 5,Lisbon,PT,Candlelight Classical,LX Factory Stage,2026-11-12,79.0,Tech_Professionals,332
+EVT-0040,Amsterdam Tech & AI Summit Vol. 6,Amsterdam,NL,Tech & AI Summit,Westergas Pavilion,2026-11-13,70.8,Foodie_Explorers,456
+EVT-0041,London Indie Theatre Vol. 7,London,UK,Indie Theatre,Docklands Vaults,2026-11-14,74.84,GenZ_Nightlife,1165
+EVT-0042,Madrid Gastronomy Pop-Up Vol. 1,Madrid,ES,Gastronomy Pop-Up,Gran Via Dome,2026-11-15,52.38,Culture_Seekers,330
+EVT-0043,Barcelona Immersive Exhibition Vol. 2,Barcelona,ES,Immersive Exhibition,Poble Espanyol Hall,2026-11-16,24.25,Families_Weekend,352
+EVT-0044,Milan Electronic Music Night Vol. 3,Milan,IT,Electronic Music Night,Navigli Warehouse,2026-11-17,86.1,Tech_Professionals,736
+EVT-0045,Paris Candlelight Classical Vol. 4,Paris,FR,Candlelight Classical,La Villette Cube,2026-11-18,46.88,Foodie_Explorers,167
+EVT-0046,Berlin Tech & AI Summit Vol. 5,Berlin,DE,Tech & AI Summit,Kreuzberg Kraftwerk,2026-11-19,60.24,GenZ_Nightlife,762
+EVT-0047,Lisbon Indie Theatre Vol. 6,Lisbon,PT,Indie Theatre,LX Factory Stage,2026-11-20,53.65,Culture_Seekers,439
+EVT-0048,Amsterdam Gastronomy Pop-Up Vol. 7,Amsterdam,NL,Gastronomy Pop-Up,Westergas Pavilion,2026-11-21,39.46,Families_Weekend,715
+EVT-0049,London Immersive Exhibition Vol. 1,London,UK,Immersive Exhibition,Docklands Vaults,2026-11-22,24.98,Tech_Professionals,360
+EVT-0050,Madrid Electronic Music Night Vol. 2,Madrid,ES,Electronic Music Night,Gran Via Dome,2026-11-23,37.25,Foodie_Explorers,463
+EVT-0051,Barcelona Candlelight Classical Vol. 3,Barcelona,ES,Candlelight Classical,Poble Espanyol Hall,2026-11-24,50.72,GenZ_Nightlife,1118
+EVT-0052,Milan Tech & AI Summit Vol. 4,Milan,IT,Tech & AI Summit,Navigli Warehouse,2026-11-25,93.54,Culture_Seekers,698
+EVT-0053,Paris Indie Theatre Vol. 5,Paris,FR,Indie Theatre,La Villette Cube,2026-11-26,36.81,Families_Weekend,619
+EVT-0054,Berlin Gastronomy Pop-Up Vol. 6,Berlin,DE,Gastronomy Pop-Up,Kreuzberg Kraftwerk,2026-11-27,68.3,Tech_Professionals,405
+EVT-0055,Lisbon Immersive Exhibition Vol. 7,Lisbon,PT,Immersive Exhibition,LX Factory Stage,2026-11-28,18.93,Foodie_Explorers,854
+EVT-0056,Amsterdam Electronic Music Night Vol. 1,Amsterdam,NL,Electronic Music Night,Westergas Pavilion,2026-11-01,83.97,GenZ_Nightlife,984
+EVT-0057,London Candlelight Classical Vol. 2,London,UK,Candlelight Classical,Docklands Vaults,2026-11-02,68.51,Culture_Seekers,136
+EVT-0058,Madrid Tech & AI Summit Vol. 3,Madrid,ES,Tech & AI Summit,Gran Via Dome,2026-11-03,79.93,Families_Weekend,533
+EVT-0059,Barcelona Indie Theatre Vol. 4,Barcelona,ES,Indie Theatre,Poble Espanyol Hall,2026-11-04,78.9,Tech_Professionals,1010
+EVT-0060,Milan Gastronomy Pop-Up Vol. 5,Milan,IT,Gastronomy Pop-Up,Navigli Warehouse,2026-11-05,68.85,Foodie_Explorers,1176
+EVT-0061,Paris Immersive Exhibition Vol. 6,Paris,FR,Immersive Exhibition,La Villette Cube,2026-11-06,63.67,GenZ_Nightlife,690
+EVT-0062,Berlin Electronic Music Night Vol. 7,Berlin,DE,Electronic Music Night,Kreuzberg Kraftwerk,2026-11-07,43.75,Culture_Seekers,318
+EVT-0063,Lisbon Candlelight Classical Vol. 1,Lisbon,PT,Candlelight Classical,LX Factory Stage,2026-11-08,40.19,Families_Weekend,791
+EVT-0064,Amsterdam Tech & AI Summit Vol. 2,Amsterdam,NL,Tech & AI Summit,Westergas Pavilion,2026-11-09,86.85,Tech_Professionals,865
+EVT-0065,London Indie Theatre Vol. 3,London,UK,Indie Theatre,Docklands Vaults,2026-11-10,67.15,Foodie_Explorers,496
+EVT-0066,Madrid Gastronomy Pop-Up Vol. 4,Madrid,ES,Gastronomy Pop-Up,Gran Via Dome,2026-11-11,57.76,GenZ_Nightlife,487
+EVT-0067,Barcelona Immersive Exhibition Vol. 5,Barcelona,ES,Immersive Exhibition,Poble Espanyol Hall,2026-11-12,29.41,Culture_Seekers,291
+EVT-0068,Milan Electronic Music Night Vol. 6,Milan,IT,Electronic Music Night,Navigli Warehouse,2026-11-13,29.23,Families_Weekend,293
+EVT-0069,Paris Candlelight Classical Vol. 7,Paris,FR,Candlelight Classical,La Villette Cube,2026-11-14,46.48,Tech_Professionals,961
+EVT-0070,Berlin Tech & AI Summit Vol. 1,Berlin,DE,Tech & AI Summit,Kreuzberg Kraftwerk,2026-11-15,84.23,Foodie_Explorers,459
+EVT-0071,Lisbon Indie Theatre Vol. 2,Lisbon,PT,Indie Theatre,LX Factory Stage,2026-11-16,70.11,GenZ_Nightlife,791
+EVT-0072,Amsterdam Gastronomy Pop-Up Vol. 3,Amsterdam,NL,Gastronomy Pop-Up,Westergas Pavilion,2026-11-17,57.51,Culture_Seekers,1171
+EVT-0073,London Immersive Exhibition Vol. 4,London,UK,Immersive Exhibition,Docklands Vaults,2026-11-18,34.09,Families_Weekend,983
+EVT-0074,Madrid Electronic Music Night Vol. 5,Madrid,ES,Electronic Music Night,Gran Via Dome,2026-11-19,60.03,Tech_Professionals,696
+EVT-0075,Barcelona Candlelight Classical Vol. 6,Barcelona,ES,Candlelight Classical,Poble Espanyol Hall,2026-11-20,41.12,Foodie_Explorers,661
+EVT-0076,Milan Tech & AI Summit Vol. 7,Milan,IT,Tech & AI Summit,Navigli Warehouse,2026-11-21,74.58,GenZ_Nightlife,537
+EVT-0077,Paris Indie Theatre Vol. 1,Paris,FR,Indie Theatre,La Villette Cube,2026-11-22,85.92,Culture_Seekers,461
+EVT-0078,Berlin Gastronomy Pop-Up Vol. 2,Berlin,DE,Gastronomy Pop-Up,Kreuzberg Kraftwerk,2026-11-23,53.03,Families_Weekend,653
+EVT-0079,Lisbon Immersive Exhibition Vol. 3,Lisbon,PT,Immersive Exhibition,LX Factory Stage,2026-11-24,75.85,Tech_Professionals,548
+EVT-0080,Amsterdam Electronic Music Night Vol. 4,Amsterdam,NL,Electronic Music Night,Westergas Pavilion,2026-11-25,21.82,Foodie_Explorers,746
+EVT-0081,London Candlelight Classical Vol. 5,London,UK,Candlelight Classical,Docklands Vaults,2026-11-26,74.97,GenZ_Nightlife,943
+EVT-0082,Madrid Tech & AI Summit Vol. 6,Madrid,ES,Tech & AI Summit,Gran Via Dome,2026-11-27,51.77,Culture_Seekers,150
+EVT-0083,Barcelona Indie Theatre Vol. 7,Barcelona,ES,Indie Theatre,Poble Espanyol Hall,2026-11-28,38.71,Families_Weekend,463
+EVT-0084,Milan Gastronomy Pop-Up Vol. 1,Milan,IT,Gastronomy Pop-Up,Navigli Warehouse,2026-11-01,91.21,Tech_Professionals,997
+EVT-0085,Paris Immersive Exhibition Vol. 2,Paris,FR,Immersive Exhibition,La Villette Cube,2026-11-02,93.06,Foodie_Explorers,164
+EVT-0086,Berlin Electronic Music Night Vol. 3,Berlin,DE,Electronic Music Night,Kreuzberg Kraftwerk,2026-11-03,19.02,GenZ_Nightlife,970
+EVT-0087,Lisbon Candlelight Classical Vol. 4,Lisbon,PT,Candlelight Classical,LX Factory Stage,2026-11-04,69.38,Culture_Seekers,338
+EVT-0088,Amsterdam Tech & AI Summit Vol. 5,Amsterdam,NL,Tech & AI Summit,Westergas Pavilion,2026-11-05,55.53,Families_Weekend,171
+EVT-0089,London Indie Theatre Vol. 6,London,UK,Indie Theatre,Docklands Vaults,2026-11-06,20.74,Tech_Professionals,589
+EVT-0090,Madrid Gastronomy Pop-Up Vol. 7,Madrid,ES,Gastronomy Pop-Up,Gran Via Dome,2026-11-07,64.54,Foodie_Explorers,293
+EVT-0091,Barcelona Immersive Exhibition Vol. 1,Barcelona,ES,Immersive Exhibition,Poble Espanyol Hall,2026-11-08,71.22,GenZ_Nightlife,966
+EVT-0092,Milan Electronic Music Night Vol. 2,Milan,IT,Electronic Music Night,Navigli Warehouse,2026-11-09,44.1,Culture_Seekers,193
+EVT-0093,Paris Candlelight Classical Vol. 3,Paris,FR,Candlelight Classical,La Villette Cube,2026-11-10,29.3,Families_Weekend,899
+EVT-0094,Berlin Tech & AI Summit Vol. 4,Berlin,DE,Tech & AI Summit,Kreuzberg Kraftwerk,2026-11-11,26.37,Tech_Professionals,58
+EVT-0095,Lisbon Indie Theatre Vol. 5,Lisbon,PT,Indie Theatre,LX Factory Stage,2026-11-12,36.37,Foodie_Explorers,488
+EVT-0096,Amsterdam Gastronomy Pop-Up Vol. 6,Amsterdam,NL,Gastronomy Pop-Up,Westergas Pavilion,2026-11-13,67.61,GenZ_Nightlife,1133
+EVT-0097,London Immersive Exhibition Vol. 7,London,UK,Immersive Exhibition,Docklands Vaults,2026-11-14,25.4,Culture_Seekers,520
+EVT-0098,Madrid Electronic Music Night Vol. 1,Madrid,ES,Electronic Music Night,Gran Via Dome,2026-11-15,74.48,Families_Weekend,368
+EVT-0099,Barcelona Candlelight Classical Vol. 2,Barcelona,ES,Candlelight Classical,Poble Espanyol Hall,2026-11-16,31.25,Tech_Professionals,438
+EVT-0100,Milan Tech & AI Summit Vol. 3,Milan,IT,Tech & AI Summit,Navigli Warehouse,2026-11-17,52.55,Foodie_Explorers,122

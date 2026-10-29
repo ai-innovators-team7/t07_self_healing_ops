@@ -1,0 +1,47 @@
+{
+  "eval_set_id": "hello_fallback_eval_set",
+  "name": "Starter Fallback Hello Agent Evaluation Set",
+  "description": "Generic baseline evaluation set when SEED_PACK is unset.",
+  "eval_cases": [
+    {
+      "eval_id": "hello_case_01_status",
+      "conversation": [
+        {
+          "invocation_id": "hello-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Please check the expedition starter status for Table 8."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The AI Innovators Expedition Starter agent is online in hello_fallback mode for Table 8. Set SEED_PACK in your .env file and run make seed."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "hello_expedition_status",
+                "args": {
+                  "table_name": "Table 8"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

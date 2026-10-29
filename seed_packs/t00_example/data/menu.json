@@ -1,0 +1,8 @@
+[
+  {"item_id": "DRK-001", "name": "Flat White", "category": "espresso", "price_gbp": 3.80, "caffeine_mg": 130, "oat_milk_available": true, "in_stock": true},
+  {"item_id": "DRK-002", "name": "Single Origin Pour Over (Ethiopian Yirgacheffe)", "category": "filter", "price_gbp": 4.60, "caffeine_mg": 145, "oat_milk_available": false, "in_stock": true},
+  {"item_id": "DRK-003", "name": "Cardamom Cold Brew", "category": "cold", "price_gbp": 4.20, "caffeine_mg": 165, "oat_milk_available": true, "in_stock": true},
+  {"item_id": "DRK-004", "name": "Ceremonial Matcha Oat Latte", "category": "tea", "price_gbp": 4.50, "caffeine_mg": 70, "oat_milk_available": true, "in_stock": true},
+  {"item_id": "DRK-005", "name": "Decaf Colombian Cortado", "category": "espresso", "price_gbp": 3.60, "caffeine_mg": 8, "oat_milk_available": true, "in_stock": true},
+  {"item_id": "PST-001", "name": "Sourdough Cinnamon Bun", "category": "pastry", "price_gbp": 3.95, "caffeine_mg": 0, "oat_milk_available": false, "in_stock": true}
+]

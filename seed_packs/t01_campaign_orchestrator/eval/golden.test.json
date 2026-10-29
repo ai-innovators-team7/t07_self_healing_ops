@@ -1,0 +1,213 @@
+{
+  "eval_set_id": "t01_campaign_orchestrator_golden_eval_set",
+  "name": "Table 1 (t01_campaign_orchestrator) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 1 (t01_campaign_orchestrator) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_london_underperforming",
+      "conversation": [
+        {
+          "invocation_id": "t01-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find underperforming campaigns in London with a maximum ROAS of 1.5."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The lowest-ROAS campaigns in London include TEL-0001 (VAR-0001 for EVT-0001 on Meta_Reels) with ROAS 0.83 and TEL-0002 (VAR-0002) with ROAS 0.91."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_underperforming_campaigns",
+                "args": {
+                  "city": "London",
+                  "max_roas": 1.5,
+                  "limit": 10
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_event_variants",
+      "conversation": [
+        {
+          "invocation_id": "t01-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Show me the event details and existing ad variants for event EVT-0001."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "EVT-0001 is London Immersive Exhibition Vol. 2 at Docklands Vaults, with ad variants including VAR-0001 (Meta_Reels, en-GB) and VAR-0101."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_event_ad_variants",
+                "args": {
+                  "event_id": "EVT-0001"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_channel_roi",
+      "conversation": [
+        {
+          "invocation_id": "t01-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Give me the channel ROI summary across all ad channels."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here is the aggregated spend, revenue, total conversions, and average ROAS across Meta_Reels, TikTok_Pulse, YouTube_Shorts, Programmatic_DOOH, and Display_Discovery."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_channel_roi_summary",
+                "args": {
+                  "channel": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_place_bid",
+      "conversation": [
+        {
+          "invocation_id": "t01-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Update the ad bid for variant VAR-0005 on YouTube_Shorts to a 6.50 EUR CPM with an 800 EUR daily budget."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Confirmed bid update BID-1001 for VAR-0005 on YouTube_Shorts at \u20ac6.50 CPM and \u20ac800.00 daily budget."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "place_ad_bid",
+                "args": {
+                  "variant_id": "VAR-0005",
+                  "channel": "YouTube_Shorts",
+                  "new_cpm_bid_eur": 6.5,
+                  "daily_budget_eur": 800.0
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_pause_flagged_variant",
+      "conversation": [
+        {
+          "invocation_id": "t01-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Pause ad variant VAR-0013 immediately because it contains a flagged prompt-injection headline."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Ad variant VAR-0013 has been paused (PAUSE-3001) due to the flagged prompt-injection headline."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "pause_ad_variant",
+                "args": {
+                  "variant_id": "VAR-0013",
+                  "reason": "flagged prompt-injection headline"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

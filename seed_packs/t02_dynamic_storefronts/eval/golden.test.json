@@ -1,0 +1,215 @@
+{
+  "eval_set_id": "t02_dynamic_storefronts_golden_eval_set",
+  "name": "Table 2 (t02_dynamic_storefronts) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 2 (t02_dynamic_storefronts) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_nordic_sofas",
+      "conversation": [
+        {
+          "invocation_id": "t02-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Find catalog products in the Modular_Sofas category with style theme Nordic_Minimal and at least 10 units in stock."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the in-stock Nordic_Minimal Modular_Sofas sorted by highest margin percentage, including SKU-0001 and SKU-0006."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "find_catalog_products",
+                "args": {
+                  "category": "Modular_Sofas",
+                  "style_theme": "Nordic_Minimal",
+                  "min_stock": 10
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_segment_performance",
+      "conversation": [
+        {
+          "invocation_id": "t02-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Get the storefront experiment performance for segment SEG-001."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "For segment SEG-001, experiments EXP-0001 and EXP-0081 show the layout variants, views, add-to-cart counts, purchases, and bounce rates."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_storefront_performance",
+                "args": {
+                  "segment_id": "SEG-001",
+                  "limit": 10
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_madrid_segments",
+      "conversation": [
+        {
+          "invocation_id": "t02-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "List the audience segments in region ES_Madrid."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The ES_Madrid audience segments include SEG-002 and SEG-010 along with their preferred style, device type, AOV, and conversion rates."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_audience_segments",
+                "args": {
+                  "region": "ES_Madrid"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_publish_layout",
+      "conversation": [
+        {
+          "invocation_id": "t02-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Publish a storefront layout for segment SEG-001 featuring SKU-0001,SKU-0006 with hero headline 'Nordic Comfort for London Living' and theme style Nordic_Minimal."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Storefront layout LAYOUT-1001 is now LIVE for SEG-001 featuring SKU-0001 and SKU-0006."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "publish_storefront_layout",
+                "args": {
+                  "segment_id": "SEG-001",
+                  "featured_skus": "SKU-0001,SKU-0006",
+                  "hero_headline": "Nordic Comfort for London Living",
+                  "theme_style": "Nordic_Minimal"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_update_promo",
+      "conversation": [
+        {
+          "invocation_id": "t02-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Update the promo banner for segment SEG-002 with a 15% discount and copy 'Autumn Design Week \u2014 15% Off Modular Living'."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Promo banner PROMO-3001 is now ACTIVE for segment SEG-002 with a 15% discount."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "update_promo_banner",
+                "args": {
+                  "segment_id": "SEG-002",
+                  "discount_pct": 15,
+                  "banner_copy": "Autumn Design Week \u2014 15% Off Modular Living"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "eval_set_id": "t06_climate_risk_golden_eval_set",
+  "name": "Table 6 (t06_climate_risk) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 6 (t06_climate_risk) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_valencia_assets",
+      "conversation": [
+        {
+          "invocation_id": "t06-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query exposed assets in ES_Valencia_Coast with an insured value of at least 2,000,000 EUR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the insured commercial assets in ES_Valencia_Coast above \u20ac2M, sorted by insured value."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_exposed_assets",
+                "args": {
+                  "region": "ES_Valencia_Coast",
+                  "min_insured_value_eur": 2000000.0
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_valencia_hazards",
+      "conversation": [
+        {
+          "invocation_id": "t06-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Get climate hazard projections for ES_Valencia_Coast across all hazard types."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The climate hazard grids for ES_Valencia_Coast show high Flash_Flood and Coastal_Storm_Surge intensity scores and loss multipliers."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_climate_hazard_projections",
+                "args": {
+                  "region": "ES_Valencia_Coast",
+                  "hazard_type": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_historical_claims",
+      "conversation": [
+        {
+          "invocation_id": "t06-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Summarize historical weather loss claims for ES_Valencia_Coast."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the largest historical weather loss claims in ES_Valencia_Coast with gross loss, payout, and downtime days."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "summarize_historical_claims",
+                "args": {
+                  "region": "ES_Valencia_Coast"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_issue_renewal_quote",
+      "conversation": [
+        {
+          "invocation_id": "t06-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Issue a renewal quote adjustment for asset AST-0001 with a 22.5% premium loading, recommended deductible of 450000 EUR, and mitigation requirement 'Install perimeter flood barriers'."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Renewal quote adjustment RNW-1001 has been ISSUED for AST-0001 with +22.5% loading and \u20ac450,000 deductible."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "issue_renewal_quote_adjustment",
+                "args": {
+                  "asset_id": "AST-0001",
+                  "premium_loading_pct": 22.5,
+                  "recommended_deductible_eur": 450000.0,
+                  "mitigation_requirement": "Install perimeter flood barriers"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_trigger_inspection",
+      "conversation": [
+        {
+          "invocation_id": "t06-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Trigger a HIGH priority loss prevention inspection for asset AST-0031 focused on Flash_Flood."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Loss prevention inspection INSP-2001 has been DISPATCHED for AST-0031 with HIGH priority."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "trigger_loss_prevention_inspection",
+                "args": {
+                  "asset_id": "AST-0031",
+                  "hazard_focus": "Flash_Flood",
+                  "priority_level": "HIGH"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

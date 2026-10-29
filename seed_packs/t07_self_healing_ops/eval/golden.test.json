@@ -1,0 +1,214 @@
+{
+  "eval_set_id": "t07_self_healing_ops_golden_eval_set",
+  "name": "Table 7 (t07_self_healing_ops) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 7 (t07_self_healing_ops) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_sev1_incidents",
+      "conversation": [
+        {
+          "invocation_id": "t07-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query all active SEV1 incidents across all services."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the active SEV1 incidents sorted by error rate percentage, including their symptom codes and active release IDs."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_active_incidents",
+                "args": {
+                  "severity": "SEV1",
+                  "service_name": "all"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_inspect_release",
+      "conversation": [
+        {
+          "invocation_id": "t07-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Inspect deployment release REL-0001."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Release REL-0001 for checkout-payment-svc deployed version v2.11.0 (previous stable v2.10.0) and is marked rollback_safe=True."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "inspect_deployment_release",
+                "args": {
+                  "release_id": "REL-0001"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_lookup_runbook",
+      "conversation": [
+        {
+          "invocation_id": "t07-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Look up the SLO runbook for checkout-payment-svc with symptom P99_LATENCY_SPIKE."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Runbook RBK-001 for checkout-payment-svc (P99_LATENCY_SPIKE) recommends SCALE_OUT_AND_DRAIN_POOL with safe replicas between 3 and 40."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "lookup_slo_runbook",
+                "args": {
+                  "service_name": "checkout-payment-svc",
+                  "symptom_code": "P99_LATENCY_SPIKE"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_execute_rollback",
+      "conversation": [
+        {
+          "invocation_id": "t07-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Execute a canary rollback for incident INC-0001 on checkout-payment-svc to target stable version v2.10.0 due to 'Elevated P99 latency after REL-0001'."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Rollback RB-1001 has been executed for INC-0001, restoring checkout-payment-svc to v2.10.0."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "execute_canary_rollback",
+                "args": {
+                  "incident_id": "INC-0001",
+                  "service_name": "checkout-payment-svc",
+                  "target_stable_version": "v2.10.0",
+                  "reason": "Elevated P99 latency after REL-0001"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_scale_replicas_safely",
+      "conversation": [
+        {
+          "invocation_id": "t07-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Scale auth-token-gateway in cluster region europe-west1 to 12 replicas."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Scaling event SCALE-2001 succeeded: auth-token-gateway in europe-west1 is now scaled to 12 replicas."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "scale_service_replicas",
+                "args": {
+                  "service_name": "auth-token-gateway",
+                  "cluster_region": "europe-west1",
+                  "target_replicas": 12
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}

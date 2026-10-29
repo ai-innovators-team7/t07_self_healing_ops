@@ -1,0 +1,214 @@
+{
+  "eval_set_id": "t04_b2b_sourcing_golden_eval_set",
+  "name": "Table 4 (t04_b2b_sourcing) Golden Evaluation Set",
+  "description": "5 golden evaluation cases for Table 4 (t04_b2b_sourcing) covering BigQuery analytics tools and MCP mock action APIs.",
+  "eval_cases": [
+    {
+      "eval_id": "case_01_sensor_feeds",
+      "conversation": [
+        {
+          "invocation_id": "t04-inv-001",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Query supplier feeds for canonical category Industrial_Sensors with a max unit cost of 150 EUR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Here are the lowest-cost Industrial_Sensors supplier feed rows under \u20ac150/unit along with their MOQ and schema drift flags."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "query_supplier_feeds",
+                "args": {
+                  "canonical_category": "Industrial_Sensors",
+                  "max_unit_cost_eur": 150.0,
+                  "limit": 10
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_02_open_rfqs",
+      "conversation": [
+        {
+          "invocation_id": "t04-inv-002",
+          "user_content": {
+            "parts": [
+              {
+                "text": "List the currently OPEN sourcing RFQs."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The open sourcing RFQs include RFQ-0001 through RFQ-0020 with their required units, max unit cost in EUR, and target delivery days."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_open_sourcing_rfqs",
+                "args": {
+                  "status": "OPEN"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_03_es_suppliers",
+      "conversation": [
+        {
+          "invocation_id": "t04-inv-003",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Check supplier reliability for suppliers in country ES with a minimum score of 0.80."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "The top Spanish (ES) suppliers with reliability >= 0.80 include SUP-0001 and SUP-0009."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "get_supplier_reliability",
+                "args": {
+                  "country": "ES",
+                  "min_score": 0.8
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_04_issue_po",
+      "conversation": [
+        {
+          "invocation_id": "t04-inv-004",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Issue a purchase order for RFQ-0001 to supplier SUP-0001 for 250 units at an agreed unit cost of 68.50 EUR."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Purchase order PO-2001 has been ISSUED to SUP-0001 for 250 units at \u20ac68.50/unit (total \u20ac17,125.00)."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "issue_purchase_order",
+                "args": {
+                  "rfq_id": "RFQ-0001",
+                  "supplier_id": "SUP-0001",
+                  "units": 250,
+                  "agreed_unit_cost_eur": 68.5
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "case_05_quarantine_feed",
+      "conversation": [
+        {
+          "invocation_id": "t04-inv-005",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Quarantine supplier feed SUP-0066 due to schema drift and an embedded prompt-injection payload."
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "Supplier feed SUP-0066 has been QUARANTINED under ID QRN-3001."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "quarantine_supplier_feed",
+                "args": {
+                  "supplier_id": "SUP-0066",
+                  "drift_reason": "schema drift and prompt injection payload"
+                }
+              }
+            ],
+            "intermediate_responses": []
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "app",
+        "user_id": "eval_user",
+        "state": {}
+      }
+    }
+  ]
+}
