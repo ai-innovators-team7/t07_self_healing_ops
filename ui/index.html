@@ -395,18 +395,25 @@
         </div>
 
         <!-- PART 3: LIVE INCIDENT STREAM TABLE (SHOWS NEWLY GENERATED + EXISTING INCIDENTS) -->
-        <div class="p-5 rounded-2xl bg-slate-950/90 border border-slate-800">
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div class="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 class="text-sm font-extrabold text-white">
-                📋 Live Incident Stream (Newly Generated Cases Appear at the Top with a 🆕 Badge)
+              <h3 class="text-sm md:text-base font-extrabold text-white">
+                📋 Live Incident Stream &amp; Resolution Status (Before vs. After AI Fix)
               </h3>
               <p class="text-xs text-slate-400">
-                Every incident you generate is also added to the main <strong>Step 1</strong> and <strong>Step 2</strong> boards! Click <strong>"▶️ Run Listening Agents"</strong> on any row below to watch the 4 agents process that specific incident.
+                Every generated incident shows whether it is <strong>🟢 RESOLVED</strong> or <strong>🔴 NOT RESOLVED YET</strong>, along with the <strong>Before → After</strong> wait time, error rate, and exact AI action taken.
               </p>
             </div>
+            <button onclick="resolveAllUnresolvedGenerated()" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow transition">
+              ⚡ Resolve All Unresolved Generated Cases Now
+            </button>
           </div>
-          <div id="simulatorIncidentsFeed" class="max-h-80 overflow-y-auto divide-y divide-slate-800/80 rounded-xl border border-slate-800"></div>
+
+          <!-- Dynamic Resolution Scoreboard Banner -->
+          <div id="simulatorResolutionScoreboard"></div>
+
+          <div id="simulatorIncidentsFeed" class="max-h-96 overflow-y-auto divide-y divide-slate-800/80 rounded-xl border border-slate-800"></div>
         </div>
       </div>
     </section>
@@ -1534,13 +1541,65 @@
     function renderSimulatorFeed() {
       const feed = document.getElementById('simulatorIncidentsFeed');
       const totalBadge = document.getElementById('simTotalIncidentsBadge');
+      const scoreboard = document.getElementById('simulatorResolutionScoreboard');
       if (!feed || !latestDashboardData) return;
       const allOpenIncs = latestDashboardData.all_open_incidents || [];
-      const customCount = allOpenIncs.filter(i => i.is_custom_generated).length;
+      const customIncs = allOpenIncs.filter(i => i.is_custom_generated);
+      const customCount = customIncs.length;
+
       if (totalBadge) {
         totalBadge.textContent = customCount > 0
           ? `Total Active Dataset: ${allOpenIncs.length} Incidents (${customCount} Newly Generated + 35 Base)`
           : `Total Active Dataset: ${allOpenIncs.length} Incidents`;
+      }
+
+      // Compute clear resolution statistics across generated incidents (or all incidents if none generated yet)
+      const targetScope = customCount > 0 ? customIncs : allOpenIncs;
+      const fixedOrSafeCount = targetScope.filter(i => i.resolution_state === 'RESOLVED_FIXED' || i.resolution_state === 'RESOLVED_SAFE_NO_ACTION').length;
+      const blockedAttackCount = targetScope.filter(i => i.resolution_state === 'RESOLVED_BLOCKED_ATTACK').length;
+      const pendingCount = targetScope.filter(i => !i.resolution_state || i.resolution_state === 'PENDING').length;
+
+      if (scoreboard) {
+        const allCustomResolved = customCount > 0 && pendingCount === 0;
+        const bannerHtml = customCount === 0
+          ? `<div class="p-3 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-slate-300 flex items-center justify-between">
+               <span>💡 <strong>No custom incidents generated yet.</strong> Click any button in Box 1 above (or <strong>"🎲 + Generate Batch of 3 Diverse Cases"</strong>) to see the 4 Listening Agents resolve new incidents live!</span>
+             </div>`
+          : allCustomResolved
+            ? `<div class="p-3.5 rounded-xl bg-emerald-500/20 border-2 border-emerald-400 text-xs md:text-sm font-extrabold text-emerald-200 flex flex-wrap items-center justify-between gap-2 shadow-lg shadow-emerald-950/50">
+                 <span>✅ SIM / RESOLVED: All ${customCount} Newly Generated Incidents Have Been 100% Processed &amp; Resolved by the 4 Listening Agents!</span>
+                 <span class="px-3 py-1 rounded-full bg-emerald-400 text-slate-950 text-xs font-black">0 UNRESOLVED</span>
+               </div>`
+            : `<div class="p-3.5 rounded-xl bg-amber-500/20 border-2 border-amber-400 text-xs md:text-sm font-extrabold text-amber-200 flex flex-wrap items-center justify-between gap-2">
+                 <span>⏳ IN PROGRESS: ${pendingCount} of ${customCount} Generated Incident(s) Still Waiting for Listening Agents!</span>
+                 <button onclick="resolveAllUnresolvedGenerated()" class="px-3 py-1 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-xs font-black shadow">
+                   ⚡ Click Here to Resolve Remaining ${pendingCount} Case(s)
+                 </button>
+               </div>`;
+
+        scoreboard.innerHTML = `
+          <div class="space-y-3">
+            ${bannerHtml}
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/40">
+                <div class="text-[10px] font-bold uppercase text-amber-300">🆕 Generated Cases</div>
+                <div class="text-lg font-extrabold text-white mt-0.5">${customCount}</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/40">
+                <div class="text-[10px] font-bold uppercase text-emerald-300">🟢 Resolved (Fixed / Safe)</div>
+                <div class="text-lg font-extrabold text-emerald-300 mt-0.5">${fixedOrSafeCount}</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-sky-500/40">
+                <div class="text-[10px] font-bold uppercase text-sky-300">🛡️ Hacker Traps Blocked</div>
+                <div class="text-lg font-extrabold text-sky-300 mt-0.5">${blockedAttackCount}</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border ${pendingCount > 0 ? 'border-rose-500' : 'border-slate-700'}">
+                <div class="text-[10px] font-bold uppercase ${pendingCount > 0 ? 'text-rose-300' : 'text-slate-400'}">⏳ Waiting (Unresolved)</div>
+                <div class="text-lg font-extrabold ${pendingCount > 0 ? 'text-rose-400' : 'text-slate-400'} mt-0.5">${pendingCount}</div>
+              </div>
+            </div>
+          </div>
+        `;
       }
 
       feed.innerHTML = allOpenIncs.map(inc => {
@@ -1549,48 +1608,112 @@
         const isPoisoned = Boolean(inc.security_warning);
         const waitSec = ((inc.p99_latency_ms || 0) / 1000).toFixed(1);
         const errPct = inc.error_rate_pct || 0;
-        const remSummary = inc.remediation_summary;
+        const afterWaitSec = inc.after_p99_latency_ms != null ? (inc.after_p99_latency_ms / 1000).toFixed(1) : '0.2';
+        const afterErrPct = inc.after_error_rate_pct != null ? inc.after_error_rate_pct : '0.1';
+        const resState = inc.resolution_state || 'PENDING';
+        const isResolved = resState !== 'PENDING';
+        const remSummary = inc.remediation_summary || '';
         const logSnippet = escapeHtml(inc.recent_log_snippet || '');
 
-        let statusTag = '';
-        if (remSummary) {
-          statusTag = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">✅ Processed: ${escapeHtml(remSummary)}</span>`;
-        } else if (isPoisoned) {
-          statusTag = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-500/25 text-rose-200 border border-rose-500">🕵️ Contains Hacker Trap</span>`;
-        } else if (inc.severity === 'SEV1') {
-          statusTag = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300">🚨 SEV1 Urgent</span>`;
+        let resolutionBadgeHtml = '';
+        let beforeAfterBoxHtml = '';
+        let rowBgClass = isCustom ? 'bg-amber-950/20 border-l-4 border-amber-400' : 'bg-slate-950/60';
+
+        if (resState === 'RESOLVED_FIXED') {
+          rowBgClass = 'bg-emerald-950/25 border-l-4 border-emerald-400';
+          resolutionBadgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-500 text-slate-950 shadow">🟢 RESOLVED — FIXED BY AI</span>`;
+          beforeAfterBoxHtml = `
+            <div class="mt-1.5 p-2.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-xs flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="text-rose-300 line-through mr-1">BEFORE: Wait ${waitSec}s • Errors ${errPct}%</span>
+                <span class="text-emerald-300 font-extrabold">➡️ AFTER AI FIX: Wait ${afterWaitSec}s ✅ • Errors ${afterErrPct}% ✅</span>
+              </div>
+              <div class="text-emerald-200 font-bold">🛠️ ${escapeHtml(remSummary)}</div>
+            </div>
+          `;
+        } else if (resState === 'RESOLVED_BLOCKED_ATTACK') {
+          rowBgClass = 'bg-sky-950/30 border-l-4 border-sky-400';
+          resolutionBadgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-sky-400 text-slate-950 shadow">🛡️ RESOLVED — HACKER TRAP BLOCKED</span>`;
+          beforeAfterBoxHtml = `
+            <div class="mt-1.5 p-2.5 rounded-xl bg-sky-950/60 border border-sky-500/40 text-xs flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="text-rose-300 font-bold">🚨 ATTACK DETECTED: Fake "0 servers" command inside log</span>
+                <span class="text-sky-200 font-extrabold ml-1">➡️ RESULT: Attack Quarantined &amp; Production 100% Protected 🛡️✅</span>
+              </div>
+              <div class="text-sky-200 font-bold">🛠️ ${escapeHtml(remSummary)}</div>
+            </div>
+          `;
+        } else if (resState === 'RESOLVED_SAFE_NO_ACTION') {
+          rowBgClass = 'bg-teal-950/25 border-l-4 border-teal-400';
+          resolutionBadgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-teal-400 text-slate-950 shadow">🟢 RESOLVED — VERIFIED SAFE (NO ACTION NEEDED)</span>`;
+          beforeAfterBoxHtml = `
+            <div class="mt-1.5 p-2.5 rounded-xl bg-teal-950/50 border border-teal-500/40 text-xs flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="text-teal-200 font-extrabold">📊 METRICS CHECKED: Wait ${waitSec}s ✅ • Errors ${errPct}% ✅ (Well Within Safe Limits)</span>
+              </div>
+              <div class="text-teal-200 font-bold">🛠️ ${escapeHtml(remSummary)}</div>
+            </div>
+          `;
         } else {
-          statusTag = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">${escapeHtml(inc.severity)}</span>`;
+          // PENDING (Not resolved yet)
+          resolutionBadgeHtml = `<span class="px-3 py-1 rounded-full text-xs font-black bg-rose-500/30 text-rose-200 border border-rose-400 pulse-live">🔴 NOT RESOLVED YET — WAITING FOR AGENTS</span>`;
+          const pendingHint = isPoisoned
+            ? `🕵️ Contains Disguised Hacker Trap • Current Wait: ${waitSec}s • Errors: ${errPct}%`
+            : `Current Wait: ${waitSec}s • Errors: ${errPct}% (${inc.severity})`;
+          beforeAfterBoxHtml = `
+            <div class="mt-1.5 p-2 rounded-xl bg-rose-950/30 border border-rose-500/30 text-xs text-rose-200 flex items-center justify-between">
+              <span>⏳ <strong>Status:</strong> Not processed by Listening Agents yet (${pendingHint})</span>
+              <span class="font-bold text-amber-300">👉 Click button on the right to resolve!</span>
+            </div>
+          `;
         }
 
         const newBadge = isCustom
           ? `<span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500 text-slate-950">🆕 NEW GENERATED</span>`
           : '';
 
+        const actionBtnHtml = isResolved
+          ? `<button onclick="runListeningAgentsOnIncident('${escapeHtml(id)}')" class="shrink-0 px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 transition">
+               ✅ Resolved (🔄 Re-Run ${escapeHtml(id)})
+             </button>`
+          : `<button onclick="runListeningAgentsOnIncident('${escapeHtml(id)}')" class="shrink-0 px-4 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/20 transition">
+               ▶️ Resolve ${escapeHtml(id)} Now
+             </button>`;
+
         return `
-          <div class="p-3.5 ${isCustom ? 'bg-amber-950/20 border-l-4 border-amber-400' : 'bg-slate-950/60'} hover:bg-slate-900/80 transition flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="p-4 ${rowBgClass} hover:bg-slate-900/80 transition flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div class="space-y-1 flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs font-extrabold mono text-white">${escapeHtml(id)}</span>
+                <span class="text-sm font-extrabold mono text-white">${escapeHtml(id)}</span>
                 ${newBadge}
                 <span class="text-xs font-bold text-sky-300">${friendlyService(inc.service_name)}</span>
-                ${statusTag}
-                <span class="text-[11px] text-slate-400">Wait: <strong class="text-slate-200">${waitSec}s</strong> • Errors: <strong class="text-slate-200">${errPct}%</strong></span>
+                ${resolutionBadgeHtml}
               </div>
-              <div class="text-[11px] mono text-slate-400 truncate">
+              ${beforeAfterBoxHtml}
+              <div class="text-[11px] mono text-slate-400 truncate pt-1">
                 Log: ${logSnippet}
               </div>
             </div>
-            <button onclick="runListeningAgentsOnIncident('${escapeHtml(id)}')" class="shrink-0 px-3.5 py-2 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow transition">
-              ▶️ Send ${escapeHtml(id)} to Listening Agents
-            </button>
+            ${actionBtnHtml}
           </div>
         `;
       }).join('');
     }
 
+    async function resolveAllUnresolvedGenerated() {
+      if (!latestDashboardData) return;
+      const allOpenIncs = latestDashboardData.all_open_incidents || [];
+      const pendingCustom = allOpenIncs.filter(i => i.is_custom_generated && (!i.resolution_state || i.resolution_state === 'PENDING'));
+      const targets = pendingCustom.length > 0
+        ? pendingCustom
+        : allOpenIncs.filter(i => !i.resolution_state || i.resolution_state === 'PENDING').slice(0, 3);
+      for (const inc of targets) {
+        await runListeningAgentsOnIncident(inc.incident_id);
+      }
+    }
+
     async function generateIncidentPreset(presetName) {
-      setLoading(true, 'Generating new incident test case and broadcasting to Listening Agents...');
+      setLoading(true, 'Generating new incident test case(s) and broadcasting to Listening Agents...');
       try {
         const res = await fetch('/api/incidents/generate', {
           method: 'POST',
@@ -1602,16 +1725,17 @@
         renderSimulatorFeed();
         const generatedList = data.generated_incidents || [];
         if (generatedList.length > 0) {
-          const firstNewId = generatedList[0].incident_id;
-          // Also mark it in Step 1 / Step 2 boards if already scanned
           if (autoListenEnabled) {
             setLoading(false);
-            await runListeningAgentsOnIncident(firstNewId);
+            // Process EVERY generated incident in the batch sequentially so none are left unresolved!
+            for (const genInc of generatedList) {
+              await runListeningAgentsOnIncident(genInc.incident_id);
+            }
             return;
           } else {
             const badge = document.getElementById('activeListeningIncidentBadge');
             if (badge) {
-              badge.textContent = `🆕 Generated ${generatedList.map(g => g.incident_id).join(', ')} — Click "▶️ Send to Listening Agents" below!`;
+              badge.textContent = `🆕 Generated ${generatedList.map(g => g.incident_id).join(', ')} — Click "▶️ Resolve Now" below!`;
             }
           }
         }

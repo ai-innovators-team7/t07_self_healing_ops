@@ -632,6 +632,9 @@ def test_t07_live_incident_generator_and_listening_agents(
     assert len(proc_data["stages"]) == 4
     assert proc_data["stages"][0]["verdict"] == "OK_SAFE_MARGIN"
     assert proc_data["stages"][1]["verdict"] == "OK_GENUINE_ALERT"
+    by_inc = {r["incident_id"]: r for r in proc_data["dashboard"]["all_open_incidents"]}
+    assert by_inc["INC-0053"]["resolution_state"] == "RESOLVED_SAFE_NO_ACTION"
+    assert "RESOLVED" in by_inc["INC-0053"]["resolution_badge"]
 
 
 
