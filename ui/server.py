@@ -229,6 +229,36 @@ def _build_dashboard_payload() -> dict[str, Any]:
         if item.get("table8_a2a_advisory"):
             a2a_advisories.append(item["table8_a2a_advisory"])
 
+    enriched_all_incidents: list[dict[str, Any]] = []
+    for inc in sorted(annotated_incidents, key=lambda r: r.get("incident_id", "")):
+        inc_copy = dict(inc)
+        svc_name = inc_copy.get("service_name", "")
+        rel_id = inc_copy.get("active_release_id", "")
+        rel = rel_by_id.get(rel_id, {})
+        rbk = rbk_by_svc.get(svc_name, {})
+        rb_event = rollbacks_by_svc.get(svc_name)
+        sc_event = scales_by_svc.get(svc_name)
+        tl_event = updates_by_inc.get(inc_copy.get("incident_id", ""))
+
+        inc_copy["active_version"] = rel.get("version_tag", "v2.10.0")
+        inc_copy["previous_stable_version"] = rel.get("previous_stable_version", "v2.9.0")
+        inc_copy["rollback_safe"] = str(rel.get("rollback_safe", "True")).lower() == "true"
+        inc_copy["canary_pass_rate_pct"] = float(rel.get("canary_pass_rate_pct", 0.0) or 0.0)
+        inc_copy["recommended_action"] = rbk.get("recommended_action", "CANARY_ROLLBACK")
+        inc_copy["safe_replica_corridor"] = [
+            int(rbk.get("min_safe_replicas", 3)),
+            int(rbk.get("max_safe_replicas", 40)),
+        ]
+        remediation_summary = None
+        if rb_event:
+            remediation_summary = f"Switched back to {rb_event.get('target_stable_version')}"
+        elif sc_event:
+            remediation_summary = f"Boosted to {sc_event.get('target_replicas')} servers"
+        elif tl_event:
+            remediation_summary = f"Marked {tl_event.get('new_status')}"
+        inc_copy["remediation_summary"] = remediation_summary
+        enriched_all_incidents.append(inc_copy)
+
     t08_state = _load_t08_state()
     deployed = _deployed_agent_info()
     return {
@@ -246,8 +276,8 @@ def _build_dashboard_payload() -> dict[str, Any]:
             "deployed_resource_name": deployed.get("resource_name", ""),
         },
         "services": services,
-        "top_sev1_incidents": [r for r in annotated_incidents if r.get("severity") == "SEV1"][:12],
-        "all_open_incidents": sorted(annotated_incidents, key=lambda r: r.get("incident_id", "")),
+        "top_sev1_incidents": [r for r in enriched_all_incidents if r.get("severity") == "SEV1"][:12],
+        "all_open_incidents": enriched_all_incidents,
         "state": state,
         "t08_state": t08_state,
         "table8_a2a_advisories": a2a_advisories,
