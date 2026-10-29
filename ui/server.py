@@ -272,9 +272,9 @@ def _build_dashboard_payload() -> dict[str, Any]:
         ]
         remediation_summary = None
         if res_info:
-            remediation_summary = res_info.get("resolution_detail")
-            inc_copy["resolution_state"] = res_info.get("resolution_state", "RESOLVED_FIXED")
-            inc_copy["resolution_badge"] = res_info.get("resolution_badge", "🟢 RESOLVED")
+            remediation_summary = res_info.get("summary") or res_info.get("resolution_detail")
+            inc_copy["resolution_state"] = res_info.get("state") or res_info.get("resolution_state", "RESOLVED_FIXED")
+            inc_copy["resolution_badge"] = res_info.get("badge") or res_info.get("resolution_badge", "🟢 RESOLVED")
             inc_copy["after_p99_latency_ms"] = res_info.get("after_p99_latency_ms", 180)
             inc_copy["after_error_rate_pct"] = res_info.get("after_error_rate_pct", 0.1)
         elif rb_event:
