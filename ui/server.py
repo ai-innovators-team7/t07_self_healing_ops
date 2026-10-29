@@ -303,7 +303,10 @@ class Table8HandshakeRequest(BaseModel):
 @app.get("/", response_class=HTMLResponse)
 async def index() -> HTMLResponse:
     html_path = UI_DIR / "index.html"
-    return HTMLResponse(html_path.read_text(encoding="utf-8"))
+    return HTMLResponse(
+        html_path.read_text(encoding="utf-8"),
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"},
+    )
 
 
 @app.get("/api/dashboard")

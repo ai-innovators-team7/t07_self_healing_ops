@@ -409,6 +409,8 @@
         <div id="p1ServicesGrid" class="grid grid-cols-1 md:grid-cols-5 gap-3.5"></div>
       </div>
 
+      <div id="inline-bts-page-1" class="mt-4"></div>
+
       <div class="flex justify-end">
         <button onclick="goToPage(2)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-sky-500 text-slate-950 shadow-lg shadow-emerald-500/20 hover:opacity-95 transition">
           Next Page: ⚡ Step 1 — Send 4 AI Helpers at Once →
@@ -498,11 +500,13 @@
         </div>
       </div>
 
+      <div id="inline-bts-page-2" class="mt-4"></div>
+
       <div class="flex items-center justify-between">
         <button onclick="goToPage(1)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: The Story
         </button>
-        <button id="btnNextToStep2" onclick="goToPage(3)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition">
+        <button id="btnNextToStep2" onclick="goToPage(3)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 transition">
           🔒 Complete Step 1 Above First to Unlock Step 2
         </button>
       </div>
@@ -614,11 +618,13 @@
         </div>
       </div>
 
+      <div id="inline-bts-page-3" class="mt-4"></div>
+
       <div class="flex items-center justify-between">
         <button onclick="goToPage(2)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: Step 1 (4 AI Helpers &amp; 35-Alert Check)
         </button>
-        <button id="btnNextToStep3" onclick="goToPage(4)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition">
+        <button id="btnNextToStep3" onclick="goToPage(4)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 transition">
           🔒 Complete Step 2 Above First to Unlock Step 3
         </button>
       </div>
@@ -744,11 +750,13 @@
         </div>
       </div>
 
+      <div id="inline-bts-page-4" class="mt-4"></div>
+
       <div class="flex items-center justify-between">
         <button onclick="goToPage(3)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: Step 2 (Catching the Hacker Trap)
         </button>
-        <button id="btnNextToStep4" onclick="goToPage(5)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition">
+        <button id="btnNextToStep4" onclick="goToPage(5)" class="px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 transition">
           🔒 Complete Step 3 (Fix Checkout) Above First to Unlock Step 4
         </button>
       </div>
@@ -825,6 +833,8 @@
           <div id="page5ToolTrace" class="mt-3 space-y-2"></div>
         </div>
       </div>
+
+      <div id="inline-bts-page-5" class="mt-4"></div>
 
       <div class="flex items-center justify-between">
         <button onclick="goToPage(4)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
@@ -929,6 +939,8 @@
         </div>
       </div>
 
+      <div id="inline-bts-page-6" class="mt-4"></div>
+
       <div class="flex items-center justify-between">
         <button onclick="goToPage(5)" class="px-5 py-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
           ← Previous Page: Step 4 (Rebooking VIP Travelers)
@@ -950,6 +962,15 @@
     let loadingTimerInterval = null;
     let loadingStartTime = 0;
     let latestDashboardData = null;
+
+    function escapeHtml(val) {
+      return String(val == null ? '' : val)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
 
     const STEP_VIEW_TITLES = {
       1: 'Page 1 • 2:00 AM Crisis & System Overview',
@@ -1233,29 +1254,8 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderBehindTheScenesForPage(pageNum) {
-      currentBtsPage = pageNum;
+    function buildBehindTheScenesInnerHtml(pageNum) {
       const guide = BEHIND_THE_SCENES_GUIDES[pageNum] || BEHIND_THE_SCENES_GUIDES[1];
-      const badgeEl = document.getElementById('btsStepBadge');
-      const titleEl = document.getElementById('btsStepTitle');
-      const contentEl = document.getElementById('btsDynamicContent');
-
-      if (badgeEl) badgeEl.textContent = guide.badge;
-      if (titleEl) titleEl.textContent = guide.title;
-
-      for (let i = 1; i <= 6; i++) {
-        const tabBtn = document.getElementById(`bts-tab-${i}`);
-        if (tabBtn) {
-          if (i === pageNum) {
-            tabBtn.className = 'p-2.5 rounded-xl text-left text-xs font-extrabold border-2 border-indigo-400 bg-indigo-500/25 text-white shadow';
-          } else {
-            tabBtn.className = 'p-2.5 rounded-xl text-left text-xs font-bold border border-slate-700 bg-slate-900/80 text-slate-300 hover:border-indigo-400 transition';
-          }
-        }
-      }
-
-      if (!contentEl) return;
-
       const flowHtml = guide.flowSteps.map(f => `
         <div class="p-4 rounded-2xl bg-slate-950/90 border border-indigo-500/30 flex flex-col justify-between">
           <div>
@@ -1280,7 +1280,7 @@
         </div>
       `).join('');
 
-      contentEl.innerHTML = `
+      return `
         <!-- 1. Plain-English Team Summary -->
         <div class="p-5 rounded-2xl bg-slate-950/90 border border-indigo-500/40">
           <div class="text-xs font-extrabold uppercase tracking-wider text-indigo-300 mb-1.5">
@@ -1319,6 +1319,59 @@
           </div>
         </div>
       `;
+    }
+
+    function renderBehindTheScenesForPage(pageNum) {
+      currentBtsPage = pageNum;
+      const guide = BEHIND_THE_SCENES_GUIDES[pageNum] || BEHIND_THE_SCENES_GUIDES[1];
+      const badgeEl = document.getElementById('btsStepBadge');
+      const titleEl = document.getElementById('btsStepTitle');
+      const contentEl = document.getElementById('btsDynamicContent');
+
+      if (badgeEl) badgeEl.textContent = guide.badge;
+      if (titleEl) titleEl.textContent = guide.title;
+
+      for (let i = 1; i <= 6; i++) {
+        const tabBtn = document.getElementById(`bts-tab-${i}`);
+        if (tabBtn) {
+          if (i === pageNum) {
+            tabBtn.className = 'p-2.5 rounded-xl text-left text-xs font-extrabold border-2 border-indigo-400 bg-indigo-500/25 text-white shadow';
+          } else {
+            tabBtn.className = 'p-2.5 rounded-xl text-left text-xs font-bold border border-slate-700 bg-slate-900/80 text-slate-300 hover:border-indigo-400 transition';
+          }
+        }
+      }
+
+      if (!contentEl) return;
+      contentEl.innerHTML = buildBehindTheScenesInnerHtml(pageNum);
+    }
+
+    function renderAllInlineBehindTheScenesCards() {
+      for (let i = 1; i <= 6; i++) {
+        const container = document.getElementById(`inline-bts-page-${i}`);
+        if (!container) continue;
+        const guide = BEHIND_THE_SCENES_GUIDES[i] || BEHIND_THE_SCENES_GUIDES[1];
+        container.innerHTML = `
+          <div class="glass rounded-3xl p-6 border-2 border-indigo-500/40 bg-gradient-to-br from-indigo-950/35 via-slate-900/95 to-slate-950">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-indigo-500/30">
+              <div>
+                <span class="text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-indigo-500/25 text-indigo-200 border border-indigo-400/50">
+                  🔧 ${escapeHtml(guide.badge)}
+                </span>
+                <h3 class="text-lg md:text-xl font-extrabold text-white mt-2">
+                  ${escapeHtml(guide.title)}
+                </h3>
+              </div>
+              <button onclick="openBehindTheScenesForStep(${i})" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-indigo-500 hover:bg-indigo-400 text-slate-950 transition">
+                🔍 Open Full-Screen Behind the Scenes View
+              </button>
+            </div>
+            <div class="space-y-5">
+              ${buildBehindTheScenesInnerHtml(i)}
+            </div>
+          </div>
+        `;
+      }
     }
 
     // Tracks whether each step has actually been run since the last Reset!
@@ -1429,15 +1482,15 @@
             : 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-800 text-amber-300');
       }
 
-      // 2. Update "Next Page" Progression Buttons
+      // 2. Update "Next Page" Progression Buttons (keep clickable so onclick always responds!)
       const next2 = document.getElementById('btnNextToStep2');
       if (next2) {
         if (s1) {
           next2.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-rose-500 to-amber-500 text-slate-950 shadow-lg shadow-rose-500/20 hover:opacity-95 transition';
           next2.innerHTML = '✅ Step 1 Complete! Next Page: 🛡️ Step 2 — Security Check →';
         } else {
-          next2.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition';
-          next2.innerHTML = '🔒 Complete Step 1 Above First to Unlock Step 2';
+          next2.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 transition';
+          next2.innerHTML = '🔒 Next Page: Step 2 (Run Step 1 First to Unlock Action, or Click to View Guide) →';
         }
       }
 
@@ -1447,8 +1500,8 @@
           next3.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-lg shadow-emerald-500/20 hover:opacity-95 transition';
           next3.innerHTML = '✅ Step 2 Complete! Next Page: 🔄 Step 3 — Automatic Repair →';
         } else {
-          next3.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition';
-          next3.innerHTML = '🔒 Complete Step 2 Above First to Unlock Step 3';
+          next3.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 transition';
+          next3.innerHTML = '🔒 Next Page: Step 3 (Run Step 2 First to Unlock Action, or Click to View Guide) →';
         }
       }
 
@@ -1458,12 +1511,12 @@
           next4.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-gradient-to-r from-purple-500 to-sky-500 text-slate-950 shadow-lg shadow-purple-500/20 hover:opacity-95 transition';
           next4.innerHTML = '✅ Step 3 Complete! Next Page: ✈️ Step 4 — Rebook VIP Travelers →';
         } else {
-          next4.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed transition';
-          next4.innerHTML = '🔒 Complete Step 3 (Fix Checkout) Above First to Unlock Step 4';
+          next4.className = 'px-6 py-3.5 rounded-2xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 transition';
+          next4.innerHTML = '🔒 Next Page: Step 4 (Run Step 3 First to Unlock Action, or Click to View Guide) →';
         }
       }
 
-      // 3. Update Prerequisite Warning Banners & Action Button Locks
+      // 3. Update Prerequisite Warning Banners & Action Button Visual Locks (never set .disabled=true so clicks always respond!)
       const b2 = document.getElementById('step2PrerequisiteBanner');
       const b3 = document.getElementById('step3PrerequisiteBanner');
       const b4 = document.getElementById('step4PrerequisiteBanner');
@@ -1474,77 +1527,72 @@
       const btnS2All = document.getElementById('btnStep2ScanAll');
       const btnS219 = document.getElementById('btnStep2Check19');
       if (btnS2All) {
-        btnS2All.disabled = !s1;
-        btnS2All.classList.toggle('opacity-50', !s1);
-        btnS2All.classList.toggle('cursor-not-allowed', !s1);
+        btnS2All.disabled = false;
+        btnS2All.classList.toggle('opacity-60', !s1);
       }
       if (btnS219) {
-        btnS219.disabled = !s1;
-        btnS219.classList.toggle('opacity-50', !s1);
-        btnS219.classList.toggle('cursor-not-allowed', !s1);
+        btnS219.disabled = false;
+        btnS219.classList.toggle('opacity-60', !s1);
       }
 
       const btnS3Rb = document.getElementById('btnStep3Rollback');
       const btnS3Sc = document.getElementById('btnStep3Scale');
       if (btnS3Rb) {
-        btnS3Rb.disabled = !s2;
-        btnS3Rb.classList.toggle('opacity-50', !s2);
-        btnS3Rb.classList.toggle('cursor-not-allowed', !s2);
+        btnS3Rb.disabled = false;
+        btnS3Rb.classList.toggle('opacity-60', !s2);
       }
       if (btnS3Sc) {
-        btnS3Sc.disabled = !s2;
-        btnS3Sc.classList.toggle('opacity-50', !s2);
-        btnS3Sc.classList.toggle('cursor-not-allowed', !s2);
+        btnS3Sc.disabled = false;
+        btnS3Sc.classList.toggle('opacity-60', !s2);
       }
 
       const btnS4 = document.getElementById('btnStep4Rebook');
       if (btnS4) {
-        btnS4.disabled = !s3;
-        btnS4.classList.toggle('opacity-50', !s3);
-        btnS4.classList.toggle('cursor-not-allowed', !s3);
+        btnS4.disabled = false;
+        btnS4.classList.toggle('opacity-60', !s3);
       }
     }
 
     function goToPage(pageNum) {
-      // If our team is currently in "Behind the Scenes" study mode, clicking any step tab opens that step's Behind-the-Scenes guide!
-      if (currentViewMode === 'bts') {
-        renderBehindTheScenesForPage(pageNum);
-        const lbl = document.getElementById('currentStepViewLabel');
-        if (lbl) lbl.textContent = `Current Step View • ${STEP_VIEW_TITLES[pageNum] || ('Page ' + pageNum)}`;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-
-      // Enforce strict sequential step order in Live Demo mode: Step 1 (Page 2) -> Step 2 (Page 3) -> Step 3 (Page 4) -> Step 4 (Page 5)
-      if (pageNum === 3 && !workflowState.step1Done) {
-        showStepLockToast(
-          '🔒 Step 2 Is Locked — You Cannot Run Step 2 Before Step 1!',
-          'Please click "🚀 Launch 4 AI Helpers & Check All 35 Alerts Now" on Step 1 first (or click "🔧 Behind the Scenes Page" above to read our Team Guide for Step 2).'
-        );
-        pageNum = 2;
-      } else if (pageNum === 4 && !workflowState.step2Done) {
-        const targetPage = workflowState.step1Done ? 3 : 2;
-        const missingStepName = workflowState.step1Done ? 'Step 2 (Security Check)' : 'Step 1 (Check All 35 Alerts)';
-        showStepLockToast(
-          '🔒 Step 3 Is Locked — Complete Previous Steps First!',
-          `Our AI is never allowed to repair the website until both Step 1 and Step 2 are completed. Please complete ${missingStepName} first (or click "🔧 Behind the Scenes Page" above to read our Team Guide).`
-        );
-        pageNum = targetPage;
-      } else if (pageNum === 5 && !workflowState.step3CheckoutDone) {
-        const targetPage = !workflowState.step1Done ? 2 : (!workflowState.step2Done ? 3 : 4);
-        showStepLockToast(
-          '🔒 Step 4 Is Locked — Customer Checkout Must Be Repaired in Step 3 First!',
-          'Partner Team 8’s Travel Concierge AI cannot rebook stranded VIP passengers until Customer Checkout is restored in Step 3 (or click "🔧 Behind the Scenes Page" above to read our Team Guide).'
-        );
-        pageNum = targetPage;
-      } else {
-        hideStepLockToast();
-      }
-
       currentPage = pageNum;
       currentBtsPage = pageNum;
       const lbl = document.getElementById('currentStepViewLabel');
       if (lbl) lbl.textContent = `Current Step View • ${STEP_VIEW_TITLES[pageNum] || ('Page ' + pageNum)}`;
+
+      // If our team is currently in "Behind the Scenes" study mode, clicking any step tab opens that step's Behind-the-Scenes guide!
+      if (currentViewMode === 'bts') {
+        for (let i = 1; i <= 6; i++) {
+          const tab = document.getElementById(`tab-page-${i}`);
+          if (tab) {
+            if (i === pageNum) tab.classList.add('active');
+            else tab.classList.remove('active');
+          }
+        }
+        document.getElementById('pageIndicatorBadge').textContent = `Page ${pageNum} of 6`;
+        renderBehindTheScenesForPage(pageNum);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // Show a helpful notice if visiting a step whose prerequisite hasn't been executed yet, while still opening the page so you can read its explanation & Behind-the-Scenes guide!
+      if (pageNum === 3 && !workflowState.step1Done) {
+        showStepLockToast(
+          '🔒 Step 2 Action Is Locked Until Step 1 Runs First',
+          'You can read Step 2’s Behind-the-Scenes Team Guide below, or click "← Go Complete Step 1 Now" to check all 35 alerts in Step 1 first.'
+        );
+      } else if (pageNum === 4 && !workflowState.step2Done) {
+        showStepLockToast(
+          '🔒 Step 3 Action Is Locked Until Step 1 & Step 2 Run First',
+          'You can read Step 3’s Behind-the-Scenes Team Guide below, or complete Step 1 and Step 2 first to unlock live website repairs.'
+        );
+      } else if (pageNum === 5 && !workflowState.step3CheckoutDone) {
+        showStepLockToast(
+          '🔒 Step 4 Action Is Locked Until Step 3 Repairs Checkout First',
+          'You can read Step 4’s Behind-the-Scenes Team Guide below, or complete Step 3 first to unlock Partner Team 8 VIP rebooking.'
+        );
+      } else {
+        hideStepLockToast();
+      }
 
       for (let i = 1; i <= 6; i++) {
         const sec = document.getElementById(`page-${i}`);
@@ -1787,6 +1835,33 @@
       if (!incMatrix || !latestDashboardData) return;
       const allOpenIncs = latestDashboardData.all_open_incidents || [];
 
+      const pEl = document.getElementById('s2CountPending');
+      const okEl = document.getElementById('s2CountOk');
+      const nokEl = document.getElementById('s2CountNok');
+
+      if (!workflowState.step1Done) {
+        if (pEl) pEl.textContent = `🔒 Waiting for Step 1: 35`;
+        if (okEl) okEl.textContent = `✅ OK (Safe Alert): 0`;
+        if (nokEl) nokEl.textContent = `❌ NOK (Hacker Trap): 0`;
+        incMatrix.innerHTML = `
+          <div class="p-8 text-center bg-slate-950/80 space-y-3">
+            <div class="text-2xl">🔒</div>
+            <div class="text-sm font-extrabold text-amber-300">
+              No Alerts Loaded in Step 2 Yet — Please Run Step 1 First!
+            </div>
+            <p class="text-xs text-slate-300 max-w-xl mx-auto leading-relaxed">
+              In our workflow, Step 2 only receives the 35 website alerts after <strong>Step 1</strong> has checked them and marked which ones are <strong>✅ OK</strong> and which ones are <strong>❌ NOK (Urgent Outages)</strong>.
+            </p>
+            <div class="pt-1">
+              <button onclick="goToPage(2)" class="px-5 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
+                🚀 Go to Step 1 &amp; Check All 35 Alerts Now →
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
       let countPending = 0;
       let countOk = 0;
       let countNok = 0;
@@ -1975,6 +2050,8 @@
 
     async function loadDashboard() {
       renderInitialSubagentCards();
+      renderAllInlineBehindTheScenesCards();
+      renderBehindTheScenesForPage(1);
       const res = await fetch('/api/dashboard');
       const data = await res.json();
       renderDashboard(data);
